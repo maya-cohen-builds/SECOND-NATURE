@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { SimulationResult } from '@/data/types';
 import { RatingBadge, BadgePill } from '@/components/BadgePill';
-import { getPlayerProfile, savePlayerProfile } from '@/data/gameData';
+import { getPlayerProfile, savePlayerProfile, SCENARIOS } from '@/data/gameData';
 import { useEffect, useState } from 'react';
 
 export default function Results() {
@@ -36,6 +36,7 @@ export default function Results() {
   }
 
   const profile = getPlayerProfile();
+  const scenario = SCENARIOS.find(s => s.id === result.scenarioId);
 
   return (
     <div className="space-y-6 max-w-2xl">
@@ -43,14 +44,21 @@ export default function Results() {
       <h1 className="font-display text-2xl font-bold text-foreground">Performance Summary</h1>
 
       {/* Rating */}
-      <div className="p-6 rounded-lg bg-gradient-card border border-border text-center">
-        <p className="text-sm text-muted-foreground mb-3">{result.scenarioName} · {result.difficulty} · Squad of {result.squadSize}</p>
-        <div className="flex justify-center mb-4">
-          <RatingBadge rating={result.rating} size="lg" />
+      <div className="rounded-lg bg-gradient-card border border-border overflow-hidden text-center">
+        {scenario?.image && (
+          <div className="w-full aspect-[21/9] overflow-hidden">
+            <img src={scenario.image} alt={result.scenarioName} className="w-full h-full object-cover object-center opacity-60" />
+          </div>
+        )}
+        <div className="p-6">
+          <p className="text-sm text-muted-foreground mb-3">{result.scenarioName} · {result.difficulty} · Squad of {result.squadSize}</p>
+          <div className="flex justify-center mb-4">
+            <RatingBadge rating={result.rating} size="lg" />
+          </div>
+          <p className="font-display text-lg font-semibold text-foreground">
+            {result.rating === 'S' ? 'Outstanding Execution' : result.rating === 'A' ? 'Strong Performance' : result.rating === 'B' ? 'Solid Run' : 'Room to Improve'}
+          </p>
         </div>
-        <p className="font-display text-lg font-semibold text-foreground">
-          {result.rating === 'S' ? 'Outstanding Execution' : result.rating === 'A' ? 'Strong Performance' : result.rating === 'B' ? 'Solid Run' : 'Room to Improve'}
-        </p>
       </div>
 
       {/* Badges */}

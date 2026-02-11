@@ -94,7 +94,7 @@ function generateImpact(category: ScenarioCategory, rating: string, squadSize: n
 export function getDemoResult(): SimulationResult {
   return {
     scenarioId: 'ca-1',
-    scenarioName: 'Pincer Strike',
+    scenarioName: 'Harren Canyon',
     category: 'coordinated-attack',
     rating: 'S',
     badges: [BADGES[1], BADGES[6], BADGES[9]],
