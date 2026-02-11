@@ -37,8 +37,9 @@ export default function Experiments() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-foreground">Performance Lab</h1>
-        <p className="text-sm text-muted-foreground mt-1">Track your improvement over time and identify areas to focus on.</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Performance Lab</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Identify. Improve. Repeat.</h1>
+        <p className="text-sm text-muted-foreground mt-1">Your strengths, your weaknesses, your next focus area.</p>
       </div>
 
       {/* Player Stats */}

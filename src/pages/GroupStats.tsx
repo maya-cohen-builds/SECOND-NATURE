@@ -38,8 +38,9 @@ export default function GroupStats() {
   return (
     <div className="space-y-6">
       <div>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Analytics</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Group Stats</h1>
-        <p className="text-sm text-muted-foreground mt-1">Track how your squad performs and improves together.</p>
+        <p className="text-sm text-muted-foreground mt-1">See how your squad stacks up. Every drill builds your team profile.</p>
       </div>
 
       {/* Squad Overview */}
