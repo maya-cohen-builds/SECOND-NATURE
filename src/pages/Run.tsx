@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SCENARIOS } from '@/data/gameData';
 import { CATEGORY_LABELS, CATEGORY_ICONS, TIER_LABELS } from '@/data/types';
 import { runSimulation } from '@/lib/simulation';
+import { saveTrainingRun } from '@/lib/trainingService';
 import { trackEvent } from '@/lib/eventTracker';
 
 export default function Run() {
@@ -25,7 +26,7 @@ export default function Run() {
       difficulty,
     });
 
-    setTimeout(() => {
+    setTimeout(async () => {
       const result = runSimulation({
         scenarioId: scenario.id,
         squadSize,
@@ -33,6 +34,10 @@ export default function Run() {
         playerLevel,
       });
       localStorage.setItem('stg-last-result', JSON.stringify(result));
+      
+      // Save to database
+      await saveTrainingRun(result, playerLevel);
+      
       trackEvent('complete_scenario', { rating: result.rating, badges_count: result.badges.length });
       navigate('/results');
     }, 1500);

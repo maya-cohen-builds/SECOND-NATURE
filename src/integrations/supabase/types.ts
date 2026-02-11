@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      insights: {
+        Row: {
+          created_at: string
+          evidence_json: Json | null
+          explanation: string
+          id: string
+          insight_type: string
+          recommendation: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          evidence_json?: Json | null
+          explanation: string
+          id?: string
+          insight_type: string
+          recommendation: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          evidence_json?: Json | null
+          explanation?: string
+          id?: string
+          insight_type?: string
+          recommendation?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      training_runs: {
+        Row: {
+          badges_earned: number
+          category: string
+          created_at: string
+          difficulty: string
+          drill_id: string
+          drill_name: string
+          id: string
+          metrics_json: Json | null
+          notes: string | null
+          rating: string
+          skill_tier_label: string
+          squad_size: number
+          user_id: string
+        }
+        Insert: {
+          badges_earned?: number
+          category: string
+          created_at?: string
+          difficulty: string
+          drill_id: string
+          drill_name: string
+          id?: string
+          metrics_json?: Json | null
+          notes?: string | null
+          rating: string
+          skill_tier_label: string
+          squad_size: number
+          user_id: string
+        }
+        Update: {
+          badges_earned?: number
+          category?: string
+          created_at?: string
+          difficulty?: string
+          drill_id?: string
+          drill_name?: string
+          id?: string
+          metrics_json?: Json | null
+          notes?: string | null
+          rating?: string
+          skill_tier_label?: string
+          squad_size?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
