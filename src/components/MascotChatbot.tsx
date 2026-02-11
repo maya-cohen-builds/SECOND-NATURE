@@ -28,6 +28,7 @@ interface MascotChatbotProps {
 
 export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [messages, setMessages] = useState<{ role: 'bot' | 'user'; text: string }[]>([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -57,43 +58,61 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
   return (
     <>
       {/* Floating Mascot Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[100] group"
-        aria-label="Open training assistant"
-      >
-        <div className="relative">
-          {/* Glow ring */}
-          <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
-          {/* Mascot image */}
-          <div
-            className="relative w-20 h-20 rounded-full border-2 border-accent/60 overflow-hidden bg-card shadow-lg transition-transform duration-300 group-hover:scale-110"
-            style={{
-              animation: 'mascotFloat 3s ease-in-out infinite',
-            }}
+      {isCollapsed ? (
+        <button
+          onClick={() => setIsCollapsed(false)}
+          className="fixed bottom-6 right-6 z-[100] w-10 h-10 rounded-full bg-card border border-border shadow-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
+          aria-label="Show training assistant"
+        >
+          <span className="font-display font-bold text-xs">SN</span>
+        </button>
+      ) : (
+        <div className="fixed bottom-6 right-6 z-[100] group flex items-end gap-2">
+          <button
+            onClick={() => setIsCollapsed(true)}
+            className="mb-1 w-6 h-6 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground text-[10px] leading-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            aria-label="Collapse assistant"
           >
-            <img
-              src={mascotImage}
-              alt="Training assistant mascot"
-              className="w-full h-full object-cover object-top scale-125"
-            />
-          </div>
-          {/* Brand badge */}
-          {brandLabel && (
-            <span
-              className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
-              style={{
-                backgroundColor: brandColor || 'hsl(var(--accent))',
-                color: 'hsl(var(--accent-foreground))',
-              }}
-            >
-              {brandLabel}
-            </span>
-          )}
-          {/* Status dot */}
-          <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-success border-2 border-card" />
+            ✕
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Open training assistant"
+          >
+            <div className="relative">
+              {/* Glow ring */}
+              <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
+              {/* Mascot image */}
+              <div
+                className="relative w-20 h-20 rounded-full border-2 border-accent/60 overflow-hidden bg-card shadow-lg transition-transform duration-300 group-hover:scale-110"
+                style={{
+                  animation: 'mascotFloat 3s ease-in-out infinite',
+                }}
+              >
+                <img
+                  src={mascotImage}
+                  alt="Training assistant mascot"
+                  className="w-full h-full object-cover object-top scale-125"
+                />
+              </div>
+              {/* Brand badge */}
+              {brandLabel && (
+                <span
+                  className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
+                  style={{
+                    backgroundColor: brandColor || 'hsl(var(--accent))',
+                    color: 'hsl(var(--accent-foreground))',
+                  }}
+                >
+                  {brandLabel}
+                </span>
+              )}
+              {/* Status dot */}
+              <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-success border-2 border-card" />
+            </div>
+          </button>
         </div>
-      </button>
+      )}
 
       {/* Chat Panel */}
       {isOpen && (
