@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import mascotImage from '@/assets/mascot-warrior.png';
+import Mascot3D from '@/components/Mascot3D';
 
 const QUICK_REPLIES = [
   "How do I improve my win rate?",
@@ -28,7 +28,6 @@ interface MascotChatbotProps {
 
 export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [messages, setMessages] = useState<{ role: 'bot' | 'user'; text: string }[]>([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -57,71 +56,17 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
 
   return (
     <>
-      {/* Floating Mascot Button */}
-      {isCollapsed ? (
-        <button
-          onClick={() => setIsCollapsed(false)}
-          className="fixed bottom-6 right-6 z-[100] w-10 h-10 rounded-full bg-card border border-border shadow-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
-          aria-label="Show training assistant"
-        >
-          <span className="font-display font-bold text-xs">SN</span>
-        </button>
-      ) : (
-        <div className="fixed bottom-6 right-6 z-[100] group flex items-end gap-2">
-          <button
-            onClick={() => setIsCollapsed(true)}
-            className="mb-1 w-6 h-6 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground text-[10px] leading-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            aria-label="Collapse assistant"
-          >
-            ✕
-          </button>
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Open training assistant"
-          >
-            <div className="relative">
-              {/* Glow ring */}
-              <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
-              {/* Mascot image */}
-              <div
-                className="relative w-20 h-20 rounded-full border-2 border-accent/60 overflow-hidden bg-card shadow-lg transition-transform duration-300 group-hover:scale-110"
-                style={{
-                  animation: 'mascotFloat 3s ease-in-out infinite',
-                }}
-              >
-                <img
-                  src={mascotImage}
-                  alt="Training assistant mascot"
-                  className="w-full h-full object-cover object-top scale-125"
-                />
-              </div>
-              {/* Brand badge */}
-              {brandLabel && (
-                <span
-                  className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
-                  style={{
-                    backgroundColor: brandColor || 'hsl(var(--accent))',
-                    color: 'hsl(var(--accent-foreground))',
-                  }}
-                >
-                  {brandLabel}
-                </span>
-              )}
-              {/* Status dot */}
-              <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-success border-2 border-card" />
-            </div>
-          </button>
-        </div>
-      )}
+      {/* Free-floating 3D Mascot — no container, no frame */}
+      <div className="fixed bottom-4 right-4 z-[100]" style={{ width: 120, height: 140 }}>
+        <Mascot3D onClick={() => setIsOpen(!isOpen)} />
+      </div>
 
       {/* Chat Panel */}
       {isOpen && (
-        <div className="fixed bottom-28 right-6 z-[100] w-80 max-h-[480px] flex flex-col rounded-xl border border-border bg-card shadow-2xl overflow-hidden animate-fade-in">
+        <div className="fixed bottom-[160px] right-6 z-[100] w-80 max-h-[480px] flex flex-col rounded-xl border border-border bg-card shadow-2xl overflow-hidden animate-fade-in">
           {/* Header */}
           <div className="px-4 py-3 border-b border-border bg-secondary/50 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-accent/40">
-              <img src={mascotImage} alt="" className="w-full h-full object-cover object-top scale-125" />
-            </div>
+            <div className="w-2 h-2 rounded-full bg-[hsl(var(--success))]" />
             <div className="flex-1 min-w-0">
               <div className="font-display font-bold text-sm text-foreground">
                 SN Coach
@@ -144,7 +89,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
               className="text-muted-foreground hover:text-foreground text-lg leading-none"
               aria-label="Close chat"
             >
-              x
+              ✕
             </button>
           </div>
 
@@ -200,13 +145,6 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes mascotFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-      `}</style>
     </>
   );
 }

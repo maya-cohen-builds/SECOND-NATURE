@@ -18,7 +18,6 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import MascotChatbot from "./components/MascotChatbot";
-import MascotComparison from "./components/MascotComparison";
 
 const queryClient = new QueryClient();
 
@@ -44,7 +43,6 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <MascotChatbot />
-          <MascotComparison />
         </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>
