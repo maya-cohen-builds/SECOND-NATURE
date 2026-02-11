@@ -1,7 +1,11 @@
 import { ReactNode, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDemo } from '@/contexts/DemoContext';
+import { useQA } from '@/contexts/QAContext';
 import { cn } from '@/lib/utils';
+import QAPanel from '@/components/QAPanel';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { Bug } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
@@ -15,7 +19,13 @@ const NAV_ITEMS = [
 
 export default function AppLayout({ children }: { children: ReactNode }) {
   const { resetDemo } = useDemo();
+  const { qaMode, toggleQAMode, addQAError } = useQA();
   const [showSettings, setShowSettings] = useState(false);
+  const [qaPanelOpen, setQaPanelOpen] = useState(false);
+
+  const allNavItems = qaMode
+    ? [...NAV_ITEMS, { path: '/qa-checklist', label: 'QA Checklist', icon: '/' }]
+    : NAV_ITEMS;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -33,7 +43,16 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               <p className="text-[10px] text-muted-foreground tracking-wide">Cross-Game Coordination System</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            {qaMode && (
+              <button
+                onClick={() => setQaPanelOpen(!qaPanelOpen)}
+                className="px-3 py-1.5 rounded-md text-xs font-medium bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 transition-all flex items-center gap-1.5"
+              >
+                <Bug className="h-3 w-3" />
+                QA Panel
+              </button>
+            )}
             <button
               onClick={() => setShowSettings(!showSettings)}
               className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
@@ -50,10 +69,25 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
         {showSettings && (
           <div className="max-w-[1400px] mx-auto px-4 pb-3">
-            <div className="p-3 rounded-lg bg-secondary border border-border">
+            <div className="p-3 rounded-lg bg-secondary border border-border space-y-3">
               <p className="text-[11px] text-muted-foreground">
                 Independent training platform. Not affiliated with any game publisher.
               </p>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleQAMode}
+                  className={cn(
+                    "px-3 py-1.5 rounded-md text-xs font-medium border transition-all flex items-center gap-1.5",
+                    qaMode
+                      ? "bg-primary/10 border-primary/30 text-primary"
+                      : "bg-secondary border-border text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  <Bug className="h-3 w-3" />
+                  QA Mode: {qaMode ? 'ON' : 'OFF'}
+                </button>
+                <span className="text-[10px] text-muted-foreground">Toggle QA panel, plan simulator, and checklist</span>
+              </div>
             </div>
           </div>
         )}
@@ -63,7 +97,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {/* Side Nav */}
         <nav className="w-48 shrink-0 border-r border-border bg-card/40 hidden md:block">
           <div className="py-4 px-2 space-y-0.5">
-            {NAV_ITEMS.map(item => (
+            {allNavItems.map(item => (
               <NavLink
                 key={item.path}
                 to={item.path}
@@ -71,7 +105,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   "flex items-center gap-2.5 px-3 py-2 rounded-md text-sm font-medium transition-all",
                   isActive
                     ? "bg-primary/10 text-primary border-l-2 border-primary"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
+                  item.path === '/qa-checklist' && "text-primary/70"
                 )}
               >
                 {item.label}
@@ -83,7 +118,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {/* Mobile Nav */}
         <div className="md:hidden overflow-x-auto border-b border-border bg-card/40">
           <div className="flex px-2 py-2 gap-1">
-            {NAV_ITEMS.map(item => (
+            {allNavItems.map(item => (
               <NavLink
                 key={item.path}
                 to={item.path}
@@ -103,10 +138,15 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {/* Main Content */}
         <main className="flex-1 overflow-auto">
           <div className="max-w-[1100px] mx-auto px-6 py-8 animate-fade-in">
-            {children}
+            <ErrorBoundary onError={(msg) => addQAError(msg, 'error')}>
+              {children}
+            </ErrorBoundary>
           </div>
         </main>
       </div>
+
+      {/* QA Panel Drawer */}
+      {qaMode && <QAPanel open={qaPanelOpen} onClose={() => setQaPanelOpen(false)} />}
     </div>
   );
 }

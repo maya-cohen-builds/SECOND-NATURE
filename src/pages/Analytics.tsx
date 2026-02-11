@@ -15,6 +15,7 @@ import { AreaChart, Area, XAxis, YAxis } from 'recharts';
 import { ArrowRight } from 'lucide-react';
 import ShareToInstagram from '@/components/ShareToInstagram';
 import { useDisplayName } from '@/hooks/useDisplayName';
+import FeatureGate from '@/components/FeatureGate';
 
 type Timeframe = 'week' | 'month' | 'season';
 
@@ -213,6 +214,7 @@ export default function Analytics() {
             Confidence follows evidence. These metrics reflect reliability, not isolated highs.
           </p>
         </div>
+        <FeatureGate feature="share-export" inline>
         <ShareToInstagram
           storyData={{
             username: displayName,
@@ -227,6 +229,7 @@ export default function Analytics() {
             tier: currentTier.label,
           }}
         />
+        </FeatureGate>
       </div>
 
       {/* A. Coordination System Health */}
