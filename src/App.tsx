@@ -16,6 +16,7 @@ import GroupStats from "./pages/GroupStats";
 import TrainingModules from "./pages/TrainingModules";
 import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
+import MascotChatbot from "./components/MascotChatbot";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <MascotChatbot />
         </BrowserRouter>
       </DemoProvider>
     </TooltipProvider>
