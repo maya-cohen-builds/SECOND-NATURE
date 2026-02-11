@@ -13,14 +13,14 @@ interface TrainingModule {
 }
 
 const PRESET_MODULES: TrainingModule[] = [
-  { id: 'lol-lane', name: 'Lane Control Fundamentals', game: 'League of Legends', category: 'MOBA', description: 'Wave management, trading patterns, and back timing for bot lane duos.', drillCount: 6, difficulty: 'Beginner', createdBy: 'STG Team', isCustom: false },
-  { id: 'lol-obj', name: 'Objective Sequencing', game: 'League of Legends', category: 'MOBA', description: 'Dragon and Baron setup, vision control, and team rotation drills.', drillCount: 4, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
-  { id: 'val-site', name: 'Site Execute Package', game: 'Valorant', category: 'Tactical Shooter', description: 'Coordinated site takes with utility timing, entry sequencing, and trade setups.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
-  { id: 'val-retake', name: 'Retake Coordination', game: 'Valorant', category: 'Tactical Shooter', description: 'Post-plant retake positioning, utility usage, and crossfire angles.', drillCount: 4, difficulty: 'Advanced', createdBy: 'STG Team', isCustom: false },
-  { id: 'wow-raid', name: 'Raid Phase Transitions', game: 'World of Warcraft', category: 'MMO Raid', description: 'Role-specific responsibilities during boss phase transitions and add management.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
-  { id: 'wow-cd', name: 'Cooldown Rotation Planning', game: 'World of Warcraft', category: 'MMO Raid', description: 'Healer and tank cooldown sequencing for sustained damage phases.', drillCount: 3, difficulty: 'Advanced', createdBy: 'STG Team', isCustom: false },
-  { id: 'sc2-macro', name: 'Team Macro Fundamentals', game: 'StarCraft II', category: 'RTS', description: 'Resource management, expansion timing, and production cycles for team games.', drillCount: 4, difficulty: 'Beginner', createdBy: 'STG Team', isCustom: false },
-  { id: 'cs2-util', name: 'Utility Coordination', game: 'Counter-Strike 2', category: 'Tactical Shooter', description: 'Synchronized smoke, flash, and molotov lineups for coordinated executes.', drillCount: 6, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'lol-lane', name: 'Lane Control Fundamentals', game: 'League of Legends', category: 'MOBA', description: 'Wave management, trading patterns, and back timing for bot lane duos.', drillCount: 6, difficulty: 'Beginner', createdBy: 'SN Team', isCustom: false },
+  { id: 'lol-obj', name: 'Objective Sequencing', game: 'League of Legends', category: 'MOBA', description: 'Dragon and Baron setup, vision control, and team rotation drills.', drillCount: 4, difficulty: 'Intermediate', createdBy: 'SN Team', isCustom: false },
+  { id: 'val-site', name: 'Site Execute Package', game: 'Valorant', category: 'Tactical Shooter', description: 'Coordinated site takes with utility timing, entry sequencing, and trade setups.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'SN Team', isCustom: false },
+  { id: 'val-retake', name: 'Retake Coordination', game: 'Valorant', category: 'Tactical Shooter', description: 'Post-plant retake positioning, utility usage, and crossfire angles.', drillCount: 4, difficulty: 'Advanced', createdBy: 'SN Team', isCustom: false },
+  { id: 'wow-raid', name: 'Raid Phase Transitions', game: 'World of Warcraft', category: 'MMO Raid', description: 'Role-specific responsibilities during boss phase transitions and add management.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'SN Team', isCustom: false },
+  { id: 'wow-cd', name: 'Cooldown Rotation Planning', game: 'World of Warcraft', category: 'MMO Raid', description: 'Healer and tank cooldown sequencing for sustained damage phases.', drillCount: 3, difficulty: 'Advanced', createdBy: 'SN Team', isCustom: false },
+  { id: 'sc2-macro', name: 'Team Macro Fundamentals', game: 'StarCraft II', category: 'RTS', description: 'Resource management, expansion timing, and production cycles for team games.', drillCount: 4, difficulty: 'Beginner', createdBy: 'SN Team', isCustom: false },
+  { id: 'cs2-util', name: 'Utility Coordination', game: 'Counter-Strike 2', category: 'Tactical Shooter', description: 'Synchronized smoke, flash, and molotov lineups for coordinated executes.', drillCount: 6, difficulty: 'Intermediate', createdBy: 'SN Team', isCustom: false },
 ];
 
 export default function TrainingModules() {
