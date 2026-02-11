@@ -18,8 +18,8 @@ function TerrainMesh({ imageUrl }: { imageUrl: string }) {
 
   return (
     <Float speed={2} rotationIntensity={0.3} floatIntensity={0.8}>
-      <mesh ref={meshRef}>
-        <boxGeometry args={[2.4, 1.6, 2.4]} />
+      <mesh ref={meshRef} rotation={[-0.1, 0, 0]}>
+        <planeGeometry args={[3, 3]} />
         <meshPhysicalMaterial
           map={texture}
           transparent

@@ -4,14 +4,8 @@ import heroImage from '@/assets/hero-training.jpg';
 import { InteractiveTerrain } from '@/components/InteractiveTerrain';
 
 import terrainMountain from '@/assets/terrain-mountain.png';
-import terrainOcean from '@/assets/terrain-ocean.png';
 import terrainForest from '@/assets/terrain-forest.png';
 import terrainCastle from '@/assets/terrain-castle.png';
-import terrainCandy from '@/assets/terrain-candy.png';
-import terrainCheese from '@/assets/terrain-cheese.png';
-import terrainDystopia from '@/assets/terrain-dystopia.png';
-import terrainRainforest from '@/assets/terrain-rainforest.png';
-import terrainRio from '@/assets/terrain-rio.png';
 import terrainDesert from '@/assets/terrain-desert.png';
 
 function TerrainLoader() {
@@ -56,18 +50,6 @@ export default function Overview() {
     },
   ];
 
-  const steps = [
-    { image: terrainOcean, step: '01', title: 'Track Group Stats', description: 'See coordination scores, role consistency, and improvement trends for your entire squad. Every drill feeds into your group profile.' },
-    { image: terrainCandy, step: '02', title: 'Run Custom Modules', description: 'Build and share training modules tailored to your game. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your drills, your rules.' },
-    { image: terrainDystopia, step: '03', title: 'Close the Gap', description: 'Designed for beginners and mid-level players who want to compete but need structured practice. No gatekeeping. No ranked penalties.' },
-  ];
-
-  const stats = [
-    { image: terrainRainforest, stat: '15-20%', label: 'Higher Win Rate', desc: 'Squads that run 3+ drills per week see measurable improvement in ranked play' },
-    { image: terrainRio, stat: '3x', label: 'Faster Coordination', desc: 'Practiced squads execute callouts and rotations faster than uncoordinated teams' },
-    { image: terrainCheese, stat: '40+', label: 'Training Modules', desc: 'Game-specific drills across MOBA, MMO, shooter, and RTS categories' },
-  ];
-
   return (
     <div className="space-y-16">
       {/* Hero */}
@@ -104,32 +86,28 @@ export default function Overview() {
       {/* How It Works */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">How It Works</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-8">Pick your game. Run drills. Get better.</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((s, i) => (
-            <div key={s.step} className="relative group">
-              <Suspense fallback={<TerrainLoader />}>
-                <InteractiveTerrain
-                  imageUrl={s.image}
-                  className="h-56 w-full"
-                />
-              </Suspense>
-              <div className="mt-4">
-                <span className="font-display text-2xl font-bold text-primary/60">{s.step}</span>
-                <h3 className="font-display font-semibold text-foreground mt-1">{s.title}</h3>
-                <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{s.description}</p>
-              </div>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">Pick your game. Run drills. Get better.</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            { step: '01', title: 'Track Group Stats', desc: 'See coordination scores, role consistency, and improvement trends for your entire squad. Every drill feeds into your group profile.' },
+            { step: '02', title: 'Run Custom Modules', desc: 'Build and share training modules tailored to your game. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your drills, your rules.' },
+            { step: '03', title: 'Close the Gap', desc: 'Designed for beginners and mid-level players who want to compete but need structured practice. No gatekeeping. No ranked penalties.' },
+          ].map(s => (
+            <div key={s.step} className="p-5 rounded-lg bg-gradient-card border border-border">
+              <p className="font-display font-bold text-2xl mb-1 text-primary">{s.step}</p>
+              <h3 className="font-display font-semibold text-foreground mb-2">{s.title}</h3>
+              <p className="text-sm text-muted-foreground">{s.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Supported Games */}
+      {/* Supported Games - Interactive 3D Terrains */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
         <h2 className="font-display text-xl font-bold text-foreground mb-8">Training modules for the games you play</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {gameWorlds.map((g, i) => (
+          {gameWorlds.map(g => (
             <div key={g.type} className="relative group">
               <Suspense fallback={<TerrainLoader />}>
                 <InteractiveTerrain
@@ -157,21 +135,17 @@ export default function Overview() {
       {/* By the Numbers */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">By the Numbers</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-8">Players who train consistently win more</h2>
-        <div className="grid sm:grid-cols-3 gap-8">
-          {stats.map((m, i) => (
-            <div key={m.label} className="relative text-center group">
-              <Suspense fallback={<TerrainLoader />}>
-                <InteractiveTerrain
-                  imageUrl={m.image}
-                  className="h-48 w-full"
-                />
-              </Suspense>
-              <div className="mt-4">
-                <p className="font-display text-3xl font-bold text-primary">{m.stat}</p>
-                <p className="font-display font-semibold text-foreground text-sm mt-1">{m.label}</p>
-                <p className="text-xs text-muted-foreground mt-1.5">{m.desc}</p>
-              </div>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">Players who train consistently win more</h2>
+        <div className="grid sm:grid-cols-3 gap-4">
+          {[
+            { stat: '15-20%', label: 'Higher Win Rate', desc: 'Squads that run 3+ drills per week see measurable improvement in ranked play' },
+            { stat: '3x', label: 'Faster Coordination', desc: 'Practiced squads execute callouts and rotations faster than uncoordinated teams' },
+            { stat: '40+', label: 'Training Modules', desc: 'Game-specific drills across MOBA, MMO, shooter, and RTS categories' },
+          ].map(m => (
+            <div key={m.label} className="p-5 rounded-lg bg-gradient-card border border-border text-center">
+              <p className="font-display text-3xl font-bold text-primary mb-1">{m.stat}</p>
+              <p className="font-display font-semibold text-foreground text-sm">{m.label}</p>
+              <p className="text-xs text-muted-foreground mt-2">{m.desc}</p>
             </div>
           ))}
         </div>
