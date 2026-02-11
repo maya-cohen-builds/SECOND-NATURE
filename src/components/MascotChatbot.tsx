@@ -31,6 +31,7 @@ interface MascotChatbotProps {
 
 export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const [messages, setMessages] = useState<{ role: 'bot' | 'user'; text: string }[]>([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -57,6 +58,8 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
     }, 400);
   };
 
+  if (isDismissed) return null;
+
   return (
     <>
       {/* Floating Mascot Button */}
@@ -65,6 +68,14 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
         className="fixed bottom-6 right-6 z-[100] group"
         aria-label="Open training assistant"
       >
+        {/* Dismiss button */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setIsDismissed(true); }}
+          className="absolute -top-1 -left-1 z-10 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary transition-all opacity-0 group-hover:opacity-100"
+          aria-label="Dismiss assistant"
+        >
+          <span className="text-xs leading-none">×</span>
+        </button>
         <div className="relative">
           {/* Glow ring */}
           <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
