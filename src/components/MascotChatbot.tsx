@@ -34,7 +34,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([{ role: 'bot', text: "What's the game plan, bro?" }]);
+      setMessages([{ role: 'bot', text: "What do you need, bro?" }]);
     }
   }, [isOpen, messages.length]);
 
@@ -105,7 +105,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
             </div>
             <div className="flex-1 min-w-0">
               <div className="font-display font-bold text-sm text-foreground">
-                STG Coach
+                Orange Guy
                 {brandLabel && (
                   <span
                     className="ml-1.5 px-1 py-0.5 rounded text-[8px] font-bold uppercase"
