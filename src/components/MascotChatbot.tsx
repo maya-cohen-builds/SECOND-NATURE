@@ -80,7 +80,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
           {/* Collapse control */}
           <button
             onClick={(e) => { e.stopPropagation(); setIsOpen(false); setIsCollapsed(true); }}
-            className="absolute -top-1 -left-1 z-10 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground text-[10px] leading-none cursor-pointer transition-colors"
+            className="absolute -bottom-1 -left-1 z-10 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground text-[10px] leading-none cursor-pointer transition-colors"
             aria-label="Collapse coach"
           >
             ×
