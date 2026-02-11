@@ -61,7 +61,7 @@ export default function Overview() {
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Turn coordination into second nature. Play until it's automatic.
 
             </h1>
-            <p className="text-muted-foreground text-base leading-relaxed mb-2 max-w-lg">Run coordinated scenarios where your squad reacts to shifting pressure, navigates time constraints, rotates through chaos, and adapts as conditions escalate. Every session changes. Every decision counts.
+            <p className="text-muted-foreground text-base leading-relaxed mb-2 max-w-lg">Run coordinated scenarios where your squad reacts to shifting pressure, battles time constraints, rotates through chaos, and adapts as conditions escalate. Every session changes. Every decision counts.
 
             </p>
             <p className="text-xs text-muted-foreground mb-6 max-w-lg font-medium">
