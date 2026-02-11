@@ -130,13 +130,13 @@ export default function Overview() {
         <p className="text-xs text-muted-foreground mb-8">No client mods, no invasive integrations. Systems mapped to observable mechanics and team workflows.</p>
         </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12 px-2 md:px-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-14 px-2 md:px-6">
           {gameWorlds.map((g, i) =>
           <div key={g.type} className="relative">
               <img
               src={g.image}
               alt={`${g.type} terrain`}
-              className="w-[140%] max-w-none -ml-[20%] -mt-8 mb-[-2rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
+              className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
               style={{
                 animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
                 filter: 'saturate(1.2)',
