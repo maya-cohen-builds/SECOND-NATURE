@@ -1,6 +1,7 @@
+import { Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/hero-training.jpg';
-import { TerrainCard, TerrainStatCard, TerrainStepCard } from '@/components/TerrainCard';
+import { InteractiveTerrain } from '@/components/InteractiveTerrain';
 
 import terrainMountain from '@/assets/terrain-mountain.png';
 import terrainOcean from '@/assets/terrain-ocean.png';
@@ -13,11 +14,62 @@ import terrainRainforest from '@/assets/terrain-rainforest.png';
 import terrainRio from '@/assets/terrain-rio.png';
 import terrainDesert from '@/assets/terrain-desert.png';
 
+function TerrainLoader() {
+  return (
+    <div className="flex items-center justify-center h-full">
+      <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+    </div>
+  );
+}
+
 export default function Overview() {
   const navigate = useNavigate();
 
+  const gameWorlds = [
+    {
+      image: terrainMountain,
+      type: 'MOBA',
+      subtitle: 'Lane Control',
+      games: ['League of Legends', 'Dota 2', 'Smite'],
+      drills: 'Lane control, objective timing, teamfight positioning, rotation sequencing',
+    },
+    {
+      image: terrainForest,
+      type: 'MMO Raids',
+      subtitle: 'Phase Mastery',
+      games: ['World of Warcraft', 'Final Fantasy XIV', 'Guild Wars 2'],
+      drills: 'Phase transitions, cooldown rotation, role assignments, call-out practice',
+    },
+    {
+      image: terrainCastle,
+      type: 'Tactical Shooters',
+      subtitle: 'Site Executes',
+      games: ['Valorant', 'Counter-Strike 2', 'Rainbow Six Siege'],
+      drills: 'Site executes, retake coordination, utility timing, crossfire setups',
+    },
+    {
+      image: terrainDesert,
+      type: 'RTS / Strategy',
+      subtitle: 'Map Control',
+      games: ['StarCraft II', 'Age of Empires IV', 'Company of Heroes 3'],
+      drills: 'Build order execution, unit positioning, economy management, map control',
+    },
+  ];
+
+  const steps = [
+    { image: terrainOcean, step: '01', title: 'Track Group Stats', description: 'See coordination scores, role consistency, and improvement trends for your entire squad. Every drill feeds into your group profile.' },
+    { image: terrainCandy, step: '02', title: 'Run Custom Modules', description: 'Build and share training modules tailored to your game. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your drills, your rules.' },
+    { image: terrainDystopia, step: '03', title: 'Close the Gap', description: 'Designed for beginners and mid-level players who want to compete but need structured practice. No gatekeeping. No ranked penalties.' },
+  ];
+
+  const stats = [
+    { image: terrainRainforest, stat: '15-20%', label: 'Higher Win Rate', desc: 'Squads that run 3+ drills per week see measurable improvement in ranked play' },
+    { image: terrainRio, stat: '3x', label: 'Faster Coordination', desc: 'Practiced squads execute callouts and rotations faster than uncoordinated teams' },
+    { image: terrainCheese, stat: '40+', label: 'Training Modules', desc: 'Game-specific drills across MOBA, MMO, shooter, and RTS categories' },
+  ];
+
   return (
-    <div className="space-y-12">
+    <div className="space-y-16">
       {/* Hero */}
       <div className="relative rounded-xl border border-border overflow-hidden">
         <img src={heroImage} alt="Squad coordination on a tactical holographic map" className="w-full h-64 md:h-80 object-cover opacity-40" />
@@ -52,98 +104,76 @@ export default function Overview() {
       {/* How It Works */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">How It Works</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-6">Pick your game. Run drills. Get better.</h2>
-        <div className="grid md:grid-cols-3 gap-5">
-          <TerrainStepCard
-            image={terrainOcean}
-            step="01"
-            title="Track Group Stats"
-            description="See coordination scores, role consistency, and improvement trends for your entire squad. Every drill feeds into your group profile."
-            index={0}
-          />
-          <TerrainStepCard
-            image={terrainCandy}
-            step="02"
-            title="Run Custom Modules"
-            description="Build and share training modules tailored to your game. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your drills, your rules."
-            index={1}
-          />
-          <TerrainStepCard
-            image={terrainDystopia}
-            step="03"
-            title="Close the Gap"
-            description="Designed for beginners and mid-level players who want to compete but need structured practice. No gatekeeping. No ranked penalties."
-            index={2}
-          />
+        <h2 className="font-display text-xl font-bold text-foreground mb-8">Pick your game. Run drills. Get better.</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          {steps.map((s, i) => (
+            <div key={s.step} className="relative group">
+              <Suspense fallback={<TerrainLoader />}>
+                <InteractiveTerrain
+                  imageUrl={s.image}
+                  className="h-56 w-full"
+                />
+              </Suspense>
+              <div className="mt-4">
+                <span className="font-display text-2xl font-bold text-primary/60">{s.step}</span>
+                <h3 className="font-display font-semibold text-foreground mt-1">{s.title}</h3>
+                <p className="text-sm text-muted-foreground mt-1.5 leading-relaxed">{s.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Supported Games */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-6">Training modules for the games you play</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
-          <TerrainCard
-            image={terrainMountain}
-            title="MOBA"
-            subtitle="Lane Control"
-            description="League of Legends, Dota 2, Smite"
-            detail="Lane control, objective timing, teamfight positioning, rotation sequencing"
-            index={0}
-          />
-          <TerrainCard
-            image={terrainForest}
-            title="MMO Raids"
-            subtitle="Phase Mastery"
-            description="World of Warcraft, Final Fantasy XIV, Guild Wars 2"
-            detail="Phase transitions, cooldown rotation, role assignments, call-out practice"
-            index={1}
-          />
-          <TerrainCard
-            image={terrainCastle}
-            title="Tactical Shooters"
-            subtitle="Site Executes"
-            description="Valorant, Counter-Strike 2, Rainbow Six Siege"
-            detail="Site executes, retake coordination, utility timing, crossfire setups"
-            index={2}
-          />
-          <TerrainCard
-            image={terrainDesert}
-            title="RTS / Strategy"
-            subtitle="Map Control"
-            description="StarCraft II, Age of Empires IV, Company of Heroes 3"
-            detail="Build order execution, unit positioning, economy management, map control"
-            index={3}
-          />
+        <h2 className="font-display text-xl font-bold text-foreground mb-8">Training modules for the games you play</h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {gameWorlds.map((g, i) => (
+            <div key={g.type} className="relative group">
+              <Suspense fallback={<TerrainLoader />}>
+                <InteractiveTerrain
+                  imageUrl={g.image}
+                  className="h-52 w-full"
+                />
+              </Suspense>
+              <div className="mt-3">
+                <span className="px-2 py-0.5 rounded text-[10px] font-display font-bold uppercase tracking-wider text-primary bg-primary/10">
+                  {g.subtitle}
+                </span>
+                <h3 className="font-display font-bold text-foreground text-sm mt-2">{g.type}</h3>
+                <div className="space-y-0.5 mt-1">
+                  {g.games.map(name => (
+                    <p key={name} className="text-xs text-primary">{name}</p>
+                  ))}
+                </div>
+                <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">{g.drills}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* By the Numbers */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">By the Numbers</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-6">Players who train consistently win more</h2>
-        <div className="grid sm:grid-cols-3 gap-5">
-          <TerrainStatCard
-            image={terrainRainforest}
-            stat="15-20%"
-            label="Higher Win Rate"
-            description="Squads that run 3+ drills per week see measurable improvement in ranked play"
-            index={0}
-          />
-          <TerrainStatCard
-            image={terrainRio}
-            stat="3x"
-            label="Faster Coordination"
-            description="Practiced squads execute callouts and rotations faster than uncoordinated teams"
-            index={1}
-          />
-          <TerrainStatCard
-            image={terrainCheese}
-            stat="40+"
-            label="Training Modules"
-            description="Game-specific drills across MOBA, MMO, shooter, and RTS categories"
-            index={2}
-          />
+        <h2 className="font-display text-xl font-bold text-foreground mb-8">Players who train consistently win more</h2>
+        <div className="grid sm:grid-cols-3 gap-8">
+          {stats.map((m, i) => (
+            <div key={m.label} className="relative text-center group">
+              <Suspense fallback={<TerrainLoader />}>
+                <InteractiveTerrain
+                  imageUrl={m.image}
+                  className="h-48 w-full"
+                />
+              </Suspense>
+              <div className="mt-4">
+                <p className="font-display text-3xl font-bold text-primary">{m.stat}</p>
+                <p className="font-display font-semibold text-foreground text-sm mt-1">{m.label}</p>
+                <p className="text-xs text-muted-foreground mt-1.5">{m.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
