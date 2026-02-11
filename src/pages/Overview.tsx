@@ -58,13 +58,13 @@ export default function Overview() {
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">
-              Start practicing coordination outside of ranked play.
+              Turn coordination into second nature.
             </h1>
-            <p className="text-muted-foreground text-base leading-relaxed mb-4 max-w-lg">
-              Structured reps make executes, rotations, and callouts predictable. Practice until coordination is automatic, not accidental.
+            <p className="text-muted-foreground text-base leading-relaxed mb-2 max-w-lg">
+              A system for training execution, timing, and decision-making that transfers across competitive games. Build squad-level consistency, not accidental wins.
             </p>
             <p className="text-xs text-muted-foreground mb-6 max-w-lg">
-              A cross-game coordination system built around real competitive mechanics.
+              Designed around real competitive mechanics. Measured across reps. Reinforced until execution is automatic.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -77,22 +77,22 @@ export default function Overview() {
                 onClick={() => navigate('/modules')}
                 className="px-6 py-2.5 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
               >
-                View Training Drills
+                See How It Works
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* How It Works */}
+      {/* The Coordination Loop */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">How It Works</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">The Coordination Loop</p>
         <h2 className="font-display text-xl font-bold text-foreground mb-4">Reps build patterns. Patterns build confidence.</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {[
-            { step: '01', title: 'Run Structured Reps', desc: 'Drills built around real coordination patterns. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your reps, your system.' },
-            { step: '02', title: 'Track Signals', desc: 'Coordination scores, role consistency, and improvement trends for your entire squad. Every rep feeds into your group profile.' },
-            { step: '03', title: 'Make It Automatic', desc: 'Confidence follows consistency. Consistency comes from structured reps. No gatekeeping. No ranked penalties. Just evidence of improvement.' },
+            { step: '01', title: 'Reinforce Coordination Patterns', desc: 'Drills built around real coordination mechanics. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your reps, your system.' },
+            { step: '02', title: 'Measure Execution Quality', desc: 'Timing alignment, role adherence, decision latency, and consistency under pressure. Every rep feeds into your squad intelligence profile.' },
+            { step: '03', title: 'Make It Automatic', desc: 'Confidence follows repetition. Consistency follows structure. Reps compound until execution is predictable under pressure.' },
           ].map(s => (
             <div key={s.step} className="p-5 rounded-lg bg-gradient-card border border-border">
               <p className="font-display font-bold text-2xl mb-1 text-primary">{s.step}</p>
@@ -103,12 +103,30 @@ export default function Overview() {
         </div>
       </div>
 
+      {/* Cross-Game Differentiator */}
+      <div className="p-6 rounded-xl bg-gradient-card border border-border">
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Cross-Game System</p>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">One coordination system. Many games.</h2>
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            'The same execution principles apply across MOBAs, shooters, MMOs, and RTS.',
+            'Train timing, roles, and decision flow once. Apply everywhere.',
+            'Switching games no longer resets your learning curve.',
+          ].map((point, i) => (
+            <div key={i} className="flex items-start gap-3">
+              <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+              <p className="text-sm text-muted-foreground">{point}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Supported Games — Atmospheric floating terrains */}
       <div className="relative -mx-2 md:-mx-6">
         <div className="px-2 md:px-6">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-1">Training systems mapped to how competitive games actually work</h2>
-        <p className="text-xs text-muted-foreground mb-8">Systems are abstracted from observable mechanics and team workflows. No client mods, no invasive integrations.</p>
+        <h2 className="font-display text-xl font-bold text-foreground mb-1">Coordination systems abstracted from real competitive mechanics</h2>
+        <p className="text-xs text-muted-foreground mb-8">No client mods, no invasive integrations. Systems mapped to observable mechanics and team workflows.</p>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12 px-2 md:px-6">
@@ -141,15 +159,15 @@ export default function Overview() {
         </div>
       </div>
 
-      {/* By the Numbers */}
+      {/* What Changes When Execution Is Systematic */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Observable Outcomes</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">What structured reps change</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">What changes when execution is systematic</h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { label: 'Fewer Missed Calls', desc: 'Squads that drill regularly make fewer late-game communication errors and react faster to shifting objectives' },
-            { label: 'Consistent Executes', desc: 'Role-specific reps reduce fumbled site takes, botched engages, and mistimed cooldowns across the roster' },
-            { label: 'Less Tilt Under Pressure', desc: 'Structured practice builds pattern recognition so your squad defaults to coordination, not chaos, when behind' },
+            { label: 'Fewer Missed Calls', desc: 'Squads that drill regularly make fewer late-game communication errors and react faster to shifting objectives.' },
+            { label: 'Consistent Executes', desc: 'Role-specific reps reduce fumbled site takes, botched engages, and mistimed cooldowns across the roster.' },
+            { label: 'Less Tilt Under Pressure', desc: 'Pattern reinforcement builds recognition so your squad defaults to coordination, not chaos, when behind.' },
           ].map(m => (
             <div key={m.label} className="p-5 rounded-lg bg-gradient-card border border-border">
               <p className="font-display font-semibold text-foreground text-sm">{m.label}</p>
@@ -159,16 +177,25 @@ export default function Overview() {
         </div>
       </div>
 
+      {/* Confidence Explainer */}
+      <div className="p-6 rounded-xl bg-secondary border border-border">
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Trainable Skill</p>
+        <h2 className="font-display text-xl font-bold text-foreground mb-2">Confidence is not mindset. It is evidence.</h2>
+        <p className="text-sm text-muted-foreground max-w-2xl">
+          Confidence follows repetition. Consistency follows structure. Second Nature turns reps into predictable execution under pressure. The more you drill, the less you guess.
+        </p>
+      </div>
+
       {/* CTA */}
       <div className="p-8 rounded-xl bg-primary/5 border border-primary/20 text-center">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Run reps. Review signals. Make execution automatic.</h2>
-        <p className="text-sm text-muted-foreground mb-5">No credit card. No ranked risk. Confidence comes from evidence.</p>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Train execution patterns. Review signals. Make coordination automatic.</h2>
+        <p className="text-sm text-muted-foreground mb-5">No credit card. Confidence comes from evidence, not from hoping your squad clicks.</p>
         <div className="flex justify-center gap-3">
           <button
             onClick={() => navigate('/training-hub')}
             className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-display font-bold text-sm uppercase tracking-wide hover:opacity-90 transition-all"
           >
-            Train Without Rank Risk
+            Run Your First Drill
           </button>
           <button
             onClick={() => navigate('/pricing')}
@@ -180,7 +207,7 @@ export default function Overview() {
       </div>
 
       {/* Builder trust anchor */}
-      <p className="text-xs text-muted-foreground text-center pb-2">Built by competitive players who wanted improvement to become automatic.</p>
+      <p className="text-xs text-muted-foreground text-center pb-2">Built by competitive players who wanted execution to become automatic.</p>
     </div>
   );
 }
