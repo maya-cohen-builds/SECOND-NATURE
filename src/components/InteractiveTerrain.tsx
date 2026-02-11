@@ -19,19 +19,12 @@ function TerrainMesh({ imageUrl }: { imageUrl: string }) {
   return (
     <Float speed={2} rotationIntensity={0.3} floatIntensity={0.8}>
       <mesh ref={meshRef}>
-        <icosahedronGeometry args={[1.6, 1]} />
-        <meshPhysicalMaterial
+        <planeGeometry args={[3.5, 3.5]} />
+        <meshStandardMaterial
           map={texture}
           transparent
-          opacity={0.85}
-          roughness={0.05}
-          metalness={0.3}
-          clearcoat={1}
-          clearcoatRoughness={0.03}
-          envMapIntensity={2}
-          thickness={0.5}
-          transmission={0.15}
-          ior={1.5}
+          alphaTest={0.1}
+          side={THREE.DoubleSide}
         />
       </mesh>
     </Float>
