@@ -197,10 +197,10 @@ export default function Experiments() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Performance Lab</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">What should you focus on next?</h1>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Diagnostic Engine</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">What breaks down, and under what conditions?</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Diagnostic analysis based on your training history. No raw stats — only actionable direction.
+          Identifies your current execution bottleneck and prescribes targeted reinforcement.
         </p>
       </div>
 

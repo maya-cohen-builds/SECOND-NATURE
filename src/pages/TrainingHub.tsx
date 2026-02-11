@@ -30,8 +30,8 @@ export default function TrainingHub() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Training Hub</p>
-          <h1 className="font-display text-2xl font-bold text-foreground">Choose Your Drill</h1>
+          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Pattern Reinforcement</p>
+          <h1 className="font-display text-2xl font-bold text-foreground">Select Coordination Pattern</h1>
         </div>
         <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 border border-border">
           <span className="text-xs text-muted-foreground">Skill Tier:</span>
@@ -72,7 +72,7 @@ export default function TrainingHub() {
       {selectedCategory && (
         <div>
           <h2 className="font-display text-lg font-semibold text-foreground mb-3">
-            {CATEGORY_LABELS[selectedCategory]} Drills
+            {CATEGORY_LABELS[selectedCategory]} Patterns
           </h2>
           <div className="grid md:grid-cols-3 gap-3">
             {filteredScenarios.map(s => (
@@ -100,7 +100,7 @@ export default function TrainingHub() {
             onClick={handleProceed}
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
           >
-            Configure and Run
+            Begin Reinforcement
           </button>
         </div>
       )}
