@@ -1,34 +1,37 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SCENARIOS } from '@/data/gameData';
-import { ScenarioCategory, CATEGORY_LABELS, CATEGORY_ICONS } from '@/data/types';
+import { ScenarioCategory, CATEGORY_LABELS, CATEGORY_ICONS, TIER_LABELS } from '@/data/types';
 import { CategoryCard, ScenarioCard } from '@/components/ScenarioCard';
 import { trackEvent } from '@/lib/eventTracker';
 
+const TIERS = [4, 5, 6] as const;
+
 function getRecommendation(category: ScenarioCategory, tier: number): string {
+  const label = TIER_LABELS[tier] || 'Steady';
   const recommendations: Record<ScenarioCategory, Record<number, string>> = {
     'base-defense': {
-      4: 'Squads at Tier 4 building defensive fundamentals. Focus on positioning and wave timing.',
-      5: 'Recommended for squads struggling with late-game stability at Tier 5.',
-      6: 'Tier 6 squads refining resource discipline under sustained siege pressure.',
+      4: `${label} squads building defensive fundamentals. Focus on positioning and wave timing.`,
+      5: `${label} squads stabilizing late-game perimeter discipline under sustained pressure.`,
+      6: `${label} squads refining resource discipline under sustained siege conditions.`,
     },
     'coordinated-attack': {
-      4: 'Tier 4 squads developing basic synchronization across split-squad operations.',
-      5: 'Recommended for squads with inconsistent execute timing at Tier 5.',
-      6: 'Tier 6 squads tightening phase-transition discipline in multi-stage attacks.',
+      4: `${label} squads developing basic synchronization across split-squad operations.`,
+      5: `${label} squads tightening execute timing and commit-call consistency.`,
+      6: `${label} squads refining phase-transition discipline in multi-stage strikes.`,
     },
     'vehicle-mastery': {
-      4: 'Tier 4 squads building vehicle handling and formation basics.',
-      5: 'Recommended for squads with formation gaps during vehicle operations at Tier 5.',
-      6: 'Tier 6 squads optimizing fuel management and close-support timing.',
+      4: `${label} squads building vehicle handling and formation basics.`,
+      5: `${label} squads closing formation gaps during vehicle operations.`,
+      6: `${label} squads optimizing fuel management and close-support timing.`,
     },
     'role-based': {
-      4: 'Tier 4 squads learning role boundaries and handoff sequences.',
-      5: 'Recommended for squads with role-overlap issues during objective shifts at Tier 5.',
-      6: 'Tier 6 squads training rapid role reassignment under dynamic conditions.',
+      4: `${label} squads learning role boundaries and handoff sequences.`,
+      5: `${label} squads resolving role-overlap issues during objective shifts.`,
+      6: `${label} squads training rapid role reassignment under dynamic conditions.`,
     },
   };
-  return recommendations[category][tier] || `Drills calibrated for Tier ${tier} squads in this category.`;
+  return recommendations[category][tier] || `Drills calibrated for ${label} squads in this category.`;
 }
 
 export default function TrainingHub() {
@@ -60,18 +63,18 @@ export default function TrainingHub() {
           <h1 className="font-display text-2xl font-bold text-foreground">Choose Your Drill</h1>
         </div>
         <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 border border-border">
-          <span className="text-xs text-muted-foreground">Skill Tier:</span>
-          {[4, 5, 6].map(lvl => (
+          <span className="text-xs text-muted-foreground">You are:</span>
+          {TIERS.map(lvl => (
             <button
               key={lvl}
               onClick={() => setPlayerLevel(lvl)}
-              className={`w-8 h-8 rounded-md text-sm font-display font-bold transition-all ${
+              className={`px-3 h-8 rounded-md text-xs font-display font-bold transition-all whitespace-nowrap ${
                 playerLevel === lvl
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:text-foreground'
               }`}
             >
-              {lvl}
+              {TIER_LABELS[lvl]}
             </button>
           ))}
         </div>
@@ -129,7 +132,7 @@ export default function TrainingHub() {
             <span className="text-sm font-medium text-foreground">
               Ready: {SCENARIOS.find(s => s.id === selectedScenario)?.name}
             </span>
-            <span className="text-xs text-muted-foreground ml-2">Tier {playerLevel}</span>
+            <span className="text-xs text-muted-foreground ml-2">{TIER_LABELS[playerLevel]}</span>
           </div>
           <button
             onClick={handleProceed}
