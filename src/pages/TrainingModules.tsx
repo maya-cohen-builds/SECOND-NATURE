@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 interface TrainingModule {
   id: string;
@@ -32,8 +33,30 @@ export default function TrainingModules() {
 
   const [filterGame, setFilterGame] = useState<string>('All');
   const [filterTier, setFilterTier] = useState<string>('All');
+  const [gameOpen, setGameOpen] = useState<boolean>(() => {
+    const stored = sessionStorage.getItem('sn-filter-game-open');
+    return stored !== null ? stored === 'true' : true;
+  });
+  const [tierOpen, setTierOpen] = useState<boolean>(() => {
+    const stored = sessionStorage.getItem('sn-filter-tier-open');
+    return stored !== null ? stored === 'true' : true;
+  });
   const [showCreate, setShowCreate] = useState(false);
   const [newModule, setNewModule] = useState({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
+
+  const toggleGame = useCallback(() => {
+    setGameOpen(prev => {
+      sessionStorage.setItem('sn-filter-game-open', String(!prev));
+      return !prev;
+    });
+  }, []);
+
+  const toggleTier = useCallback(() => {
+    setTierOpen(prev => {
+      sessionStorage.setItem('sn-filter-tier-open', String(!prev));
+      return !prev;
+    });
+  }, []);
 
   const games = ['All', ...Array.from(new Set(modules.map(m => m.game)))];
   const tiers = ['All', 'Beginner', 'Intermediate', 'Advanced'];
@@ -135,38 +158,79 @@ export default function TrainingModules() {
       )}
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-4">
-        <div className="flex flex-wrap gap-2">
-          <span className="text-xs text-muted-foreground self-center mr-1">Game:</span>
-          {games.map(g => (
-            <button
-              key={g}
-              onClick={() => setFilterGame(g)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
-                filterGame === g
-                  ? 'bg-primary/10 text-primary border-primary/30'
-                  : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
-              }`}
-            >
-              {g}
-            </button>
-          ))}
+      <div className="space-y-2">
+        {/* Game filter */}
+        <div className="rounded-lg border border-border bg-card/50 overflow-hidden">
+          <button
+            onClick={toggleGame}
+            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), toggleGame())}
+            className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+            aria-expanded={gameOpen}
+            aria-controls="filter-game-panel"
+          >
+            <span className="uppercase tracking-widest">Game{filterGame !== 'All' ? ` · ${filterGame}` : ''}</span>
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${gameOpen ? 'rotate-0' : '-rotate-90'}`} />
+          </button>
+          <div
+            id="filter-game-panel"
+            className="grid transition-[grid-template-rows] duration-200 ease-out"
+            style={{ gridTemplateRows: gameOpen ? '1fr' : '0fr' }}
+          >
+            <div className="overflow-hidden">
+              <div className="flex flex-wrap gap-2 px-3 pb-3">
+                {games.map(g => (
+                  <button
+                    key={g}
+                    onClick={() => setFilterGame(g)}
+                    className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
+                      filterGame === g
+                        ? 'bg-primary/10 text-primary border-primary/30'
+                        : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
+                    }`}
+                  >
+                    {g}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <span className="text-xs text-muted-foreground self-center mr-1">Skill Tier:</span>
-          {tiers.map(t => (
-            <button
-              key={t}
-              onClick={() => setFilterTier(t)}
-              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
-                filterTier === t
-                  ? 'bg-primary/10 text-primary border-primary/30'
-                  : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
-              }`}
-            >
-              {t}
-            </button>
-          ))}
+
+        {/* Skill Tier filter */}
+        <div className="rounded-lg border border-border bg-card/50 overflow-hidden">
+          <button
+            onClick={toggleTier}
+            onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), toggleTier())}
+            className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+            aria-expanded={tierOpen}
+            aria-controls="filter-tier-panel"
+          >
+            <span className="uppercase tracking-widest">Skill Tier{filterTier !== 'All' ? ` · ${filterTier}` : ''}</span>
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${tierOpen ? 'rotate-0' : '-rotate-90'}`} />
+          </button>
+          <div
+            id="filter-tier-panel"
+            className="grid transition-[grid-template-rows] duration-200 ease-out"
+            style={{ gridTemplateRows: tierOpen ? '1fr' : '0fr' }}
+          >
+            <div className="overflow-hidden">
+              <div className="flex flex-wrap gap-2 px-3 pb-3">
+                {tiers.map(t => (
+                  <button
+                    key={t}
+                    onClick={() => setFilterTier(t)}
+                    className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
+                      filterTier === t
+                        ? 'bg-primary/10 text-primary border-primary/30'
+                        : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
+                    }`}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
