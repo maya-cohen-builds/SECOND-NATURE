@@ -1,14 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { SimulationResult } from '@/data/types';
 import { RatingBadge, BadgePill } from '@/components/BadgePill';
-import { useDemo } from '@/contexts/DemoContext';
-import { getDemoResult } from '@/lib/simulation';
 import { getPlayerProfile, savePlayerProfile } from '@/data/gameData';
 import { useEffect, useState } from 'react';
 
 export default function Results() {
   const navigate = useNavigate();
-  const { demoMode } = useDemo();
   const [result, setResult] = useState<SimulationResult | null>(null);
 
   useEffect(() => {
@@ -16,7 +13,6 @@ export default function Results() {
     if (stored) {
       const r = JSON.parse(stored) as SimulationResult;
       setResult(r);
-      // Update player profile
       const profile = getPlayerProfile();
       profile.completedScenarios += 1;
       profile.confidence = Math.min(100, profile.confidence + r.confidenceGain);
@@ -25,15 +21,13 @@ export default function Results() {
         if (!profile.badgesEarned.includes(b.id)) profile.badgesEarned.push(b.id);
       });
       savePlayerProfile(profile);
-    } else if (demoMode) {
-      setResult(getDemoResult());
     }
   }, []);
 
   if (!result) {
     return (
       <div className="text-center py-20">
-        <p className="text-muted-foreground mb-4">No simulation results yet.</p>
+        <p className="text-muted-foreground mb-4">No results yet. Run a drill first.</p>
         <button onClick={() => navigate('/training-hub')} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm">
           Go to Training Hub
         </button>
@@ -45,7 +39,7 @@ export default function Results() {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <h1 className="font-display text-2xl font-bold text-foreground">Mission Results</h1>
+      <h1 className="font-display text-2xl font-bold text-foreground">Squad Performance Summary</h1>
 
       {/* Rating */}
       <div className="p-6 rounded-lg bg-gradient-card border border-border text-center">
@@ -54,7 +48,7 @@ export default function Results() {
           <RatingBadge rating={result.rating} size="lg" />
         </div>
         <p className="font-display text-lg font-semibold text-foreground">
-          {result.rating === 'S' ? 'Outstanding Performance' : result.rating === 'A' ? 'Excellent Execution' : result.rating === 'B' ? 'Solid Performance' : 'Room for Improvement'}
+          {result.rating === 'S' ? 'Outstanding Execution' : result.rating === 'A' ? 'Strong Performance' : result.rating === 'B' ? 'Solid Run' : 'Room to Improve'}
         </p>
       </div>
 
@@ -94,35 +88,22 @@ export default function Results() {
         </div>
       </div>
 
-      {/* Live Game Impact */}
+      {/* Takeaway */}
       <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-        <h3 className="font-display font-semibold text-primary mb-2">Impact on Live Game</h3>
+        <h3 className="font-display font-semibold text-primary mb-2">Key Takeaway</h3>
         <p className="text-sm text-foreground">{result.liveGameImpact}</p>
       </div>
-
-      {/* Shareable Summary (Demo Mode) */}
-      {demoMode && (
-        <div className="p-5 rounded-lg bg-accent/5 border border-accent/20">
-          <h3 className="font-display font-semibold text-accent mb-2">📋 Shareable Summary — Leadership Readout</h3>
-          <div className="text-sm text-foreground space-y-1">
-            <p><strong>Scenario:</strong> {result.scenarioName} ({result.difficulty})</p>
-            <p><strong>Rating:</strong> {result.rating} | <strong>Badges:</strong> {result.badges.map(b => b.name).join(', ') || 'None'}</p>
-            <p><strong>Progression:</strong> Confidence +{result.confidenceGain}% · Mastery +{result.masteryGain}%</p>
-            <p><strong>Live Impact:</strong> {result.liveGameImpact}</p>
-          </div>
-        </div>
-      )}
 
       {/* CTAs */}
       <div className="flex flex-wrap gap-3">
         <button onClick={() => navigate('/training-hub')} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm">
-          Run Another Sim
+          Run Another Drill
         </button>
-        <button onClick={() => navigate('/shop')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
-          View Upgrades
+        <button onClick={() => navigate('/tools')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
+          Training Tools
         </button>
-        <button onClick={() => navigate('/experiments')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
-          See Experiments & Metrics
+        <button onClick={() => navigate('/performance')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
+          View Dashboard
         </button>
       </div>
     </div>
