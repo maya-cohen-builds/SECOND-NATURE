@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useDemo } from '@/contexts/DemoContext';
 import { cn } from '@/lib/utils';
@@ -6,18 +6,16 @@ import { cn } from '@/lib/utils';
 const NAV_ITEMS = [
   { path: '/overview', label: 'Overview', icon: '◈' },
   { path: '/training-hub', label: 'Training Hub', icon: '◉' },
-  { path: '/run', label: 'Run', icon: '▶' },
+  { path: '/run', label: 'Run Drill', icon: '▶' },
   { path: '/results', label: 'Results', icon: '★' },
-  { path: '/shop', label: 'Shop', icon: '◆' },
-  { path: '/experiments', label: 'Experiments', icon: '⬡' },
-  { path: '/narrative', label: 'Narrative', icon: '▤' },
-  { path: '/analytics', label: 'Analytics', icon: '▥' },
-  { path: '/readme', label: 'Readme', icon: '▧' },
+  { path: '/tools', label: 'Training Tools', icon: '◆' },
+  { path: '/insights', label: 'Performance Lab', icon: '⬡' },
+  { path: '/performance', label: 'Dashboard', icon: '▥' },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
-  const { demoMode, toggleDemoMode, resetDemo } = useDemo();
-  const location = useLocation();
+  const { resetDemo } = useDemo();
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -34,15 +32,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           </div>
           <div className="flex items-center gap-3">
             <button
-              onClick={toggleDemoMode}
-              className={cn(
-                "px-3 py-1.5 rounded-md text-xs font-medium transition-all border",
-                demoMode
-                  ? "bg-primary/15 border-primary/40 text-primary shadow-glow"
-                  : "bg-secondary border-border text-muted-foreground hover:text-foreground"
-              )}
+              onClick={() => setShowSettings(!showSettings)}
+              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
             >
-              {demoMode ? '● Demo Mode ON' : '○ Demo Mode'}
+              ⚙ Settings
             </button>
             <button
               onClick={resetDemo}
@@ -52,6 +45,15 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </button>
           </div>
         </div>
+        {showSettings && (
+          <div className="max-w-[1400px] mx-auto px-4 pb-3">
+            <div className="p-3 rounded-lg bg-secondary border border-border">
+              <p className="text-[11px] text-muted-foreground">
+                Independent training platform. Not affiliated with any game publisher.
+              </p>
+            </div>
+          </div>
+        )}
       </header>
 
       <div className="flex-1 flex">

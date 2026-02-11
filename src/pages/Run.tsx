@@ -4,12 +4,10 @@ import { SCENARIOS } from '@/data/gameData';
 import { CATEGORY_LABELS, CATEGORY_ICONS } from '@/data/types';
 import { runSimulation } from '@/lib/simulation';
 import { trackEvent } from '@/lib/eventTracker';
-import { useDemo } from '@/contexts/DemoContext';
 
 export default function Run() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { demoMode } = useDemo();
 
   const scenarioId = searchParams.get('scenario') || 'bd-1';
   const playerLevel = parseInt(searchParams.get('level') || '5');
@@ -43,8 +41,8 @@ export default function Run() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="font-display text-2xl font-bold text-foreground">Mission Configuration</h1>
-        <p className="text-sm text-muted-foreground mt-1">Configure your simulation parameters and begin.</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Run Squad Drill</h1>
+        <p className="text-sm text-muted-foreground mt-1">Set up your squad and launch the training session.</p>
       </div>
 
       {/* Scenario Info */}
@@ -58,7 +56,7 @@ export default function Run() {
         <div className="flex gap-4 text-xs text-muted-foreground">
           <span>Complexity: {'●'.repeat(scenario.complexity)}{'○'.repeat(5 - scenario.complexity)}</span>
           <span>Recommended Squad: {scenario.recommendedSquadSize}</span>
-          <span>Player Level: {playerLevel}</span>
+          <span>Skill Tier: {playerLevel}</span>
         </div>
       </div>
 
@@ -113,16 +111,12 @@ export default function Run() {
       >
         {running ? (
           <span className="flex items-center justify-center gap-2">
-            <span className="animate-spin">◎</span> Running Simulation...
+            <span className="animate-spin">◎</span> Running Drill...
           </span>
         ) : (
-          '▶ Run Simulation'
+          '▶ Execute Drill'
         )}
       </button>
-
-      {demoMode && !running && (
-        <p className="text-xs text-primary text-center">Demo Mode: Click "Run Simulation" to see results instantly</p>
-      )}
     </div>
   );
 }

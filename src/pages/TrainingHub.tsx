@@ -4,14 +4,12 @@ import { SCENARIOS } from '@/data/gameData';
 import { ScenarioCategory, CATEGORY_LABELS, CATEGORY_ICONS } from '@/data/types';
 import { CategoryCard, ScenarioCard } from '@/components/ScenarioCard';
 import { trackEvent } from '@/lib/eventTracker';
-import { useDemo } from '@/contexts/DemoContext';
 
 export default function TrainingHub() {
   const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | null>(null);
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
   const [playerLevel, setPlayerLevel] = useState(5);
   const navigate = useNavigate();
-  const { demoMode } = useDemo();
 
   useEffect(() => {
     trackEvent('enter_training_hub');
@@ -28,23 +26,15 @@ export default function TrainingHub() {
     }
   };
 
-  // Demo mode auto-select
-  useEffect(() => {
-    if (demoMode && !selectedCategory) {
-      setSelectedCategory('coordinated-attack');
-      setSelectedScenario('ca-1');
-    }
-  }, [demoMode]);
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-2xl font-bold text-foreground">Training Hub</h1>
-          <p className="text-sm text-muted-foreground mt-1">Select a category and scenario to begin training.</p>
+          <p className="text-sm text-muted-foreground mt-1">Choose a training focus and pick a drill to run with your squad.</p>
         </div>
         <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 border border-border">
-          <span className="text-xs text-muted-foreground">Player Level:</span>
+          <span className="text-xs text-muted-foreground">Skill Tier:</span>
           {[4, 5, 6].map(lvl => (
             <button
               key={lvl}
@@ -82,7 +72,7 @@ export default function TrainingHub() {
       {selectedCategory && (
         <div>
           <h2 className="font-display text-lg font-semibold text-foreground mb-3">
-            {CATEGORY_ICONS[selectedCategory]} {CATEGORY_LABELS[selectedCategory]} Scenarios
+            {CATEGORY_ICONS[selectedCategory]} {CATEGORY_LABELS[selectedCategory]} Drills
           </h2>
           <div className="grid md:grid-cols-3 gap-3">
             {filteredScenarios.map(s => (
@@ -104,7 +94,7 @@ export default function TrainingHub() {
             <span className="text-sm font-medium text-foreground">
               Ready: {SCENARIOS.find(s => s.id === selectedScenario)?.name}
             </span>
-            <span className="text-xs text-muted-foreground ml-2">Level {playerLevel}</span>
+            <span className="text-xs text-muted-foreground ml-2">Tier {playerLevel}</span>
           </div>
           <button
             onClick={handleProceed}
@@ -112,14 +102,6 @@ export default function TrainingHub() {
           >
             Configure & Run →
           </button>
-          {demoMode && (
-            <button
-              onClick={handleProceed}
-              className="px-4 py-2 rounded-lg bg-accent text-accent-foreground font-display font-semibold text-xs ml-2"
-            >
-              Next →
-            </button>
-          )}
         </div>
       )}
     </div>

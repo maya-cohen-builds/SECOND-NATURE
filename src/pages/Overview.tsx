@@ -1,104 +1,93 @@
 import { useNavigate } from 'react-router-dom';
-import { useDemo } from '@/contexts/DemoContext';
+import heroImage from '@/assets/hero-training.jpg';
 
 export default function Overview() {
   const navigate = useNavigate();
-  const { demoMode } = useDemo();
-
-  const demoSteps = [
-    { label: 'Visit Training Hub', path: '/training-hub' },
-    { label: 'Select a scenario & run simulation', path: '/training-hub' },
-    { label: 'View your results', path: '/results' },
-    { label: 'Explore the shop', path: '/shop' },
-    { label: 'Review experiments & metrics', path: '/experiments' },
-  ];
 
   return (
     <div className="space-y-8">
       {/* Hero */}
-      <div className="bg-gradient-hero rounded-xl border border-border p-8 md:p-12">
-        <div className="max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-4">
-            ◈ PMM Portfolio Demo
-          </div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-4 tracking-tight">
-            Squad Training & Simulation Mode
-          </h1>
-          <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-            A cooperative, progression-based training system that restores earned progress for mid-tier players through dynamically scaled missions, performance ratings, and a freemium monetization layer.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              onClick={() => navigate('/training-hub')}
-              className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
-            >
-              Enter Training Hub →
-            </button>
-            <button
-              onClick={() => navigate('/narrative')}
-              className="px-5 py-2.5 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
-            >
-              Read PMM Narrative
-            </button>
+      <div className="relative rounded-xl border border-border overflow-hidden">
+        <img src={heroImage} alt="Squad coordination on a tactical holographic map" className="w-full h-64 md:h-80 object-cover opacity-40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+        <div className="absolute inset-0 flex items-center px-8 md:px-12">
+          <div className="max-w-2xl">
+            <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-3 tracking-tight">
+              Train Smarter. Win Together.
+            </h1>
+            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+              Squad drills, performance tracking, and coordination coaching — all without ranked penalties. Get better before the match starts.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={() => navigate('/training-hub')}
+                className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
+              >
+                Start Training →
+              </button>
+              <button
+                onClick={() => navigate('/performance')}
+                className="px-5 py-2.5 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
+              >
+                View Performance
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Who / What / Why */}
+      {/* What / How / Why */}
       <div className="grid md:grid-cols-3 gap-4">
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-2">What It Is</h3>
+          <h3 className="font-display font-semibold text-foreground mb-2">🎯 Practice Without Risk</h3>
           <p className="text-sm text-muted-foreground">
-            Short, repeatable combat simulations covering base defense, coordinated attacks, vehicle mastery, and role-based objectives. Scenarios scale dynamically to player level and squad composition.
+            Run squad drills that mirror real match scenarios — base defense, coordinated pushes, vehicle play, and role execution. No rank on the line.
           </p>
         </div>
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-2">Who It's For</h3>
+          <h3 className="font-display font-semibold text-foreground mb-2">📊 Track What Matters</h3>
           <p className="text-sm text-muted-foreground">
-            Mid-to-late progression players (Levels 4–6) who feel permanently outmatched. Squad leaders who influence group behavior and purchasing decisions. Players who want to improve without repeated competitive losses.
+            See how your squad improves over time. Coordination scores, role consistency, and decision-making efficiency — all tracked session by session.
           </p>
         </div>
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-2">Why It Exists</h3>
+          <h3 className="font-display font-semibold text-foreground mb-2">🤝 Built for Squads</h3>
           <p className="text-sm text-muted-foreground">
-            Progression stalls create churn. Vehicles lose perceived utility. The skill gap between elite and mid-tier players feels insurmountable. Training mode rebuilds confidence and spending motivation.
+            Every drill is designed for 1–6 players. Solo queue or full stack — the system scales difficulty and objectives to your team size and skill level.
           </p>
         </div>
       </div>
 
-      {/* Demo Mode Guide */}
-      {demoMode && (
-        <div className="p-5 rounded-lg bg-primary/5 border border-primary/20">
-          <h3 className="font-display font-semibold text-primary mb-3">🎯 Demo Mode — 60-Second Walkthrough</h3>
-          <div className="space-y-2">
-            {demoSteps.map((step, i) => (
-              <button
-                key={i}
-                onClick={() => navigate(step.path)}
-                className="flex items-center gap-3 w-full text-left p-2 rounded-md hover:bg-primary/10 transition-all"
-              >
-                <span className="w-6 h-6 rounded-full bg-primary/20 text-primary text-xs flex items-center justify-center font-bold">
-                  {i + 1}
-                </span>
-                <span className="text-sm text-foreground">{step.label}</span>
-                <span className="text-xs text-primary ml-auto">→</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Key Metrics */}
+      {/* Supported Game Types */}
       <div>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">Success Metrics</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">Supported Game Types</h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { icon: '⚔️', type: 'MOBA', desc: '5v5 lanes, objective control, teamfight coordination, rotations' },
+            { icon: '🏰', type: 'MMO Raids', desc: 'Role assignments, phase transitions, cooldown management, call-outs' },
+            { icon: '🗺️', type: 'RTS Squads', desc: 'Positioning, economy management, unit composition, map control' },
+            { icon: '🎯', type: 'Tactical Shooters', desc: 'Site execution, retakes, utility timing, crossfire setups' },
+          ].map(g => (
+            <div key={g.type} className="p-4 rounded-lg bg-gradient-card border border-border text-center">
+              <div className="text-3xl mb-2">{g.icon}</div>
+              <div className="font-display font-bold text-foreground text-sm mb-1">{g.type}</div>
+              <div className="text-xs text-muted-foreground">{g.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">Why Players Train Here</h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { label: 'Day 30–60 Retention', target: '+15-20%', desc: 'For mid-to-late progression players' },
-            { label: 'ARPDAU Lift', target: '+8-12%', desc: 'Training-engaged vs. control cohort' },
-            { label: 'Paid Conversion', target: '12-18%', desc: 'Free sessions → paid enhancements' },
+            { stat: '15–20%', label: 'Better Win Rate', desc: 'Players who train consistently see measurable improvement' },
+            { stat: '3x', label: 'Faster Coordination', desc: 'Squads that drill together execute faster in live play' },
+            { stat: '40+', label: 'Training Drills', desc: 'Across defense, attack, vehicle, and role-based scenarios' },
           ].map(m => (
             <div key={m.label} className="p-4 rounded-lg bg-gradient-card border border-border text-center">
-              <div className="font-display text-2xl font-bold text-primary mb-1">{m.target}</div>
+              <div className="font-display text-2xl font-bold text-primary mb-1">{m.stat}</div>
               <div className="font-display font-semibold text-foreground text-sm">{m.label}</div>
               <div className="text-xs text-muted-foreground mt-1">{m.desc}</div>
             </div>
