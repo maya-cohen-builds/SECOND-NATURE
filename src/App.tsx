@@ -15,6 +15,7 @@ import Analytics from "./pages/Analytics";
 import GroupStats from "./pages/GroupStats";
 import TrainingModules from "./pages/TrainingModules";
 import Pricing from "./pages/Pricing";
+import PlayerProof from "./pages/PlayerProof";
 import NotFound from "./pages/NotFound";
 import MascotChatbot from "./components/MascotChatbot";
 
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/group-stats" element={<AppLayout><GroupStats /></AppLayout>} />
             <Route path="/modules" element={<AppLayout><TrainingModules /></AppLayout>} />
             <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
+            <Route path="/player-proof" element={<AppLayout><PlayerProof /></AppLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <MascotChatbot />

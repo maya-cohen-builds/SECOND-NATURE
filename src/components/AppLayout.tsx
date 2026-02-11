@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { path: '/insights', label: 'Performance Lab', icon: '/' },
   { path: '/performance', label: 'Dashboard', icon: '/' },
   { path: '/pricing', label: 'Pricing', icon: '/' },
+  { path: '/player-proof', label: 'Player Proof', icon: '/' },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
