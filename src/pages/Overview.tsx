@@ -119,7 +119,7 @@ export default function Overview() {
                 className="w-[140%] max-w-none -ml-[20%] -mt-8 mb-[-2rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
                 style={{
                   animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
-                  filter: 'saturate(1.2)',
+                  filter: g.type === 'Team-Based Action' ? 'saturate(1.6) hue-rotate(-30deg)' : 'saturate(1.2)',
                   mixBlendMode: 'lighten',
                 }}
               />
