@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserPlus, Lock, Target, TrendingUp, Shield, Brain, Zap, BarChart3, Activity, Crosshair, Users } from 'lucide-react';
 import ShareToInstagram from '@/components/ShareToInstagram';
+import { useDisplayName } from '@/hooks/useDisplayName';
 
 interface SquadMember {
   name: string;
@@ -77,6 +78,7 @@ function LockedSection({ title, unlockText, icon: Icon }: { title: string; unloc
 export default function GroupStats() {
   const profile = getPlayerProfile();
   const counts = getEventCounts();
+  const displayName = useDisplayName('Squad');
   const [addedMembers, setAddedMembers] = useState<SquadMember[]>(loadSquadMembers);
   const [modalOpen, setModalOpen] = useState(false);
   const [newName, setNewName] = useState('');
@@ -142,7 +144,7 @@ export default function GroupStats() {
         </div>
         <ShareToInstagram
           storyData={{
-            username: 'Squad',
+            username: displayName,
             game: 'Cross-Game',
             headline: 'Squad Coordination Score',
             headlineValue: `${Math.round((avgConfidence + avgMastery + avgConsistency) / 3)}%`,

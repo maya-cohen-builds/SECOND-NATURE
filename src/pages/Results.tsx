@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { Lock, Target, Brain, Shield, Users, ChevronRight, Zap, TrendingUp, Award, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ShareToInstagram from '@/components/ShareToInstagram';
+import { useDisplayName } from '@/hooks/useDisplayName';
 
 const MILESTONES = [
   { drills: 1, label: 'Basic stats unlock', icon: Target },
@@ -175,6 +176,7 @@ function LockedPreviewDashboard() {
 export default function Results() {
   const navigate = useNavigate();
   const [result, setResult] = useState<SimulationResult | null>(null);
+  const displayName = useDisplayName();
 
   useEffect(() => {
     const stored = localStorage.getItem('stg-last-result');
@@ -271,7 +273,7 @@ export default function Results() {
         </div>
         <ShareToInstagram
           storyData={{
-            username: 'Player',
+            username: displayName,
             game: result.category.replace(/-/g, ' '),
             headline: 'Execution Consistency',
             headlineValue: `${profile.confidence}%`,

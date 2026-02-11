@@ -14,6 +14,7 @@ import {
 import { AreaChart, Area, XAxis, YAxis } from 'recharts';
 import { ArrowRight } from 'lucide-react';
 import ShareToInstagram from '@/components/ShareToInstagram';
+import { useDisplayName } from '@/hooks/useDisplayName';
 
 type Timeframe = 'week' | 'month' | 'season';
 
@@ -128,6 +129,7 @@ function getRecommendation(confidence: number, mastery: number, completedScenari
 export default function Analytics() {
   const [events, setEvents] = useState<{ type: string; data?: Record<string, unknown>; timestamp: number }[]>([]);
   const [timeframe, setTimeframe] = useState<Timeframe>('month');
+  const displayName = useDisplayName();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -213,7 +215,7 @@ export default function Analytics() {
         </div>
         <ShareToInstagram
           storyData={{
-            username: 'Player',
+            username: displayName,
             game: 'Cross-Game',
             headline: 'Drills Completed',
             headlineValue: `${totalDrills}`,

@@ -5,6 +5,7 @@ import { SCENARIOS } from '@/data/gameData';
 import { Link } from 'react-router-dom';
 import { Lock, ArrowRight, Target, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
 import ShareToInstagram from '@/components/ShareToInstagram';
+import { useDisplayName } from '@/hooks/useDisplayName';
 
 interface Diagnosis {
   limitingFactor: string;
@@ -162,6 +163,7 @@ function getResolvedFactors(
 }
 
 export default function Experiments() {
+  const displayName = useDisplayName();
   useEffect(() => {
     trackEvent('view_metrics_page');
   }, []);
@@ -207,7 +209,7 @@ export default function Experiments() {
         </div>
         <ShareToInstagram
           storyData={{
-            username: 'Player',
+            username: displayName,
             game: 'Cross-Game',
             headline: 'Confidence This Week',
             headlineValue: `+${Math.max(0, profile.confidence - 5)}%`,
