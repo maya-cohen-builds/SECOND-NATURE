@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Download, Instagram, Lock, Share2, Copy, Check, Star } from 'lucide-react';
+import { Download, Lock, Share2, Copy, Check, Star, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,12 +11,12 @@ import {
 import {
   generateStoryImage,
   downloadStoryImage,
-  shareToInstagramStory,
   SUGGESTED_CAPTION,
   SUGGESTED_HASHTAGS,
   type StoryData,
 } from '@/lib/instagramStory';
 import { getPlayerProfile } from '@/data/gameData';
+import { trackEvent } from '@/lib/eventTracker';
 
 interface ShareToInstagramProps {
   storyData: StoryData;
@@ -38,12 +38,18 @@ function unlockAdvanced() {
   localStorage.setItem(ADVANCED_UNLOCK_KEY, 'true');
 }
 
+async function dataUrlToBlob(dataUrl: string): Promise<Blob> {
+  const res = await fetch(dataUrl);
+  return res.blob();
+}
+
 export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
   const [open, setOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [copiedCaption, setCopiedCaption] = useState(false);
   const [copiedTags, setCopiedTags] = useState(false);
   const [showUnlockPrompt, setShowUnlockPrompt] = useState(false);
+  const [shareState, setShareState] = useState<'idle' | 'shared' | 'confirmed'>('idle');
 
   const profile = getPlayerProfile();
   const advancedUnlocked = isAdvancedUnlocked();
@@ -56,6 +62,7 @@ export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
     };
     const url = generateStoryImage(data);
     setImageUrl(url);
+    setShareState('idle');
     setOpen(true);
   };
 
@@ -65,12 +72,61 @@ export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
     }
   };
 
-  const handleInstagramShare = () => {
-    if (imageUrl) {
-      shareToInstagramStory(imageUrl);
-      // Always download as fallback
-      handleDownload();
+  const handleShareToInstagram = async () => {
+    if (!imageUrl) return;
+
+    trackEvent('share_intent_started', { page: storyData.headline });
+
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // Try Web Share API with file first (best mobile experience)
+    if (navigator.share && isMobile) {
+      try {
+        const blob = await dataUrlToBlob(imageUrl);
+        const file = new File([blob], 'secondnature-story.png', { type: 'image/png' });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'Second Nature Training Stats',
+            text: `${SUGGESTED_CAPTION}\n${SUGGESTED_HASHTAGS}`,
+          });
+          setShareState('shared');
+          return;
+        }
+      } catch (err: unknown) {
+        // User cancelled or share failed
+        if (err instanceof Error && err.name === 'AbortError') return;
+      }
     }
+
+    // Fallback: try Instagram Stories deep link on mobile
+    if (isMobile) {
+      try {
+        window.location.href = 'instagram-stories://share?source_application=secondnature';
+        // Also download the image so they can attach it
+        handleDownload();
+        setShareState('shared');
+        return;
+      } catch {
+        // Deep link failed
+      }
+    }
+
+    // Final fallback: download + open Instagram web
+    trackEvent('share_failed', { reason: 'no_native_share', page: storyData.headline });
+    handleDownload();
+    window.open('https://www.instagram.com/', '_blank');
+    setShareState('shared');
+  };
+
+  const handleConfirmPosted = () => {
+    trackEvent('share_confirmed', { page: storyData.headline });
+    setShareState('confirmed');
+    setTimeout(() => {
+      setOpen(false);
+      setShareState('idle');
+    }, 1500);
   };
 
   const handleCopy = (text: string, setter: (v: boolean) => void) => {
@@ -99,8 +155,6 @@ export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
       handleShare(true);
     }
   };
-
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
   const currentTokens = (() => {
     try {
@@ -208,13 +262,13 @@ export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Story Preview + Download Dialog */}
+      {/* Story Preview + Share Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-display">Your Instagram Story</DialogTitle>
             <DialogDescription>
-              Download the image and post it to your Instagram story.
+              Share your training stats directly to Instagram.
             </DialogDescription>
           </DialogHeader>
 
@@ -229,23 +283,52 @@ export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
                 />
               </div>
 
-              {/* Action buttons */}
-              <div className="flex gap-2">
-                <Button onClick={handleDownload} className="flex-1 gap-2 font-display">
-                  <Download className="h-4 w-4" />
-                  Download Story
-                </Button>
-                {isMobile && (
+              {/* Confirmation state */}
+              {shareState === 'shared' && (
+                <div className="p-3 rounded-lg bg-primary/5 border border-primary/20 text-center space-y-2">
+                  <p className="text-sm text-foreground font-medium">
+                    Opened Instagram. Tap "Your Story" to post.
+                  </p>
                   <Button
-                    onClick={handleInstagramShare}
-                    variant="secondary"
+                    size="sm"
+                    variant="outline"
+                    onClick={handleConfirmPosted}
+                    className="gap-1.5 font-display"
+                  >
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    I posted it
+                  </Button>
+                </div>
+              )}
+
+              {shareState === 'confirmed' && (
+                <div className="p-3 rounded-lg bg-primary/10 border border-primary/30 text-center">
+                  <p className="text-sm text-primary font-semibold flex items-center justify-center gap-1.5">
+                    <Check className="h-4 w-4" /> Shared successfully!
+                  </p>
+                </div>
+              )}
+
+              {/* Action buttons */}
+              {shareState === 'idle' && (
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleShareToInstagram}
                     className="flex-1 gap-2 font-display"
                   >
-                    <Instagram className="h-4 w-4" />
-                    Open Instagram
+                    <Share2 className="h-4 w-4" />
+                    Share to Instagram
                   </Button>
-                )}
-              </div>
+                  <Button
+                    onClick={handleDownload}
+                    variant="secondary"
+                    size="icon"
+                    title="Download image"
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
+                </div>
+              )}
 
               {/* Caption */}
               <div className="p-3 rounded-lg bg-secondary border border-border">
@@ -277,7 +360,6 @@ export default function ShareToInstagram({ storyData }: ShareToInstagramProps) {
                 <p className="text-sm text-foreground">{SUGGESTED_HASHTAGS}</p>
               </div>
 
-              {/* Tappable link reminder */}
               <p className="text-xs text-muted-foreground text-center">
                 Add a "Train here" link sticker pointing to your Second Nature profile.
               </p>
