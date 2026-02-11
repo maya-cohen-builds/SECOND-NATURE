@@ -87,9 +87,9 @@ export default function Analytics() {
       <div className="p-4 rounded-lg bg-secondary border border-border">
         <h3 className="font-display font-semibold text-foreground mb-2">Account & Squad</h3>
         <ul className="text-sm text-muted-foreground space-y-1">
-          <li>• <strong>Account:</strong> Local session (sign up to save progress across devices)</li>
-          <li>• <strong>Squad:</strong> Create or join a squad to share training history</li>
-          <li>• <strong>Shared History:</strong> Squad members can compare performance and plan drills together</li>
+          <li><strong>Account:</strong> Local session (sign up to save progress across devices)</li>
+          <li><strong>Squad:</strong> Create or join a squad to share training history</li>
+          <li><strong>Shared History:</strong> Squad members can compare performance and plan drills together</li>
         </ul>
       </div>
     </div>

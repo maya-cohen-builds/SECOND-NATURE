@@ -16,61 +16,62 @@ export default function Overview() {
               Train Smarter. Win Together.
             </h1>
             <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              Squad drills, performance tracking, and coordination coaching — all without ranked penalties. Get better before the match starts.
+              The cross-game training platform for competitive squads. Practice coordination, track group stats, and run custom training modules for your game. Built for beginners and mid-level players ready to close the skill gap.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/training-hub')}
                 className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
               >
-                Start Training →
+                Start Training
               </button>
               <button
-                onClick={() => navigate('/performance')}
+                onClick={() => navigate('/group-stats')}
                 className="px-5 py-2.5 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
               >
-                View Performance
+                View Group Stats
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* What / How / Why */}
+      {/* Key Features */}
       <div className="grid md:grid-cols-3 gap-4">
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-2">🎯 Practice Without Risk</h3>
+          <h3 className="font-display font-semibold text-foreground mb-2">Group Stats Tracking</h3>
           <p className="text-sm text-muted-foreground">
-            Run squad drills that mirror real match scenarios — base defense, coordinated pushes, vehicle play, and role execution. No rank on the line.
+            Track your squad's coordination, role consistency, and improvement over time. Compare individual and group performance session by session.
           </p>
         </div>
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-2">📊 Track What Matters</h3>
+          <h3 className="font-display font-semibold text-foreground mb-2">Custom Training Modules</h3>
           <p className="text-sm text-muted-foreground">
-            See how your squad improves over time. Coordination scores, role consistency, and decision-making efficiency — all tracked session by session.
+            Build and share drills tailored to your game. Create modules for lane control, raid phases, site executions, or any coordination challenge your squad faces.
           </p>
         </div>
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-2">🤝 Built for Squads</h3>
+          <h3 className="font-display font-semibold text-foreground mb-2">No Ranked Penalties</h3>
           <p className="text-sm text-muted-foreground">
-            Every drill is designed for 1–6 players. Solo queue or full stack — the system scales difficulty and objectives to your team size and skill level.
+            Practice without risking your rank. Run drills that mirror real match scenarios so your squad can improve before the match starts.
           </p>
         </div>
       </div>
 
-      {/* Supported Game Types */}
+      {/* Supported Games */}
       <div>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">Supported Game Types</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-2">Supported Games</h2>
+        <p className="text-sm text-muted-foreground mb-4">Training modules and stat tracking for the games you already play.</p>
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: '⚔️', type: 'MOBA', desc: '5v5 lanes, objective control, teamfight coordination, rotations' },
-            { icon: '🏰', type: 'MMO Raids', desc: 'Role assignments, phase transitions, cooldown management, call-outs' },
-            { icon: '🗺️', type: 'RTS Squads', desc: 'Positioning, economy management, unit composition, map control' },
-            { icon: '🎯', type: 'Tactical Shooters', desc: 'Site execution, retakes, utility timing, crossfire setups' },
+            { type: 'MOBA', games: 'League of Legends, Dota 2, Smite', desc: '5v5 lane control, objective timing, teamfight positioning, rotation drills' },
+            { type: 'MMO Raids', games: 'World of Warcraft, Final Fantasy XIV, Guild Wars 2', desc: 'Role assignments, phase transitions, cooldown management, call-out practice' },
+            { type: 'RTS / Squad Strategy', games: 'StarCraft II, Age of Empires IV, Company of Heroes', desc: 'Unit positioning, economy management, build order execution, map control' },
+            { type: 'Tactical Shooters', games: 'Valorant, Counter-Strike 2, Rainbow Six Siege', desc: 'Site executions, retake coordination, utility timing, crossfire setups' },
           ].map(g => (
-            <div key={g.type} className="p-4 rounded-lg bg-gradient-card border border-border text-center">
-              <div className="text-3xl mb-2">{g.icon}</div>
+            <div key={g.type} className="p-4 rounded-lg bg-gradient-card border border-border">
               <div className="font-display font-bold text-foreground text-sm mb-1">{g.type}</div>
+              <div className="text-xs text-primary mb-2">{g.games}</div>
               <div className="text-xs text-muted-foreground">{g.desc}</div>
             </div>
           ))}
@@ -82,9 +83,9 @@ export default function Overview() {
         <h2 className="font-display text-xl font-bold text-foreground mb-4">Why Players Train Here</h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { stat: '15–20%', label: 'Better Win Rate', desc: 'Players who train consistently see measurable improvement' },
+            { stat: '15-20%', label: 'Better Win Rate', desc: 'Players who train consistently see measurable improvement' },
             { stat: '3x', label: 'Faster Coordination', desc: 'Squads that drill together execute faster in live play' },
-            { stat: '40+', label: 'Training Drills', desc: 'Across defense, attack, vehicle, and role-based scenarios' },
+            { stat: '40+', label: 'Training Modules', desc: 'Across defense, attack, vehicle, and role-based scenarios' },
           ].map(m => (
             <div key={m.label} className="p-4 rounded-lg bg-gradient-card border border-border text-center">
               <div className="font-display text-2xl font-bold text-primary mb-1">{m.stat}</div>
@@ -92,6 +93,26 @@ export default function Overview() {
               <div className="text-xs text-muted-foreground mt-1">{m.desc}</div>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="p-6 rounded-lg bg-primary/5 border border-primary/20 text-center">
+        <h2 className="font-display text-xl font-bold text-foreground mb-2">Ready to close the gap?</h2>
+        <p className="text-sm text-muted-foreground mb-4">Start with a free trial. No credit card required.</p>
+        <div className="flex justify-center gap-3">
+          <button
+            onClick={() => navigate('/training-hub')}
+            className="px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
+          >
+            Start Free Trial
+          </button>
+          <button
+            onClick={() => navigate('/pricing')}
+            className="px-5 py-2.5 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
+          >
+            View Plans
+          </button>
         </div>
       </div>
     </div>

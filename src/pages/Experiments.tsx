@@ -20,7 +20,7 @@ export default function Experiments() {
     {
       label: 'Confidence Score',
       value: `${profile.confidence}%`,
-      trend: profile.confidence > 60 ? 'Above average — strong decision-making' : 'Still building — more reps will help',
+      trend: profile.confidence > 60 ? 'Above average. Strong decision-making.' : 'Still building. More reps will help.',
     },
     {
       label: 'Mastery Score',
@@ -57,16 +57,13 @@ export default function Experiments() {
         <h2 className="font-display text-lg font-semibold text-foreground mb-3">Recommended Focus</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           {[
-            { area: 'Coordination Efficiency', desc: 'How well your squad executes synchronized actions. Improve by running coordinated attack drills with full squads.', icon: '🔗' },
-            { area: 'Role Execution Stability', desc: 'Consistency of role performance across sessions. Try role-based drills to build reliability under pressure.', icon: '🎯' },
-            { area: 'Decision Speed', desc: 'Time from situation recognition to correct action. Practice harder difficulty levels to sharpen reactions.', icon: '⚡' },
-            { area: 'Squad Consistency', desc: 'Performance variance between squad members. Run mixed-arms drills to balance team skill distribution.', icon: '📊' },
+            { area: 'Coordination Efficiency', desc: 'How well your squad executes synchronized actions. Improve by running coordinated attack drills with full squads.' },
+            { area: 'Role Execution Stability', desc: 'Consistency of role performance across sessions. Try role-based drills to build reliability under pressure.' },
+            { area: 'Decision Speed', desc: 'Time from situation recognition to correct action. Practice harder difficulty levels to sharpen reactions.' },
+            { area: 'Squad Consistency', desc: 'Performance variance between squad members. Run mixed-arms drills to balance team skill distribution.' },
           ].map(f => (
             <div key={f.area} className="p-4 rounded-lg bg-card border border-border">
-              <div className="flex items-center gap-2 mb-2">
-                <span>{f.icon}</span>
-                <h3 className="font-display font-semibold text-foreground text-sm">{f.area}</h3>
-              </div>
+              <h3 className="font-display font-semibold text-foreground text-sm mb-1">{f.area}</h3>
               <p className="text-xs text-muted-foreground">{f.desc}</p>
             </div>
           ))}

@@ -1,0 +1,180 @@
+import { useState } from 'react';
+
+interface TrainingModule {
+  id: string;
+  name: string;
+  game: string;
+  category: string;
+  description: string;
+  drillCount: number;
+  difficulty: string;
+  createdBy: string;
+  isCustom: boolean;
+}
+
+const PRESET_MODULES: TrainingModule[] = [
+  { id: 'lol-lane', name: 'Lane Control Fundamentals', game: 'League of Legends', category: 'MOBA', description: 'Wave management, trading patterns, and back timing for bot lane duos.', drillCount: 6, difficulty: 'Beginner', createdBy: 'STG Team', isCustom: false },
+  { id: 'lol-obj', name: 'Objective Sequencing', game: 'League of Legends', category: 'MOBA', description: 'Dragon and Baron setup, vision control, and team rotation drills.', drillCount: 4, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'val-site', name: 'Site Execute Package', game: 'Valorant', category: 'Tactical Shooter', description: 'Coordinated site takes with utility timing, entry sequencing, and trade setups.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'val-retake', name: 'Retake Coordination', game: 'Valorant', category: 'Tactical Shooter', description: 'Post-plant retake positioning, utility usage, and crossfire angles.', drillCount: 4, difficulty: 'Advanced', createdBy: 'STG Team', isCustom: false },
+  { id: 'wow-raid', name: 'Raid Phase Transitions', game: 'World of Warcraft', category: 'MMO Raid', description: 'Role-specific responsibilities during boss phase transitions and add management.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'wow-cd', name: 'Cooldown Rotation Planning', game: 'World of Warcraft', category: 'MMO Raid', description: 'Healer and tank cooldown sequencing for sustained damage phases.', drillCount: 3, difficulty: 'Advanced', createdBy: 'STG Team', isCustom: false },
+  { id: 'sc2-macro', name: 'Team Macro Fundamentals', game: 'StarCraft II', category: 'RTS', description: 'Resource management, expansion timing, and production cycles for team games.', drillCount: 4, difficulty: 'Beginner', createdBy: 'STG Team', isCustom: false },
+  { id: 'cs2-util', name: 'Utility Coordination', game: 'Counter-Strike 2', category: 'Tactical Shooter', description: 'Synchronized smoke, flash, and molotov lineups for coordinated executes.', drillCount: 6, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+];
+
+export default function TrainingModules() {
+  const [modules, setModules] = useState<TrainingModule[]>(() => {
+    const stored = localStorage.getItem('stg-custom-modules');
+    const custom: TrainingModule[] = stored ? JSON.parse(stored) : [];
+    return [...PRESET_MODULES, ...custom];
+  });
+
+  const [filterGame, setFilterGame] = useState<string>('All');
+  const [showCreate, setShowCreate] = useState(false);
+  const [newModule, setNewModule] = useState({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
+
+  const games = ['All', ...Array.from(new Set(modules.map(m => m.game)))];
+
+  const filtered = filterGame === 'All' ? modules : modules.filter(m => m.game === filterGame);
+
+  const handleCreate = () => {
+    if (!newModule.name || !newModule.game || !newModule.description) return;
+
+    const custom: TrainingModule = {
+      id: `custom-${Date.now()}`,
+      name: newModule.name,
+      game: newModule.game,
+      category: newModule.category || 'Custom',
+      description: newModule.description,
+      drillCount: 0,
+      difficulty: newModule.difficulty,
+      createdBy: 'You',
+      isCustom: true,
+    };
+
+    const updated = [...modules, custom];
+    setModules(updated);
+
+    const customOnly = updated.filter(m => m.isCustom);
+    localStorage.setItem('stg-custom-modules', JSON.stringify(customOnly));
+
+    setNewModule({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
+    setShowCreate(false);
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-display text-2xl font-bold text-foreground">Training Modules</h1>
+          <p className="text-sm text-muted-foreground mt-1">Browse game-specific training modules or create your own.</p>
+        </div>
+        <button
+          onClick={() => setShowCreate(!showCreate)}
+          className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
+        >
+          {showCreate ? 'Cancel' : 'Create Module'}
+        </button>
+      </div>
+
+      {/* Create Form */}
+      {showCreate && (
+        <div className="p-5 rounded-lg bg-card border border-border space-y-3">
+          <h3 className="font-display font-semibold text-foreground">New Training Module</h3>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <input
+              placeholder="Module name"
+              value={newModule.name}
+              onChange={e => setNewModule({ ...newModule, name: e.target.value })}
+              className="px-3 py-2 rounded-md bg-secondary border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <input
+              placeholder="Game (e.g. Valorant, League of Legends)"
+              value={newModule.game}
+              onChange={e => setNewModule({ ...newModule, game: e.target.value })}
+              className="px-3 py-2 rounded-md bg-secondary border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <input
+              placeholder="Category (e.g. Tactical Shooter, MOBA)"
+              value={newModule.category}
+              onChange={e => setNewModule({ ...newModule, category: e.target.value })}
+              className="px-3 py-2 rounded-md bg-secondary border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            />
+            <select
+              value={newModule.difficulty}
+              onChange={e => setNewModule({ ...newModule, difficulty: e.target.value })}
+              className="px-3 py-2 rounded-md bg-secondary border border-border text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary"
+            >
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
+            </select>
+          </div>
+          <textarea
+            placeholder="Describe what this module covers..."
+            value={newModule.description}
+            onChange={e => setNewModule({ ...newModule, description: e.target.value })}
+            rows={3}
+            className="w-full px-3 py-2 rounded-md bg-secondary border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+          />
+          <button
+            onClick={handleCreate}
+            className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
+          >
+            Save Module
+          </button>
+        </div>
+      )}
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-2">
+        {games.map(g => (
+          <button
+            key={g}
+            onClick={() => setFilterGame(g)}
+            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
+              filterGame === g
+                ? 'bg-primary/10 text-primary border-primary/30'
+                : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
+            }`}
+          >
+            {g}
+          </button>
+        ))}
+      </div>
+
+      {/* Module Grid */}
+      <div className="grid md:grid-cols-2 gap-3">
+        {filtered.map(mod => (
+          <div key={mod.id} className="p-4 rounded-lg bg-gradient-card border border-border">
+            <div className="flex items-start justify-between mb-2">
+              <div>
+                <h4 className="font-display font-semibold text-foreground text-sm">{mod.name}</h4>
+                <p className="text-xs text-primary">{mod.game}</p>
+              </div>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+                mod.difficulty === 'Beginner' ? 'bg-success/10 text-success border-success/20' :
+                mod.difficulty === 'Intermediate' ? 'bg-accent/10 text-accent border-accent/20' :
+                'bg-destructive/10 text-destructive border-destructive/20'
+              }`}>
+                {mod.difficulty}
+              </span>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">{mod.description}</p>
+            <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <span>{mod.drillCount > 0 ? `${mod.drillCount} drills` : 'No drills yet'}</span>
+              <span>by {mod.createdBy}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {filtered.length === 0 && (
+        <div className="text-center py-12 text-muted-foreground text-sm">
+          No modules found for this filter.
+        </div>
+      )}
+    </div>
+  );
+}
