@@ -112,7 +112,7 @@ export default function TrainingHub() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-3">
+          <div className="grid md:grid-cols-3 gap-3 items-start">
             {filteredScenarios.map(s => (
               <ScenarioCard
                 key={s.id}
