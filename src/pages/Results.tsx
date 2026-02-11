@@ -7,7 +7,6 @@ import { Lock, Target, Brain, Shield, Users, ChevronRight, Zap, TrendingUp, Awar
 import { Button } from '@/components/ui/button';
 import ShareToInstagram from '@/components/ShareToInstagram';
 import { useDisplayName } from '@/hooks/useDisplayName';
-import FeatureGate from '@/components/FeatureGate';
 
 const MILESTONES = [
   { drills: 1, label: 'Basic stats unlock', icon: Target },
@@ -105,7 +104,6 @@ function LockedPreviewDashboard() {
       </div>
 
       {/* B. Personalized Insights Preview */}
-      <FeatureGate feature="advanced-insights">
       <div>
         <h2 className="font-display text-lg font-semibold text-foreground mb-1">Personalized Insights</h2>
         <p className="text-xs text-muted-foreground mb-3">Personalized insights unlock as you train.</p>
@@ -121,7 +119,6 @@ function LockedPreviewDashboard() {
           ))}
         </div>
       </div>
-      </FeatureGate>
 
       {/* C. Coach Tips & Recommendations */}
       <div>
@@ -232,7 +229,6 @@ export default function Results() {
       )}
 
       {/* Progression */}
-      <FeatureGate feature="deep-results">
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 rounded-lg bg-card border border-border">
           <p className="text-xs text-muted-foreground mb-1">Predictability</p>
@@ -255,7 +251,6 @@ export default function Results() {
           </div>
         </div>
       </div>
-      </FeatureGate>
 
       {/* Takeaway */}
       <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">

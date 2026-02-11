@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { UserPlus, Lock, Target, TrendingUp, Shield, Brain, Zap, BarChart3, Activity, Crosshair, Users } from 'lucide-react';
 import ShareToInstagram from '@/components/ShareToInstagram';
 import { useDisplayName } from '@/hooks/useDisplayName';
-import FeatureGate from '@/components/FeatureGate';
 
 interface SquadMember {
   name: string;
@@ -262,7 +261,6 @@ export default function GroupStats() {
       </div>
 
       {/* Coordination Score (Always Visible) */}
-      <FeatureGate feature="group-coordination">
       <div className="p-5 rounded-lg bg-primary/5 border border-primary/20">
         <h3 className="font-display font-semibold text-foreground mb-2">
           {isSolo ? 'Your Coordination Score' : 'Squad Coordination Score'}
@@ -287,7 +285,6 @@ export default function GroupStats() {
           </div>
         </div>
       </div>
-      </FeatureGate>
 
       {/* Level 2: Trends (3 drills) */}
       <div>
