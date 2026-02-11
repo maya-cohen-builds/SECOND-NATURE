@@ -50,7 +50,7 @@ export default function Overview() {
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">
-              Stop hoping coordination clicks in ranked.
+              Start practicing coordination outside of ranked play.
             </h1>
             <p className="text-muted-foreground text-base leading-relaxed mb-4 max-w-lg">
               Structured reps make executes, rotations, and callouts predictable. Practice until coordination is automatic, not accidental.
