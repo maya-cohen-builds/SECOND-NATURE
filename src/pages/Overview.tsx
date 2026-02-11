@@ -108,6 +108,7 @@ export default function Overview() {
                 style={{
                   animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
                   filter: 'saturate(1.2)',
+                  mixBlendMode: 'lighten',
                 }}
               />
               {/* Text sits on top / below the floating art */}
