@@ -153,7 +153,7 @@ export default function Overview() {
 
       {/* CTA */}
       <div className="p-8 rounded-xl bg-primary/5 border border-primary/20 text-center">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Run reps. Review signals. Make execution automatic.</h2>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Start practicing coordination outside of ranked play.</h2>
         <p className="text-sm text-muted-foreground mb-5">No credit card. No ranked risk. Confidence comes from evidence.</p>
         <div className="flex justify-center gap-3">
           <button
