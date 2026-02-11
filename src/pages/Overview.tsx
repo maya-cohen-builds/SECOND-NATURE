@@ -6,6 +6,7 @@ import terrainForest from '@/assets/terrain-forest.png';
 import terrainCastle from '@/assets/terrain-castle.png';
 import terrainDesert from '@/assets/terrain-desert.png';
 import terrainAction from '@/assets/terrain-action.png';
+import terrainStrategy from '@/assets/terrain-strategy.png';
 
 export default function Overview() {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export default function Overview() {
       drills: 'Ult coordination, objective push timing, role synergy, peel sequencing',
     },
     {
-      image: terrainDesert,
+      image: terrainStrategy,
       type: 'RTS / Strategy',
       subtitle: 'Map Control',
       games: ['StarCraft II', 'Age of Empires IV', 'Company of Heroes 3'],
