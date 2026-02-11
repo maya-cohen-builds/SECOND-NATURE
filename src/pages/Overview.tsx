@@ -64,8 +64,11 @@ export default function Overview() {
             <p className="text-muted-foreground text-base leading-relaxed mb-2 max-w-lg">
               A system for training execution, timing, and decision-making that transfers across competitive games. Build squad-level consistency, not accidental wins.
             </p>
-            <p className="text-xs text-muted-foreground mb-6 max-w-lg">
+            <p className="text-xs text-muted-foreground mb-2 max-w-lg">
               Designed around real competitive mechanics. Measured across reps. Reinforced until execution is automatic.
+            </p>
+            <p className="text-xs text-muted-foreground/70 mb-6 max-w-lg">
+              Structured reps inside immersive simulations that feel as engaging as real matches — not spreadsheets, not aim trainers.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -88,7 +91,8 @@ export default function Overview() {
       {/* The Coordination Loop */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">The Coordination Loop</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">Reps build patterns. Patterns build confidence.</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-1">Reps build patterns. Patterns build confidence.</h2>
+        <p className="text-xs text-muted-foreground mb-4">Every rep is a round worth playing. Repetition stays engaging because the simulations feel like the real thing.</p>
         <div className="grid md:grid-cols-3 gap-4">
           {[
             { step: '01', title: 'Reinforce Coordination Patterns', desc: 'Drills built around real coordination mechanics. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your reps, your system.' },
@@ -127,7 +131,8 @@ export default function Overview() {
         <div className="px-2 md:px-6">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
         <h2 className="font-display text-xl font-bold text-foreground mb-1">Coordination systems abstracted from real competitive mechanics</h2>
-        <p className="text-xs text-muted-foreground mb-8">No client mods, no invasive integrations. Systems mapped to observable mechanics and team workflows.</p>
+        <p className="text-xs text-muted-foreground mb-2">No client mods, no invasive integrations. Systems mapped to observable mechanics and team workflows.</p>
+        <p className="text-xs text-muted-foreground/70 mb-8">Each world is a fully realized coordination environment — you train inside it, not outside of it.</p>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12 px-2 md:px-6">
@@ -190,7 +195,8 @@ export default function Overview() {
       {/* CTA */}
       <div className="p-8 rounded-xl bg-primary/5 border border-primary/20 text-center">
         <h2 className="font-display text-2xl font-bold text-foreground mb-2">Train execution patterns. Review signals. Make coordination automatic.</h2>
-        <p className="text-sm text-muted-foreground mb-5">No credit card. Confidence comes from evidence, not from hoping your squad clicks.</p>
+        <p className="text-sm text-muted-foreground mb-1">No credit card. Confidence comes from evidence, not from hoping your squad clicks.</p>
+        <p className="text-xs text-muted-foreground/70 mb-5">Every session unlocks sharper reads, faster calls, and tighter execution. Progress you can feel.</p>
         <div className="flex justify-center gap-3">
           <button
             onClick={() => navigate('/training-hub')}
