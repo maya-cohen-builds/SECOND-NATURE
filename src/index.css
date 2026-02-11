@@ -116,3 +116,12 @@
     border-color: hsl(185 72% 48% / 0.3);
   }
 }
+
+@keyframes terrainFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
