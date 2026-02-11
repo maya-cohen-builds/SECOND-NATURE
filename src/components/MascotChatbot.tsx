@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
-import mascotImage from '@/assets/mascot-warrior.png';
+import { useState, useRef, useEffect, Suspense } from 'react';
+import SignalNode3D from '@/components/SignalNode3D';
 
 const QUICK_REPLIES = [
   "How do I improve my win rate?",
@@ -19,7 +19,7 @@ const BOT_RESPONSES: Record<string, string> = {
     "We support training modules for MOBAs like League of Legends and Dota 2, MMO raids like WoW and FFXIV, tactical shooters like Valorant and CS2, and RTS titles like StarCraft II and Age of Empires IV.",
 };
 
-const DEFAULT_RESPONSE = "Good question. Check out the Training Hub to get started, or hit up Group Stats to see how your squad is performing. I am here if you need anything else.";
+const DEFAULT_RESPONSE = "Pattern noted. Check the Training Hub for relevant drills, or review your Stats for recent trends.";
 
 interface MascotChatbotProps {
   brandLabel?: string;
@@ -35,7 +35,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([{ role: 'bot', text: "What's the game plan, bro?" }]);
+      setMessages([{ role: 'bot', text: "Signal active. What do you need?" }]);
     }
   }, [isOpen, messages.length]);
 
@@ -57,74 +57,73 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
 
   return (
     <>
-      {/* Floating Mascot Button */}
+      {/* Collapsed state — minimal pill */}
       {isCollapsed ? (
         <button
           onClick={() => setIsCollapsed(false)}
           className="fixed bottom-6 right-6 z-[100] w-10 h-10 rounded-full bg-card border border-border shadow-md flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
-          aria-label="Show training assistant"
+          aria-label="Show Signal"
         >
-          <span className="font-display font-bold text-xs">SN</span>
+          <span className="font-display font-bold text-xs">SG</span>
         </button>
       ) : (
         <div className="fixed bottom-6 right-6 z-[100] group flex items-end gap-2">
+          {/* Collapse button */}
           <button
             onClick={() => setIsCollapsed(true)}
             className="mb-1 w-6 h-6 rounded-full bg-card border border-border text-muted-foreground hover:text-foreground text-[10px] leading-none flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-            aria-label="Collapse assistant"
+            aria-label="Collapse Signal"
           >
             ✕
           </button>
+
+          {/* 3D crystalline node — free-floating, no container chrome */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Open training assistant"
+            aria-label="Open Signal"
+            className="relative cursor-pointer"
+            style={{ background: 'none', border: 'none', padding: 0 }}
           >
-            <div className="relative">
-              {/* Glow ring */}
-              <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
-              {/* Mascot image */}
-              <div
-                className="relative w-20 h-20 rounded-full border-2 border-accent/60 overflow-hidden bg-card shadow-lg transition-transform duration-300 group-hover:scale-110"
+            {/* Ambient glow behind the 3D node */}
+            <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl scale-150 animate-pulse pointer-events-none" />
+            <Suspense fallback={
+              <div className="w-20 h-20 rounded-full bg-card/50 border border-primary/20 flex items-center justify-center">
+                <span className="font-display font-bold text-xs text-primary">SG</span>
+              </div>
+            }>
+              <SignalNode3D size={80} />
+            </Suspense>
+            {/* Brand badge */}
+            {brandLabel && (
+              <span
+                className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
                 style={{
-                  animation: 'mascotFloat 3s ease-in-out infinite',
+                  backgroundColor: brandColor || 'hsl(var(--accent))',
+                  color: 'hsl(var(--accent-foreground))',
                 }}
               >
-                <img
-                  src={mascotImage}
-                  alt="Training assistant mascot"
-                  className="w-full h-full object-cover object-top scale-125"
-                />
-              </div>
-              {/* Brand badge */}
-              {brandLabel && (
-                <span
-                  className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
-                  style={{
-                    backgroundColor: brandColor || 'hsl(var(--accent))',
-                    color: 'hsl(var(--accent-foreground))',
-                  }}
-                >
-                  {brandLabel}
-                </span>
-              )}
-              {/* Status dot */}
-              <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-success border-2 border-card" />
-            </div>
+                {brandLabel}
+              </span>
+            )}
+            {/* Status indicator */}
+            <span className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-success border-2 border-background" />
           </button>
         </div>
       )}
 
-      {/* Chat Panel */}
+      {/* Interaction Panel */}
       {isOpen && (
         <div className="fixed bottom-28 right-6 z-[100] w-80 max-h-[480px] flex flex-col rounded-xl border border-border bg-card shadow-2xl overflow-hidden animate-fade-in">
           {/* Header */}
           <div className="px-4 py-3 border-b border-border bg-secondary/50 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-accent/40">
-              <img src={mascotImage} alt="" className="w-full h-full object-cover object-top scale-125" />
+            <div className="w-8 h-8 flex items-center justify-center">
+              <Suspense fallback={<span className="text-primary font-display font-bold text-xs">SG</span>}>
+                <SignalNode3D size={32} />
+              </Suspense>
             </div>
             <div className="flex-1 min-w-0">
               <div className="font-display font-bold text-sm text-foreground">
-                SN Coach
+                Signal
                 {brandLabel && (
                   <span
                     className="ml-1.5 px-1 py-0.5 rounded text-[8px] font-bold uppercase"
@@ -137,14 +136,14 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
                   </span>
                 )}
               </div>
-              <div className="text-[10px] text-muted-foreground">Online. Ready to train.</div>
+              <div className="text-[10px] text-muted-foreground">Active. Ready.</div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
               className="text-muted-foreground hover:text-foreground text-lg leading-none"
-              aria-label="Close chat"
+              aria-label="Close Signal"
             >
-              x
+              ✕
             </button>
           </div>
 
@@ -188,7 +187,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && handleSend(input)}
-              placeholder="Ask me anything..."
+              placeholder="Query Signal..."
               className="flex-1 bg-secondary/50 border border-border rounded-md px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
             />
             <button
@@ -200,13 +199,6 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes mascotFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-      `}</style>
     </>
   );
 }
