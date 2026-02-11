@@ -48,25 +48,25 @@ export default function Overview() {
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
         <div className="absolute inset-0 flex items-center px-8 md:px-12">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Training Platform</p>
+            <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Squad Coordination Training</p>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">
-              Train Smarter. Win Together.
+              Stop learning coordination through losses.
             </h1>
             <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-lg">
-              The squad training companion for competitive players. Practice coordination, track group performance, and run game-specific drills without risking your rank.
+              Practice rotations, executes, and callouts with your squad in structured drills. No ranked points on the line. No teammates flaming. Just reps.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/training-hub')}
                 className="px-6 py-2.5 rounded-lg bg-primary text-primary-foreground font-display font-bold text-sm uppercase tracking-wide hover:opacity-90 transition-all"
               >
-                Start Training
+                Run Your First Drill
               </button>
               <button
                 onClick={() => navigate('/modules')}
                 className="px-6 py-2.5 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
               >
-                Browse Modules
+                View Training Drills
               </button>
             </div>
           </div>
@@ -93,14 +93,16 @@ export default function Overview() {
       </div>
 
       {/* Supported Games — Atmospheric floating terrains */}
-      <div className="relative">
+      <div className="relative -mx-2 md:-mx-6">
+        <div className="px-2 md:px-6">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-8">Training modules for the games you play</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-1">Training modules for the games you play</h2>
+        <p className="text-xs text-muted-foreground mb-8">Drills are built around observable mechanics and team workflows. No client mods, no invasive integrations.</p>
+        </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 px-2 md:px-6">
           {gameWorlds.map((g, i) => (
             <div key={g.type} className="relative">
-              {/* Floating atmospheric terrain — no container, bleeds freely */}
               <img
                 src={g.image}
                 alt={`${g.type} terrain`}
@@ -111,7 +113,6 @@ export default function Overview() {
                   mixBlendMode: 'lighten',
                 }}
               />
-              {/* Text sits on top / below the floating art */}
               <div className="relative z-10">
                 <span className="px-2 py-0.5 rounded text-[10px] font-display font-bold uppercase tracking-wider text-primary bg-primary/10">
                   {g.subtitle}
@@ -132,15 +133,14 @@ export default function Overview() {
       {/* By the Numbers */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">By the Numbers</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">Players who train consistently win more</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">What consistent training changes</h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { stat: '15-20%', label: 'Higher Win Rate', desc: 'Squads that run 3+ drills per week see measurable improvement in ranked play' },
-            { stat: '3x', label: 'Faster Coordination', desc: 'Practiced squads execute callouts and rotations faster than uncoordinated teams' },
-            { stat: '40+', label: 'Training Modules', desc: 'Game-specific drills across MOBA, MMO, shooter, and RTS categories' },
+            { label: 'Fewer Missed Calls', desc: 'Squads that drill regularly make fewer late-game communication errors and react faster to shifting objectives' },
+            { label: 'Consistent Executes', desc: 'Role-specific reps reduce fumbled site takes, botched engages, and mistimed cooldowns across the roster' },
+            { label: 'Less Tilt Under Pressure', desc: 'Structured practice builds pattern recognition so your squad defaults to coordination, not chaos, when behind' },
           ].map(m => (
-            <div key={m.label} className="p-5 rounded-lg bg-gradient-card border border-border text-center">
-              <p className="font-display text-3xl font-bold text-primary mb-1">{m.stat}</p>
+            <div key={m.label} className="p-5 rounded-lg bg-gradient-card border border-border">
               <p className="font-display font-semibold text-foreground text-sm">{m.label}</p>
               <p className="text-xs text-muted-foreground mt-2">{m.desc}</p>
             </div>
@@ -150,23 +150,26 @@ export default function Overview() {
 
       {/* CTA */}
       <div className="p-8 rounded-xl bg-primary/5 border border-primary/20 text-center">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Ready to rank up?</h2>
-        <p className="text-sm text-muted-foreground mb-5">Free to start. No credit card. No ranked risk.</p>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Run drills. Review results. Close the gap.</h2>
+        <p className="text-sm text-muted-foreground mb-5">No credit card. No ranked risk. Just reps.</p>
         <div className="flex justify-center gap-3">
           <button
             onClick={() => navigate('/training-hub')}
             className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-display font-bold text-sm uppercase tracking-wide hover:opacity-90 transition-all"
           >
-            Start Free
+            Train Without Rank Risk
           </button>
           <button
             onClick={() => navigate('/pricing')}
             className="px-6 py-3 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm hover:bg-muted transition-all"
           >
-            View Plans
+            Review Plans
           </button>
         </div>
       </div>
+
+      {/* Builder trust anchor */}
+      <p className="text-xs text-muted-foreground text-center pb-2">Built by competitive players who got tired of learning coordination in ranked.</p>
     </div>
   );
 }
