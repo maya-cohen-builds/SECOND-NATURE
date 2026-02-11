@@ -9,7 +9,7 @@ const Experiments = lazy(() => import('./Experiments'));
 
 const STORAGE_KEY = 'sn-perflab-active-tab';
 
-type TabId = 'diagnostics' | 'results' | 'group-stats' | 'dashboard';
+type TabId = 'diagnostics' | 'results' | 'group-stats' | 'dashboard' | null;
 
 const TABS: { id: TabId; label: string; description: string }[] = [
   { id: 'diagnostics', label: 'Diagnostic Engine', description: 'Current limiting factor and prescribed training' },
@@ -21,6 +21,7 @@ const TABS: { id: TabId; label: string; description: string }[] = [
 function getInitialTab(): TabId {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === 'null') return null;
     if (saved && TABS.some((t) => t.id === saved)) return saved as TabId;
   } catch {}
   return 'diagnostics';
@@ -31,12 +32,12 @@ export default function PerformanceLab() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, activeTab);
+      localStorage.setItem(STORAGE_KEY, String(activeTab));
     } catch {}
   }, [activeTab]);
 
   const handleToggle = (id: TabId) => {
-    setActiveTab(id);
+    setActiveTab((prev) => (prev === id ? null : id));
   };
 
   return (
