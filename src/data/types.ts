@@ -1,5 +1,7 @@
 export type ScenarioCategory = 'base-defense' | 'coordinated-attack' | 'vehicle-mastery' | 'role-based';
 
+export type SkillTier = 4 | 5 | 6;
+
 export interface Scenario {
   id: string;
   category: ScenarioCategory;
@@ -12,6 +14,7 @@ export interface Scenario {
   whyExists: string;
   expectedImprovements: string[];
   feedsInto: string;
+  image?: string;
 }
 
 export interface Badge {
@@ -59,16 +62,22 @@ export interface TrackingEvent {
   timestamp: number;
 }
 
+export const TIER_LABELS: Record<number, string> = {
+  4: 'Raw',
+  5: 'Steady',
+  6: 'Locked In',
+};
+
 export const CATEGORY_LABELS: Record<ScenarioCategory, string> = {
-  'base-defense': 'Base Defense',
-  'coordinated-attack': 'Coordinated Attack',
-  'vehicle-mastery': 'Vehicle Mastery',
-  'role-based': 'Role-Based Objectives',
+  'base-defense': 'Defensive Operations',
+  'coordinated-attack': 'Strike Coordination',
+  'vehicle-mastery': 'Vehicle Operations',
+  'role-based': 'Role Dynamics',
 };
 
 export const CATEGORY_ICONS: Record<ScenarioCategory, string> = {
-  'base-defense': 'BD',
-  'coordinated-attack': 'CA',
-  'vehicle-mastery': 'VM',
-  'role-based': 'RB',
+  'base-defense': 'DO',
+  'coordinated-attack': 'SC',
+  'vehicle-mastery': 'VO',
+  'role-based': 'RD',
 };
