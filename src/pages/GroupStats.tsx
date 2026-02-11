@@ -1,6 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getPlayerProfile } from '@/data/gameData';
 import { getEventCounts } from '@/lib/eventTracker';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { UserPlus } from 'lucide-react';
 
 interface SquadMember {
   name: string;
@@ -11,36 +17,71 @@ interface SquadMember {
   consistency: number;
 }
 
-const MOCK_SQUAD: SquadMember[] = [
-  { name: 'You', role: 'Flex', drillsCompleted: 0, confidence: 0, mastery: 0, consistency: 0 },
-  { name: 'Kira', role: 'Support', drillsCompleted: 14, confidence: 68, mastery: 55, consistency: 72 },
-  { name: 'Marcus', role: 'Assault', drillsCompleted: 21, confidence: 74, mastery: 62, consistency: 65 },
-  { name: 'Nova', role: 'Recon', drillsCompleted: 9, confidence: 52, mastery: 48, consistency: 80 },
-  { name: 'Jin', role: 'Defense', drillsCompleted: 17, confidence: 61, mastery: 58, consistency: 77 },
-];
+const STORAGE_KEY = 'sn-squad-members';
+
+function loadSquadMembers(): SquadMember[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return [];
+}
+
+function saveSquadMembers(members: SquadMember[]) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(members));
+}
+
+const ROLES = ['Flex', 'Support', 'Assault', 'Recon', 'Defense', 'Tank', 'Healer'];
 
 export default function GroupStats() {
   const profile = getPlayerProfile();
   const counts = getEventCounts();
+  const [addedMembers, setAddedMembers] = useState<SquadMember[]>(loadSquadMembers);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [newName, setNewName] = useState('');
+  const [newRole, setNewRole] = useState('Flex');
   const [selectedMember, setSelectedMember] = useState<string | null>(null);
 
-  const squad = MOCK_SQUAD.map(m =>
-    m.name === 'You'
-      ? { ...m, drillsCompleted: profile.completedScenarios, confidence: profile.confidence, mastery: profile.mastery, consistency: Math.round((profile.confidence + profile.mastery) / 2) }
-      : m
-  );
+  useEffect(() => {
+    saveSquadMembers(addedMembers);
+  }, [addedMembers]);
+
+  const you: SquadMember = {
+    name: 'You',
+    role: 'Flex',
+    drillsCompleted: profile.completedScenarios,
+    confidence: profile.confidence,
+    mastery: profile.mastery,
+    consistency: Math.round((profile.confidence + profile.mastery) / 2),
+  };
+
+  const squad = [you, ...addedMembers];
+  const isSolo = squad.length === 1;
 
   const avgConfidence = Math.round(squad.reduce((s, m) => s + m.confidence, 0) / squad.length);
   const avgMastery = Math.round(squad.reduce((s, m) => s + m.mastery, 0) / squad.length);
   const avgConsistency = Math.round(squad.reduce((s, m) => s + m.consistency, 0) / squad.length);
   const totalDrills = squad.reduce((s, m) => s + m.drillsCompleted, 0);
 
+  const handleAddMember = () => {
+    if (!newName.trim()) return;
+    setAddedMembers(prev => [
+      ...prev,
+      { name: newName.trim(), role: newRole, drillsCompleted: 0, confidence: 0, mastery: 0, consistency: 0 },
+    ]);
+    setNewName('');
+    setNewRole('Flex');
+    setModalOpen(false);
+  };
+
   return (
     <div className="space-y-6">
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Analytics</p>
         <h1 className="font-display text-2xl font-bold text-foreground">Group Stats</h1>
-        <p className="text-sm text-muted-foreground mt-1">See how your squad stacks up. Every drill builds your team profile.</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          {isSolo ? 'Train solo now. Sync your squad later.' : 'See how your squad stacks up. Every drill builds your team profile.'}
+        </p>
       </div>
 
       {/* Squad Overview */}
@@ -55,17 +96,23 @@ export default function GroupStats() {
         </div>
         <div className="p-4 rounded-lg bg-gradient-card border border-border text-center">
           <p className="font-display text-2xl font-bold text-primary">{avgConfidence}%</p>
-          <p className="text-xs text-muted-foreground">Avg Confidence</p>
+          <p className="text-xs text-muted-foreground">{isSolo ? 'Confidence' : 'Avg Confidence'}</p>
         </div>
         <div className="p-4 rounded-lg bg-gradient-card border border-border text-center">
           <p className="font-display text-2xl font-bold text-primary">{avgConsistency}%</p>
-          <p className="text-xs text-muted-foreground">Avg Consistency</p>
+          <p className="text-xs text-muted-foreground">{isSolo ? 'Consistency' : 'Avg Consistency'}</p>
         </div>
       </div>
 
       {/* Member Table */}
       <div>
-        <h2 className="font-display text-lg font-semibold text-foreground mb-3">Squad Members</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="font-display text-lg font-semibold text-foreground">Squad Members</h2>
+          <Button size="sm" onClick={() => setModalOpen(true)} className="gap-1.5">
+            <UserPlus className="h-4 w-4" />
+            Add Squad Member
+          </Button>
+        </div>
         <div className="rounded-lg border border-border overflow-hidden">
           <table className="w-full text-sm">
             <thead>
@@ -108,8 +155,14 @@ export default function GroupStats() {
 
       {/* Coordination Score */}
       <div className="p-5 rounded-lg bg-primary/5 border border-primary/20">
-        <h3 className="font-display font-semibold text-foreground mb-2">Squad Coordination Score</h3>
-        <p className="text-sm text-muted-foreground mb-3">Based on combined training data across all members.</p>
+        <h3 className="font-display font-semibold text-foreground mb-2">
+          {isSolo ? 'Your Performance Score' : 'Squad Coordination Score'}
+        </h3>
+        <p className="text-sm text-muted-foreground mb-3">
+          {isSolo
+            ? 'Your coordination score will evolve as you add squad members and train together.'
+            : 'Based on combined training data across all members.'}
+        </p>
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="font-display text-xl font-bold text-primary">{avgMastery}%</p>
@@ -126,16 +179,24 @@ export default function GroupStats() {
         </div>
       </div>
 
-      {/* Improvement Areas */}
+      {/* Focus Areas */}
       <div>
         <h2 className="font-display text-lg font-semibold text-foreground mb-3">Focus Areas</h2>
         <div className="grid sm:grid-cols-2 gap-3">
-          {[
-            { area: 'Role Coverage', desc: 'Ensure all critical roles are filled and practiced regularly. Gaps in role coverage lead to predictable weaknesses.' },
-            { area: 'Session Frequency', desc: 'Squads that train at least 3 times per week show the fastest coordination improvement.' },
-            { area: 'Difficulty Progression', desc: 'Gradually increase drill difficulty as the squad improves. Staying on easy mode limits growth.' },
-            { area: 'Cross-Role Familiarity', desc: 'Have members practice outside their main role occasionally. Understanding other positions improves communication.' },
-          ].map(f => (
+          {(isSolo
+            ? [
+                { area: 'Build Your Squad', desc: 'Add teammates to unlock coordination metrics and shared progress tracking.' },
+                { area: 'Session Frequency', desc: 'Consistent solo training builds the foundation for squad readiness.' },
+                { area: 'Difficulty Progression', desc: 'Gradually increase drill difficulty as you improve. Staying on easy mode limits growth.' },
+                { area: 'Role Familiarity', desc: 'Practice multiple roles to broaden your flexibility and squad value.' },
+              ]
+            : [
+                { area: 'Role Coverage', desc: 'Ensure all critical roles are filled and practiced regularly. Gaps in role coverage lead to predictable weaknesses.' },
+                { area: 'Session Frequency', desc: 'Squads that train at least 3 times per week show the fastest coordination improvement.' },
+                { area: 'Difficulty Progression', desc: 'Gradually increase drill difficulty as the squad improves. Staying on easy mode limits growth.' },
+                { area: 'Cross-Role Familiarity', desc: 'Have members practice outside their main role occasionally. Understanding other positions improves communication.' },
+              ]
+          ).map(f => (
             <div key={f.area} className="p-4 rounded-lg bg-card border border-border">
               <h3 className="font-display font-semibold text-foreground text-sm mb-1">{f.area}</h3>
               <p className="text-xs text-muted-foreground">{f.desc}</p>
@@ -143,6 +204,39 @@ export default function GroupStats() {
           ))}
         </div>
       </div>
+
+      {/* Add Member Modal */}
+      <Dialog open={modalOpen} onOpenChange={setModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add Squad Member</DialogTitle>
+            <DialogDescription>Add a teammate to track coordination and shared progress.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            <div className="space-y-2">
+              <Label htmlFor="member-name">Name</Label>
+              <Input id="member-name" placeholder="Teammate name" value={newName} onChange={e => setNewName(e.target.value)} />
+            </div>
+            <div className="space-y-2">
+              <Label>Role</Label>
+              <Select value={newRole} onValueChange={setNewRole}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {ROLES.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label>Invite via link</Label>
+              <Input disabled placeholder="Coming soon" className="opacity-50" />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setModalOpen(false)}>Cancel</Button>
+            <Button onClick={handleAddMember} disabled={!newName.trim()}>Add Member</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
