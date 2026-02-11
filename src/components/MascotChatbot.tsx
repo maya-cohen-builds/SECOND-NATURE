@@ -34,7 +34,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([{ role: 'bot', text: "What do you need, bro?" }]);
+      setMessages([{ role: 'bot', text: "What do you want to train?" }]);
     }
   }, [isOpen, messages.length]);
 
