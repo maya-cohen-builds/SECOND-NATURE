@@ -26,8 +26,9 @@ export default function Analytics() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-foreground">Performance Dashboard</h1>
-        <p className="text-sm text-muted-foreground mt-1">Your training history and progression at a glance.</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Dashboard</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Your Training History</h1>
+        <p className="text-sm text-muted-foreground mt-1">Every drill. Every badge. All in one place.</p>
       </div>
 
       {/* Summary Cards */}

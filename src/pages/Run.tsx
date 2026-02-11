@@ -41,8 +41,8 @@ export default function Run() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="font-display text-2xl font-bold text-foreground">Run Squad Drill</h1>
-        <p className="text-sm text-muted-foreground mt-1">Set up your squad and launch the training session.</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Drill</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Configure and Execute</h1>
       </div>
 
       {/* Scenario Info */}

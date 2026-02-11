@@ -35,8 +35,9 @@ export default function Shop() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-foreground">Training Tools</h1>
-        <p className="text-sm text-muted-foreground mt-1">Upgrade your training experience. Every tool improves how you practice. None give competitive advantages.</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Training Tools</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Upgrade Your Training</h1>
+        <p className="text-sm text-muted-foreground mt-1">Better insights. Better coordination. No competitive advantage.</p>
       </div>
 
       {/* Fair Play */}

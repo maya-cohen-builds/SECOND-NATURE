@@ -39,7 +39,8 @@ export default function Results() {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <h1 className="font-display text-2xl font-bold text-foreground">Squad Performance Summary</h1>
+      <p className="text-xs uppercase tracking-widest text-primary font-semibold">Post-Drill Report</p>
+      <h1 className="font-display text-2xl font-bold text-foreground">Performance Summary</h1>
 
       {/* Rating */}
       <div className="p-6 rounded-lg bg-gradient-card border border-border text-center">

@@ -30,8 +30,8 @@ export default function TrainingHub() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-display text-2xl font-bold text-foreground">Training Hub</h1>
-          <p className="text-sm text-muted-foreground mt-1">Choose a training focus and pick a drill to run with your squad.</p>
+          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Training Hub</p>
+          <h1 className="font-display text-2xl font-bold text-foreground">Choose Your Drill</h1>
         </div>
         <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 border border-border">
           <span className="text-xs text-muted-foreground">Skill Tier:</span>

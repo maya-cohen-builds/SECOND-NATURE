@@ -67,8 +67,9 @@ export default function TrainingModules() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
+          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Module Library</p>
           <h1 className="font-display text-2xl font-bold text-foreground">Training Modules</h1>
-          <p className="text-sm text-muted-foreground mt-1">Browse game-specific training modules or create your own.</p>
+          <p className="text-sm text-muted-foreground mt-1">Game-specific drills built by the community. Or build your own.</p>
         </div>
         <button
           onClick={() => setShowCreate(!showCreate)}

@@ -58,8 +58,9 @@ export default function Pricing() {
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h1 className="font-display text-2xl font-bold text-foreground mb-2">Plans and Pricing</h1>
-        <p className="text-sm text-muted-foreground">Start free. Upgrade when you are ready.</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Plans</p>
+        <h1 className="font-display text-2xl font-bold text-foreground mb-2">Start Free. Level Up When Ready.</h1>
+        <p className="text-sm text-muted-foreground">No credit card required. Cancel anytime.</p>
       </div>
 
       {/* Billing Toggle */}
