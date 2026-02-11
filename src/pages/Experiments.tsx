@@ -4,6 +4,7 @@ import { getPlayerProfile } from '@/data/gameData';
 import { SCENARIOS } from '@/data/gameData';
 import { Link } from 'react-router-dom';
 import { Lock, ArrowRight, Target, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
+import ShareToInstagram from '@/components/ShareToInstagram';
 
 interface Diagnosis {
   limitingFactor: string;
@@ -196,12 +197,29 @@ export default function Experiments() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Diagnostic Engine</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">What breaks down, and under what conditions?</h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Identifies your current execution bottleneck and prescribes targeted reinforcement.
-        </p>
+      <div className="flex items-start justify-between flex-wrap gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Diagnostic Engine</p>
+          <h1 className="font-display text-2xl font-bold text-foreground">What breaks down, and under what conditions?</h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Identifies your current execution bottleneck and prescribes targeted reinforcement.
+          </p>
+        </div>
+        <ShareToInstagram
+          storyData={{
+            username: 'Player',
+            game: 'Cross-Game',
+            headline: 'Confidence This Week',
+            headlineValue: `+${Math.max(0, profile.confidence - 5)}%`,
+            metrics: [
+              { label: 'Confidence', value: `${profile.confidence}%` },
+              { label: 'Mastery', value: `${profile.mastery}%` },
+              { label: 'Drills', value: `${profile.completedScenarios}` },
+            ],
+            tier: diagnosis.limitingFactor,
+            badges: profile.badgesEarned.slice(0, 4),
+          }}
+        />
       </div>
 
       {/* Current Limiting Factor */}

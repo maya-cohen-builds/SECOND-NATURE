@@ -5,6 +5,7 @@ import { getPlayerProfile, savePlayerProfile } from '@/data/gameData';
 import { useEffect, useState } from 'react';
 import { Lock, Target, Brain, Shield, Users, ChevronRight, Zap, TrendingUp, Award, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ShareToInstagram from '@/components/ShareToInstagram';
 
 const MILESTONES = [
   { drills: 1, label: 'Basic stats unlock', icon: Target },
@@ -255,17 +256,34 @@ export default function Results() {
         <p className="text-sm text-foreground">Did this rep increase execution predictability? {result.liveGameImpact}</p>
       </div>
 
-      {/* CTAs */}
-      <div className="flex flex-wrap gap-3">
-        <Button onClick={() => navigate('/training-hub')} className="font-display font-semibold">
-          Reinforce Another Pattern
-        </Button>
-        <Button variant="secondary" onClick={() => navigate('/tools')} className="font-display font-semibold">
-          Training Tools
-        </Button>
-        <Button variant="secondary" onClick={() => navigate('/performance')} className="font-display font-semibold">
-          View Dashboard
-        </Button>
+      {/* Share + CTAs */}
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3">
+          <Button onClick={() => navigate('/training-hub')} className="font-display font-semibold">
+            Reinforce Another Pattern
+          </Button>
+          <Button variant="secondary" onClick={() => navigate('/tools')} className="font-display font-semibold">
+            Training Tools
+          </Button>
+          <Button variant="secondary" onClick={() => navigate('/performance')} className="font-display font-semibold">
+            View Dashboard
+          </Button>
+        </div>
+        <ShareToInstagram
+          storyData={{
+            username: 'Player',
+            game: result.category.replace(/-/g, ' '),
+            headline: 'Execution Consistency',
+            headlineValue: `${profile.confidence}%`,
+            metrics: [
+              { label: 'Rating', value: result.rating },
+              { label: 'Mastery', value: `${profile.mastery}%` },
+              { label: 'Badges', value: `${result.badges.length}` },
+            ],
+            tier: result.rating === 'S' ? 'Execution Automatic' : result.rating === 'A' ? 'Pattern Stabilizing' : result.rating === 'B' ? 'Reinforcement Building' : 'Building Foundation',
+            badges: result.badges.map(b => b.name),
+          }}
+        />
       </div>
     </div>
   );
