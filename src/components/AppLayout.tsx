@@ -8,11 +8,8 @@ const NAV_ITEMS = [
   { path: '/training-hub', label: 'Training Hub', icon: '/' },
   { path: '/modules', label: 'Modules', icon: '/' },
   { path: '/run', label: 'Run Drill', icon: '/' },
-  { path: '/results', label: 'Results', icon: '/' },
-  { path: '/group-stats', label: 'Group Stats', icon: '/' },
+  { path: '/performance-lab', label: 'Performance Lab', icon: '/' },
   { path: '/tools', label: 'Training Tools', icon: '/' },
-  { path: '/insights', label: 'Performance Lab', icon: '/' },
-  { path: '/performance', label: 'Dashboard', icon: '/' },
   { path: '/pricing', label: 'Pricing', icon: '/' },
 ];
 
