@@ -33,6 +33,13 @@ export default function Overview() {
     },
     {
       image: terrainDesert,
+      type: 'Team-Based Action',
+      subtitle: 'Hero Synergy',
+      games: ['Marvel Rivals'],
+      drills: 'Ult coordination, objective push timing, role synergy, peel sequencing',
+    },
+    {
+      image: terrainDesert,
       type: 'RTS / Strategy',
       subtitle: 'Map Control',
       games: ['StarCraft II', 'Age of Empires IV', 'Company of Heroes 3'],
@@ -103,7 +110,7 @@ export default function Overview() {
         <p className="text-xs text-muted-foreground mb-8">Systems are abstracted from observable mechanics and team workflows. No client mods, no invasive integrations.</p>
         </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 px-2 md:px-6">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12 px-2 md:px-6">
           {gameWorlds.map((g, i) => (
             <div key={g.type} className="relative">
               <img

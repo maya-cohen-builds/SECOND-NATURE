@@ -22,6 +22,9 @@ const PRESET_MODULES: TrainingModule[] = [
   { id: 'wow-cd', name: 'Cooldown Rotation Planning', game: 'World of Warcraft', category: 'MMO Raid', description: 'Healer and tank cooldown sequencing for sustained damage phases.', drillCount: 3, difficulty: 'Advanced', createdBy: 'SN Team', isCustom: false },
   { id: 'sc2-macro', name: 'Team Macro Fundamentals', game: 'StarCraft II', category: 'RTS', description: 'Resource management, expansion timing, and production cycles for team games.', drillCount: 4, difficulty: 'Beginner', createdBy: 'SN Team', isCustom: false },
   { id: 'cs2-util', name: 'Utility Coordination', game: 'Counter-Strike 2', category: 'Tactical Shooter', description: 'Synchronized smoke, flash, and molotov lineups for coordinated executes.', drillCount: 6, difficulty: 'Intermediate', createdBy: 'SN Team', isCustom: false },
+  { id: 'mr-ult', name: 'Team Ult Coordination', game: 'Marvel Rivals', category: 'Team-Based Action', description: 'Synchronize hero ultimates for maximum team impact during critical fights.', drillCount: 4, difficulty: 'Intermediate', createdBy: 'SN Team', isCustom: false },
+  { id: 'mr-push', name: 'Objective Push Timing', game: 'Marvel Rivals', category: 'Team-Based Action', description: 'Coordinated pushes with role-specific timing windows and engage sequencing.', drillCount: 5, difficulty: 'Advanced', createdBy: 'SN Team', isCustom: false },
+  { id: 'mr-peel', name: 'Role Synergy & Peel Drills', game: 'Marvel Rivals', category: 'Team-Based Action', description: 'Practice peeling for key targets and maintaining role synergy under pressure.', drillCount: 3, difficulty: 'Beginner', createdBy: 'SN Team', isCustom: false },
 ];
 
 export default function TrainingModules() {
