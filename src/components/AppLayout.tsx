@@ -1,30 +1,24 @@
 import { ReactNode, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { NavLink, useLocation } from 'react-router-dom';
+import { useDemo } from '@/contexts/DemoContext';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { path: '/overview', label: 'Overview', requiresAuth: false },
-  { path: '/training-hub', label: 'Training Hub', requiresAuth: true },
-  { path: '/modules', label: 'Modules', requiresAuth: true },
-  { path: '/run', label: 'Run Drill', requiresAuth: true },
-  { path: '/results', label: 'Results', requiresAuth: true },
-  { path: '/stats', label: 'Stats', requiresAuth: true },
-  { path: '/tools', label: 'Training Tools', requiresAuth: true },
-  { path: '/pricing', label: 'Pricing', requiresAuth: false },
+  { path: '/overview', label: 'Overview', icon: '/' },
+  { path: '/training-hub', label: 'Training Hub', icon: '/' },
+  { path: '/modules', label: 'Modules', icon: '/' },
+  { path: '/run', label: 'Run Drill', icon: '/' },
+  { path: '/results', label: 'Results', icon: '/' },
+  { path: '/group-stats', label: 'Group Stats', icon: '/' },
+  { path: '/tools', label: 'Training Tools', icon: '/' },
+  { path: '/insights', label: 'Performance Lab', icon: '/' },
+  { path: '/performance', label: 'Dashboard', icon: '/' },
+  { path: '/pricing', label: 'Pricing', icon: '/' },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
-  const { user, profile, signOut } = useAuth();
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const navigate = useNavigate();
-
-  const visibleNav = NAV_ITEMS.filter(item => !item.requiresAuth || user);
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/login');
-  };
+  const { resetDemo } = useDemo();
+  const [showSettings, setShowSettings] = useState(false);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -43,56 +37,36 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-secondary border border-border hover:border-primary/30 transition-all"
-                >
-                  <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="text-primary font-display font-bold text-[10px]">
-                      {(profile?.display_name || user.email)?.[0]?.toUpperCase() || '?'}
-                    </span>
-                  </div>
-                  <span className="text-xs font-medium text-foreground max-w-[120px] truncate">
-                    {profile?.display_name || user.email?.split('@')[0]}
-                  </span>
-                </button>
-                {showUserMenu && (
-                  <div className="absolute right-0 top-full mt-1 w-48 p-2 rounded-lg bg-card border border-border shadow-lg z-50">
-                    <p className="px-2 py-1 text-[10px] text-muted-foreground truncate">{user.email}</p>
-                    <button
-                      onClick={() => { navigate('/stats'); setShowUserMenu(false); }}
-                      className="w-full text-left px-2 py-1.5 rounded-md text-xs text-foreground hover:bg-secondary transition-all"
-                    >
-                      Your Stats
-                    </button>
-                    <button
-                      onClick={handleSignOut}
-                      className="w-full text-left px-2 py-1.5 rounded-md text-xs text-destructive hover:bg-destructive/10 transition-all"
-                    >
-                      Sign Out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <button
-                onClick={() => navigate('/login')}
-                className="px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:opacity-90 transition-all"
-              >
-                Sign In
-              </button>
-            )}
+            <button
+              onClick={() => setShowSettings(!showSettings)}
+              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
+            >
+              Settings
+            </button>
+            <button
+              onClick={resetDemo}
+              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-all"
+            >
+              Reset Data
+            </button>
           </div>
         </div>
+        {showSettings && (
+          <div className="max-w-[1400px] mx-auto px-4 pb-3">
+            <div className="p-3 rounded-lg bg-secondary border border-border">
+              <p className="text-[11px] text-muted-foreground">
+                Independent training platform. Not affiliated with any game publisher.
+              </p>
+            </div>
+          </div>
+        )}
       </header>
 
       <div className="flex-1 flex">
         {/* Side Nav */}
         <nav className="w-48 shrink-0 border-r border-border bg-card/40 hidden md:block">
           <div className="py-4 px-2 space-y-0.5">
-            {visibleNav.map(item => (
+            {NAV_ITEMS.map(item => (
               <NavLink
                 key={item.path}
                 to={item.path}
@@ -112,7 +86,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         {/* Mobile Nav */}
         <div className="md:hidden overflow-x-auto border-b border-border bg-card/40">
           <div className="flex px-2 py-2 gap-1">
-            {visibleNav.map(item => (
+            {NAV_ITEMS.map(item => (
               <NavLink
                 key={item.path}
                 to={item.path}
@@ -130,7 +104,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-auto bg-grid-motif">
+        <main className="flex-1 overflow-auto">
           <div className="max-w-[1100px] mx-auto px-6 py-8 animate-fade-in">
             {children}
           </div>

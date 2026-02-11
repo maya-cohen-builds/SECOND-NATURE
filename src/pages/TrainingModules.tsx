@@ -13,14 +13,14 @@ interface TrainingModule {
 }
 
 const PRESET_MODULES: TrainingModule[] = [
-  { id: 'lol-lane', name: 'Lane Control Fundamentals', game: 'League of Legends', category: 'MOBA', description: 'Wave management, trading patterns, and back timing for bot lane duos.', drillCount: 6, difficulty: 'Raw', createdBy: 'SN Team', isCustom: false },
-  { id: 'lol-obj', name: 'Objective Sequencing', game: 'League of Legends', category: 'MOBA', description: 'Dragon and Baron setup, vision control, and team rotation drills.', drillCount: 4, difficulty: 'Steady', createdBy: 'SN Team', isCustom: false },
-  { id: 'val-site', name: 'Site Execute Package', game: 'Valorant', category: 'Tactical Shooter', description: 'Coordinated site takes with utility timing, entry sequencing, and trade setups.', drillCount: 5, difficulty: 'Steady', createdBy: 'SN Team', isCustom: false },
-  { id: 'val-retake', name: 'Retake Coordination', game: 'Valorant', category: 'Tactical Shooter', description: 'Post-plant retake positioning, utility usage, and crossfire angles.', drillCount: 4, difficulty: 'Locked In', createdBy: 'SN Team', isCustom: false },
-  { id: 'wow-raid', name: 'Raid Phase Transitions', game: 'World of Warcraft', category: 'MMO Raid', description: 'Role-specific responsibilities during boss phase transitions and add management.', drillCount: 5, difficulty: 'Steady', createdBy: 'SN Team', isCustom: false },
-  { id: 'wow-cd', name: 'Cooldown Rotation Planning', game: 'World of Warcraft', category: 'MMO Raid', description: 'Healer and tank cooldown sequencing for sustained damage phases.', drillCount: 3, difficulty: 'Locked In', createdBy: 'SN Team', isCustom: false },
-  { id: 'sc2-macro', name: 'Team Macro Fundamentals', game: 'StarCraft II', category: 'RTS', description: 'Resource management, expansion timing, and production cycles for team games.', drillCount: 4, difficulty: 'Raw', createdBy: 'SN Team', isCustom: false },
-  { id: 'cs2-util', name: 'Utility Coordination', game: 'Counter-Strike 2', category: 'Tactical Shooter', description: 'Synchronized smoke, flash, and molotov lineups for coordinated executes.', drillCount: 6, difficulty: 'Steady', createdBy: 'SN Team', isCustom: false },
+  { id: 'lol-lane', name: 'Lane Control Fundamentals', game: 'League of Legends', category: 'MOBA', description: 'Wave management, trading patterns, and back timing for bot lane duos.', drillCount: 6, difficulty: 'Beginner', createdBy: 'STG Team', isCustom: false },
+  { id: 'lol-obj', name: 'Objective Sequencing', game: 'League of Legends', category: 'MOBA', description: 'Dragon and Baron setup, vision control, and team rotation drills.', drillCount: 4, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'val-site', name: 'Site Execute Package', game: 'Valorant', category: 'Tactical Shooter', description: 'Coordinated site takes with utility timing, entry sequencing, and trade setups.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'val-retake', name: 'Retake Coordination', game: 'Valorant', category: 'Tactical Shooter', description: 'Post-plant retake positioning, utility usage, and crossfire angles.', drillCount: 4, difficulty: 'Advanced', createdBy: 'STG Team', isCustom: false },
+  { id: 'wow-raid', name: 'Raid Phase Transitions', game: 'World of Warcraft', category: 'MMO Raid', description: 'Role-specific responsibilities during boss phase transitions and add management.', drillCount: 5, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
+  { id: 'wow-cd', name: 'Cooldown Rotation Planning', game: 'World of Warcraft', category: 'MMO Raid', description: 'Healer and tank cooldown sequencing for sustained damage phases.', drillCount: 3, difficulty: 'Advanced', createdBy: 'STG Team', isCustom: false },
+  { id: 'sc2-macro', name: 'Team Macro Fundamentals', game: 'StarCraft II', category: 'RTS', description: 'Resource management, expansion timing, and production cycles for team games.', drillCount: 4, difficulty: 'Beginner', createdBy: 'STG Team', isCustom: false },
+  { id: 'cs2-util', name: 'Utility Coordination', game: 'Counter-Strike 2', category: 'Tactical Shooter', description: 'Synchronized smoke, flash, and molotov lineups for coordinated executes.', drillCount: 6, difficulty: 'Intermediate', createdBy: 'STG Team', isCustom: false },
 ];
 
 export default function TrainingModules() {
@@ -32,7 +32,7 @@ export default function TrainingModules() {
 
   const [filterGame, setFilterGame] = useState<string>('All');
   const [showCreate, setShowCreate] = useState(false);
-  const [newModule, setNewModule] = useState({ name: '', game: '', category: '', description: '', difficulty: 'Raw' });
+  const [newModule, setNewModule] = useState({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
 
   const games = ['All', ...Array.from(new Set(modules.map(m => m.game)))];
 
@@ -59,7 +59,7 @@ export default function TrainingModules() {
     const customOnly = updated.filter(m => m.isCustom);
     localStorage.setItem('stg-custom-modules', JSON.stringify(customOnly));
 
-    setNewModule({ name: '', game: '', category: '', description: '', difficulty: 'Raw' });
+    setNewModule({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
     setShowCreate(false);
   };
 
@@ -107,9 +107,9 @@ export default function TrainingModules() {
               onChange={e => setNewModule({ ...newModule, difficulty: e.target.value })}
               className="px-3 py-2 rounded-md bg-secondary border border-border text-foreground text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             >
-              <option>Raw</option>
-              <option>Steady</option>
-              <option>Locked In</option>
+              <option>Beginner</option>
+              <option>Intermediate</option>
+              <option>Advanced</option>
             </select>
           </div>
           <textarea
@@ -155,8 +155,8 @@ export default function TrainingModules() {
                 <p className="text-xs text-primary">{mod.game}</p>
               </div>
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
-                mod.difficulty === 'Raw' ? 'bg-success/10 text-success border-success/20' :
-                mod.difficulty === 'Steady' ? 'bg-accent/10 text-accent border-accent/20' :
+                mod.difficulty === 'Beginner' ? 'bg-success/10 text-success border-success/20' :
+                mod.difficulty === 'Intermediate' ? 'bg-accent/10 text-accent border-accent/20' :
                 'bg-destructive/10 text-destructive border-destructive/20'
               }`}>
                 {mod.difficulty}

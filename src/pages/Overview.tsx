@@ -88,7 +88,7 @@ export default function Overview() {
           ].map(s => (
             <div key={s.step} className="p-5 rounded-lg bg-gradient-card border border-border">
               <p className="font-display font-bold text-2xl mb-1 text-primary">{s.step}</p>
-              <h3 className="font-display font-semibold text-foreground mb-2 whitespace-nowrap">{s.title}</h3>
+              <h3 className="font-display font-semibold text-foreground mb-2">{s.title}</h3>
               <p className="text-sm text-muted-foreground">{s.desc}</p>
             </div>
           ))}

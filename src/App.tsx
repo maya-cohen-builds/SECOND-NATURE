@@ -3,19 +3,18 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
-import ProtectedRoute from "@/components/ProtectedRoute";
+import { DemoProvider } from "@/contexts/DemoContext";
 import AppLayout from "@/components/AppLayout";
 import Overview from "./pages/Overview";
 import TrainingHub from "./pages/TrainingHub";
 import Run from "./pages/Run";
 import Results from "./pages/Results";
 import Shop from "./pages/Shop";
-import Stats from "./pages/Stats";
+import Experiments from "./pages/Experiments";
+import Analytics from "./pages/Analytics";
+import GroupStats from "./pages/GroupStats";
 import TrainingModules from "./pages/TrainingModules";
 import Pricing from "./pages/Pricing";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import NotFound from "./pages/NotFound";
 import MascotChatbot from "./components/MascotChatbot";
 
@@ -24,27 +23,27 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
+      <DemoProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/overview" replace />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
             <Route path="/overview" element={<AppLayout><Overview /></AppLayout>} />
+            <Route path="/training-hub" element={<AppLayout><TrainingHub /></AppLayout>} />
+            <Route path="/run" element={<AppLayout><Run /></AppLayout>} />
+            <Route path="/results" element={<AppLayout><Results /></AppLayout>} />
+            <Route path="/tools" element={<AppLayout><Shop /></AppLayout>} />
+            <Route path="/insights" element={<AppLayout><Experiments /></AppLayout>} />
+            <Route path="/performance" element={<AppLayout><Analytics /></AppLayout>} />
+            <Route path="/group-stats" element={<AppLayout><GroupStats /></AppLayout>} />
+            <Route path="/modules" element={<AppLayout><TrainingModules /></AppLayout>} />
             <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
-            <Route path="/training-hub" element={<ProtectedRoute><AppLayout><TrainingHub /></AppLayout></ProtectedRoute>} />
-            <Route path="/run" element={<ProtectedRoute><AppLayout><Run /></AppLayout></ProtectedRoute>} />
-            <Route path="/results" element={<ProtectedRoute><AppLayout><Results /></AppLayout></ProtectedRoute>} />
-            <Route path="/tools" element={<ProtectedRoute><AppLayout><Shop /></AppLayout></ProtectedRoute>} />
-            <Route path="/stats" element={<ProtectedRoute><AppLayout><Stats /></AppLayout></ProtectedRoute>} />
-            <Route path="/modules" element={<ProtectedRoute><AppLayout><TrainingModules /></AppLayout></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <MascotChatbot />
         </BrowserRouter>
-      </AuthProvider>
+      </DemoProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

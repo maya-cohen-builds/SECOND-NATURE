@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SCENARIOS } from '@/data/gameData';
-import { CATEGORY_LABELS, CATEGORY_ICONS, TIER_LABELS } from '@/data/types';
+import { CATEGORY_LABELS, CATEGORY_ICONS } from '@/data/types';
 import { runSimulation } from '@/lib/simulation';
-import { saveTrainingRun } from '@/lib/trainingService';
 import { trackEvent } from '@/lib/eventTracker';
 
 export default function Run() {
@@ -26,7 +25,7 @@ export default function Run() {
       difficulty,
     });
 
-    setTimeout(async () => {
+    setTimeout(() => {
       const result = runSimulation({
         scenarioId: scenario.id,
         squadSize,
@@ -34,10 +33,6 @@ export default function Run() {
         playerLevel,
       });
       localStorage.setItem('stg-last-result', JSON.stringify(result));
-      
-      // Save to database
-      await saveTrainingRun(result, playerLevel);
-      
       trackEvent('complete_scenario', { rating: result.rating, badges_count: result.badges.length });
       navigate('/results');
     }, 1500);
@@ -51,24 +46,17 @@ export default function Run() {
       </div>
 
       {/* Scenario Info */}
-      <div className="rounded-lg bg-gradient-card border border-border overflow-hidden">
-        {scenario.image && (
-          <div className="w-full aspect-[21/9] overflow-hidden">
-            <img src={scenario.image} alt={scenario.name} className="w-full h-full object-cover object-center opacity-70" />
-          </div>
-        )}
-        <div className="p-5">
-          <div className="flex items-center gap-2 mb-2">
-            <span>{CATEGORY_ICONS[scenario.category]}</span>
-            <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[scenario.category]}</span>
-          </div>
-          <h2 className="font-display text-xl font-bold text-foreground mb-2">{scenario.name}</h2>
-          <p className="text-sm text-muted-foreground mb-4">{scenario.briefing}</p>
-          <div className="flex gap-4 text-xs text-muted-foreground">
-            <span>Complexity: {'●'.repeat(scenario.complexity)}{'○'.repeat(5 - scenario.complexity)}</span>
-            <span>Recommended Squad: {scenario.recommendedSquadSize}</span>
-            <span>Player: {TIER_LABELS[playerLevel] || 'Steady'}</span>
-          </div>
+      <div className="p-5 rounded-lg bg-gradient-card border border-border">
+        <div className="flex items-center gap-2 mb-2">
+          <span>{CATEGORY_ICONS[scenario.category]}</span>
+          <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[scenario.category]}</span>
+        </div>
+        <h2 className="font-display text-xl font-bold text-foreground mb-2">{scenario.name}</h2>
+        <p className="text-sm text-muted-foreground mb-4">{scenario.briefing}</p>
+        <div className="flex gap-4 text-xs text-muted-foreground">
+          <span>Complexity: {'●'.repeat(scenario.complexity)}{'○'.repeat(5 - scenario.complexity)}</span>
+          <span>Recommended Squad: {scenario.recommendedSquadSize}</span>
+          <span>Skill Tier: {playerLevel}</span>
         </div>
       </div>
 
