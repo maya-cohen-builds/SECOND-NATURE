@@ -139,7 +139,7 @@ export default function Overview() {
               className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
               style={{
                 animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
-                filter: 'saturate(1.2)',
+                filter: i === 0 ? 'saturate(1.2) hue-rotate(100deg)' : 'saturate(1.2)',
                 mixBlendMode: 'lighten'
               }} />
 
