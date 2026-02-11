@@ -1,47 +1,48 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/hero-training.jpg';
+import { terrainAssets, type TerrainKey } from '@/data/terrainAssets';
 
-import terrainMountain from '@/assets/terrain-mountain.png';
-import terrainForest from '@/assets/terrain-forest.png';
-import terrainCastle from '@/assets/terrain-castle.png';
-import terrainDesert from '@/assets/terrain-desert.png';
-import terrainAction from '@/assets/terrain-action.png';
-import terrainStrategy from '@/assets/terrain-strategy.png';
+/**
+ * DO NOT REPLACE ASSETS. Only change if the prompt explicitly requests it.
+ * All terrain images are sourced from terrainAssets registry in src/data/terrainAssets.ts.
+ */
 
 export default function Overview() {
   const navigate = useNavigate();
+  const [showAssetDebug, setShowAssetDebug] = useState(false);
 
-  const gameWorlds = [
+  const gameWorlds: { assetKey: TerrainKey; type: string; subtitle: string; games: string[]; drills: string }[] = [
   {
-    image: terrainMountain,
+    assetKey: 'laneControl',
     type: 'MOBA',
     subtitle: 'Lane Control',
     games: ['League of Legends', 'Dota 2', 'Smite'],
     drills: 'Lane control, objective timing, teamfight positioning, rotation sequencing'
   },
   {
-    image: terrainForest,
+    assetKey: 'phaseMastery',
     type: 'MMO Raids',
     subtitle: 'Phase Mastery',
     games: ['World of Warcraft', 'Final Fantasy XIV', 'Guild Wars 2'],
     drills: 'Phase transitions, cooldown rotation, role assignments, call-out practice'
   },
   {
-    image: terrainCastle,
+    assetKey: 'siteExecutes',
     type: 'Tactical Shooters',
     subtitle: 'Site Executes',
     games: ['Valorant', 'Counter-Strike 2', 'Rainbow Six Siege'],
     drills: 'Site executes, retake coordination, utility timing, crossfire setups'
   },
   {
-    image: terrainAction,
+    assetKey: 'heroSynergy',
     type: 'Team-Based Action',
     subtitle: 'Hero Synergy',
     games: ['Marvel Rivals'],
     drills: 'Ult coordination, objective push timing, role synergy, peel sequencing'
   },
   {
-    image: terrainStrategy,
+    assetKey: 'mapControl',
     type: 'RTS / Strategy',
     subtitle: 'Map Control',
     games: ['StarCraft II', 'Age of Empires IV', 'Company of Heroes 3'],
@@ -51,6 +52,27 @@ export default function Overview() {
 
   return (
     <div className="space-y-16">
+      {/* Dev-only Asset Debug Panel */}
+      {import.meta.env.DEV && (
+        <div className="fixed top-16 left-2 z-[200]">
+          <button
+            onClick={() => setShowAssetDebug(v => !v)}
+            className="px-2 py-1 rounded text-[9px] font-mono bg-secondary border border-border text-muted-foreground hover:text-foreground"
+          >
+            {showAssetDebug ? 'Hide' : 'Show'} Asset Debug
+          </button>
+          {showAssetDebug && (
+            <div className="mt-1 p-2 rounded bg-card border border-border text-[10px] font-mono space-y-1 max-w-xs">
+              {(Object.entries(terrainAssets) as [TerrainKey, string][]).map(([key, url]) => (
+                <div key={key} className="flex gap-2">
+                  <span className="text-primary font-bold">{key}:</span>
+                  <span className="text-muted-foreground truncate">{url || '⚠️ MISSING'}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
       {/* Hero */}
       <div className="relative rounded-xl border border-border overflow-hidden">
         <img src={heroImage} alt="Squad coordination on a tactical holographic map" className="w-full h-64 md:h-80 object-cover opacity-40" />
@@ -133,15 +155,28 @@ export default function Overview() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-14 px-2 md:px-6">
           {gameWorlds.map((g, i) =>
           <div key={g.type} className="relative">
-              <img
-              src={g.image}
-              alt={`${g.type} terrain`}
-              className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
-              style={{
-                animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
-                filter: 'saturate(1.2)',
-                mixBlendMode: 'lighten'
-              }} />
+          {(() => {
+                const resolvedSrc = terrainAssets[g.assetKey];
+                if (!resolvedSrc) {
+                  return (
+                    <div className="w-[90%] mx-auto -mt-4 mb-[-1rem] h-32 flex items-center justify-center rounded bg-destructive/10 border border-destructive/30 text-destructive text-xs font-mono">
+                      Missing asset: {g.assetKey}
+                    </div>
+                  );
+                }
+                return (
+                  <img
+                    src={resolvedSrc}
+                    alt={`${g.type} terrain`}
+                    className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
+                    style={{
+                      animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
+                      filter: 'saturate(1.2)',
+                      mixBlendMode: 'lighten'
+                    }}
+                  />
+                );
+              })()}
 
               <div className="relative z-10">
                 <span className="px-2 py-0.5 rounded text-[10px] font-display font-bold uppercase tracking-wider text-primary bg-primary/10">
