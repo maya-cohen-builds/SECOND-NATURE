@@ -6,6 +6,7 @@ const QUICK_REPLIES = [
   "What drill should I run first?",
   "How does group stat tracking work?",
   "What games are supported?",
+  "What drills should I run for Marvel Rivals?",
 ];
 
 const BOT_RESPONSES: Record<string, string> = {
@@ -16,7 +17,9 @@ const BOT_RESPONSES: Record<string, string> = {
   "How does group stat tracking work?":
     "Head to Group Stats. You will see coordination scores, role consistency, and improvement trends for your whole squad. Every drill you run together feeds into the group profile.",
   "What games are supported?":
-    "We support training modules for MOBAs like League of Legends and Dota 2, MMO raids like WoW and FFXIV, tactical shooters like Valorant and CS2, and RTS titles like StarCraft II and Age of Empires IV.",
+    "We support training modules for MOBAs like League of Legends and Dota 2, team-based action games like Marvel Rivals, MMO raids like WoW and FFXIV, tactical shooters like Valorant and CS2, and RTS titles like StarCraft II and Age of Empires IV.",
+  "What drills should I run for Marvel Rivals?":
+    "Start with Role Synergy and Peel Drills to build awareness of hero interactions. Once your squad is consistent, move to Team Ult Coordination to practice synchronizing ultimates. Objective Push Timing is for squads ready to sharpen their engage sequencing under pressure.",
 };
 
 const DEFAULT_RESPONSE = "Good question. Check out the Training Hub to get started, or hit up Group Stats to see how your squad is performing. I am here if you need anything else.";
