@@ -9,6 +9,9 @@ export interface Scenario {
   complexity: number; // 1-5
   recommendedSquadSize: number;
   tags: string[];
+  whyExists: string;
+  expectedImprovements: string[];
+  feedsInto: string;
 }
 
 export interface Badge {

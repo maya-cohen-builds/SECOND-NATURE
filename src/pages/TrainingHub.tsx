@@ -5,6 +5,32 @@ import { ScenarioCategory, CATEGORY_LABELS, CATEGORY_ICONS } from '@/data/types'
 import { CategoryCard, ScenarioCard } from '@/components/ScenarioCard';
 import { trackEvent } from '@/lib/eventTracker';
 
+function getRecommendation(category: ScenarioCategory, tier: number): string {
+  const recommendations: Record<ScenarioCategory, Record<number, string>> = {
+    'base-defense': {
+      4: 'Squads at Tier 4 building defensive fundamentals. Focus on positioning and wave timing.',
+      5: 'Recommended for squads struggling with late-game stability at Tier 5.',
+      6: 'Tier 6 squads refining resource discipline under sustained siege pressure.',
+    },
+    'coordinated-attack': {
+      4: 'Tier 4 squads developing basic synchronization across split-squad operations.',
+      5: 'Recommended for squads with inconsistent execute timing at Tier 5.',
+      6: 'Tier 6 squads tightening phase-transition discipline in multi-stage attacks.',
+    },
+    'vehicle-mastery': {
+      4: 'Tier 4 squads building vehicle handling and formation basics.',
+      5: 'Recommended for squads with formation gaps during vehicle operations at Tier 5.',
+      6: 'Tier 6 squads optimizing fuel management and close-support timing.',
+    },
+    'role-based': {
+      4: 'Tier 4 squads learning role boundaries and handoff sequences.',
+      5: 'Recommended for squads with role-overlap issues during objective shifts at Tier 5.',
+      6: 'Tier 6 squads training rapid role reassignment under dynamic conditions.',
+    },
+  };
+  return recommendations[category][tier] || `Drills calibrated for Tier ${tier} squads in this category.`;
+}
+
 export default function TrainingHub() {
   const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | null>(null);
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
@@ -74,6 +100,15 @@ export default function TrainingHub() {
           <h2 className="font-display text-lg font-semibold text-foreground mb-3">
             {CATEGORY_LABELS[selectedCategory]} Drills
           </h2>
+
+          {/* Recommendation banner */}
+          <div className="mb-3 px-3 py-2 rounded-md bg-secondary/50 border border-border/50">
+            <span className="text-[10px] uppercase tracking-widest text-muted-foreground/60">Recommended for your squad</span>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {getRecommendation(selectedCategory, playerLevel)}
+            </p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-3">
             {filteredScenarios.map(s => (
               <ScenarioCard
