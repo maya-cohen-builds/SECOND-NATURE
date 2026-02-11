@@ -1,20 +1,10 @@
-import { Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import heroImage from '@/assets/hero-training.jpg';
-import { InteractiveTerrain } from '@/components/InteractiveTerrain';
 
 import terrainMountain from '@/assets/terrain-mountain.png';
 import terrainForest from '@/assets/terrain-forest.png';
 import terrainCastle from '@/assets/terrain-castle.png';
 import terrainDesert from '@/assets/terrain-desert.png';
-
-function TerrainLoader() {
-  return (
-    <div className="flex items-center justify-center h-full">
-      <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-    </div>
-  );
-}
 
 export default function Overview() {
   const navigate = useNavigate();
@@ -102,20 +92,26 @@ export default function Overview() {
         </div>
       </div>
 
-      {/* Supported Games - Interactive 3D Terrains */}
-      <div>
+      {/* Supported Games — Atmospheric floating terrains */}
+      <div className="relative">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
         <h2 className="font-display text-xl font-bold text-foreground mb-8">Training modules for the games you play</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {gameWorlds.map(g => (
-            <div key={g.type} className="relative group">
-              <Suspense fallback={<TerrainLoader />}>
-                <InteractiveTerrain
-                  imageUrl={g.image}
-                  className="h-52 w-full"
-                />
-              </Suspense>
-              <div className="mt-3">
+
+        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12">
+          {gameWorlds.map((g, i) => (
+            <div key={g.type} className="relative">
+              {/* Floating atmospheric terrain — no container, bleeds freely */}
+              <img
+                src={g.image}
+                alt={`${g.type} terrain`}
+                className="w-[140%] max-w-none -ml-[20%] -mt-8 mb-[-2rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
+                style={{
+                  animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
+                  filter: 'saturate(1.2)',
+                }}
+              />
+              {/* Text sits on top / below the floating art */}
+              <div className="relative z-10">
                 <span className="px-2 py-0.5 rounded text-[10px] font-display font-bold uppercase tracking-wider text-primary bg-primary/10">
                   {g.subtitle}
                 </span>
