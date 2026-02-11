@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SCENARIOS } from '@/data/gameData';
-import { CATEGORY_LABELS, CATEGORY_ICONS } from '@/data/types';
+import { CATEGORY_LABELS, CATEGORY_ICONS, TIER_LABELS } from '@/data/types';
 import { runSimulation } from '@/lib/simulation';
 import { trackEvent } from '@/lib/eventTracker';
 
@@ -56,7 +56,7 @@ export default function Run() {
         <div className="flex gap-4 text-xs text-muted-foreground">
           <span>Complexity: {'●'.repeat(scenario.complexity)}{'○'.repeat(5 - scenario.complexity)}</span>
           <span>Recommended Squad: {scenario.recommendedSquadSize}</span>
-          <span>Skill Tier: {playerLevel}</span>
+          <span>Player: {TIER_LABELS[playerLevel] || 'Steady'}</span>
         </div>
       </div>
 
