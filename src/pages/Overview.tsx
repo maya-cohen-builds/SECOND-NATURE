@@ -12,7 +12,7 @@ export default function Overview() {
   const navigate = useNavigate();
   const [showAssetDebug, setShowAssetDebug] = useState(false);
 
-  const gameWorlds: { assetKey: TerrainKey; type: string; subtitle: string; games: string[]; drills: string }[] = [
+  const gameWorlds: {assetKey: TerrainKey;type: string;subtitle: string;games: string[];drills: string;}[] = [
   {
     assetKey: 'laneControl',
     type: 'MOBA',
@@ -53,26 +53,26 @@ export default function Overview() {
   return (
     <div className="space-y-16">
       {/* Dev-only Asset Debug Panel */}
-      {import.meta.env.DEV && (
-        <div className="fixed top-16 left-2 z-[200]">
+      {import.meta.env.DEV &&
+      <div className="fixed top-16 left-2 z-[200]">
           <button
-            onClick={() => setShowAssetDebug(v => !v)}
-            className="px-2 py-1 rounded text-[9px] font-mono bg-secondary border border-border text-muted-foreground hover:text-foreground"
-          >
+          onClick={() => setShowAssetDebug((v) => !v)}
+          className="px-2 py-1 rounded text-[9px] font-mono bg-secondary border border-border text-muted-foreground hover:text-foreground">
+
             {showAssetDebug ? 'Hide' : 'Show'} Asset Debug
           </button>
-          {showAssetDebug && (
-            <div className="mt-1 p-2 rounded bg-card border border-border text-[10px] font-mono space-y-1 max-w-xs">
-              {(Object.entries(terrainAssets) as [TerrainKey, string][]).map(([key, url]) => (
-                <div key={key} className="flex gap-2">
+          {showAssetDebug &&
+        <div className="mt-1 p-2 rounded bg-card border border-border text-[10px] font-mono space-y-1 max-w-xs">
+              {(Object.entries(terrainAssets) as [TerrainKey, string][]).map(([key, url]) =>
+          <div key={key} className="flex gap-2">
                   <span className="text-primary font-bold">{key}:</span>
                   <span className="text-muted-foreground truncate">{url || '⚠️ MISSING'}</span>
                 </div>
-              ))}
-            </div>
           )}
+            </div>
+        }
         </div>
-      )}
+      }
       {/* Hero */}
       <div className="relative rounded-xl border border-border overflow-hidden">
         <img src={heroImage} alt="Squad coordination on a tactical holographic map" className="w-full h-64 md:h-80 object-cover opacity-40" />
@@ -129,7 +129,7 @@ export default function Overview() {
       {/* Cross-Game Differentiator */}
       <div className="p-6 rounded-xl bg-gradient-card border border-border">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Cross-Game System</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">One coordination system. Many games.</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">One coordination system. Endless games.</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {[
           'The same execution principles apply across MOBAs, shooters, MMOs, and RTS.',
@@ -148,21 +148,21 @@ export default function Overview() {
       <div className="relative -mx-2 md:-mx-6">
         <div className="px-2 md:px-6">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-1">Coordination systems abstracted from real competitive mechanics</h2>
-        <p className="text-xs text-muted-foreground mb-8">No client mods, no invasive integrations. Systems mapped to observable mechanics and team workflows.</p>
+        <h2 className="font-display text-xl font-bold text-foreground mb-1">Training worlds built from real competitive play</h2>
+        <p className="text-xs text-muted-foreground mb-8">Every environment mirrors how teams actually coordinate in live matches.
+No mods. No invasive integrations. Run drills that feel like the game.
+          </p>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-14 px-2 md:px-6">
-          {gameWorlds.map((g, i) =>
-          <div key={g.type} className="relative">
-          {(() => {
-                const resolvedSrc = terrainAssets[g.assetKey];
+          {gameWorlds.map((g, i) => <div key={g.type} className="relative">
+          {(() => {const resolvedSrc = terrainAssets[g.assetKey];
                 if (!resolvedSrc) {
                   return (
                     <div className="w-[90%] mx-auto -mt-4 mb-[-1rem] h-32 flex items-center justify-center rounded bg-destructive/10 border border-destructive/30 text-destructive text-xs font-mono">
                       Missing asset: {g.assetKey}
-                    </div>
-                  );
+                    </div>);
+
                 }
                 return (
                   <img
@@ -173,9 +173,9 @@ export default function Overview() {
                       animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
                       filter: 'saturate(1.2)',
                       mixBlendMode: 'lighten'
-                    }}
-                  />
-                );
+                    }} />);
+
+
               })()}
 
               <div className="relative z-10">
@@ -185,8 +185,8 @@ export default function Overview() {
                 <h3 className="font-display font-bold text-foreground text-sm mt-2">{g.type}</h3>
                 <div className="space-y-0.5 mt-1">
                   {g.games.map((name) =>
-                <p key={name} className="text-xs text-primary">{name}</p>
-                )}
+                  <p key={name} className="text-xs text-primary">{name}</p>
+                  )}
                 </div>
                 <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">{g.drills}</p>
               </div>
