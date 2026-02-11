@@ -1,28 +1,29 @@
 import { useNavigate } from 'react-router-dom';
 import { SimulationResult } from '@/data/types';
 import { RatingBadge, BadgePill } from '@/components/BadgePill';
-import { getPlayerProfile, savePlayerProfile, SCENARIOS } from '@/data/gameData';
+import { SCENARIOS } from '@/data/gameData';
 import { useEffect, useState } from 'react';
+import { getInsights } from '@/lib/trainingService';
 
 export default function Results() {
   const navigate = useNavigate();
   const [result, setResult] = useState<SimulationResult | null>(null);
+  const [insights, setInsights] = useState<any[]>([]);
 
   useEffect(() => {
     const stored = localStorage.getItem('stg-last-result');
     if (stored) {
       const r = JSON.parse(stored) as SimulationResult;
       setResult(r);
-      const profile = getPlayerProfile();
-      profile.completedScenarios += 1;
-      profile.confidence = Math.min(100, profile.confidence + r.confidenceGain);
-      profile.mastery = Math.min(100, profile.mastery + r.masteryGain);
-      r.badges.forEach(b => {
-        if (!profile.badgesEarned.includes(b.id)) profile.badgesEarned.push(b.id);
-      });
-      savePlayerProfile(profile);
+      // Load insights generated after the run was saved
+      loadInsights();
     }
   }, []);
+
+  const loadInsights = async () => {
+    const data = await getInsights();
+    setInsights(data.slice(0, 2));
+  };
 
   if (!result) {
     return (
@@ -35,7 +36,6 @@ export default function Results() {
     );
   }
 
-  const profile = getPlayerProfile();
   const scenario = SCENARIOS.find(s => s.id === result.scenarioId);
 
   return (
@@ -73,46 +73,37 @@ export default function Results() {
         </div>
       )}
 
-      {/* Progression */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="p-4 rounded-lg bg-card border border-border">
-          <p className="text-xs text-muted-foreground mb-1">Confidence</p>
-          <div className="flex items-end gap-2">
-            <span className="font-display text-2xl font-bold text-foreground">{profile.confidence}%</span>
-            <span className="text-xs text-success font-medium mb-1">+{result.confidenceGain}</span>
-          </div>
-          <div className="mt-2 h-2 bg-secondary rounded-full overflow-hidden">
-            <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${profile.confidence}%` }} />
-          </div>
-        </div>
-        <div className="p-4 rounded-lg bg-card border border-border">
-          <p className="text-xs text-muted-foreground mb-1">Mastery</p>
-          <div className="flex items-end gap-2">
-            <span className="font-display text-2xl font-bold text-foreground">{profile.mastery}%</span>
-            <span className="text-xs text-success font-medium mb-1">+{result.masteryGain}</span>
-          </div>
-          <div className="mt-2 h-2 bg-secondary rounded-full overflow-hidden">
-            <div className="h-full bg-accent rounded-full transition-all" style={{ width: `${profile.mastery}%` }} />
-          </div>
-        </div>
-      </div>
-
       {/* Takeaway */}
       <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
         <h3 className="font-display font-semibold text-primary mb-2">Key Takeaway</h3>
         <p className="text-sm text-foreground">{result.liveGameImpact}</p>
       </div>
 
+      {/* Insights from recent sessions */}
+      {insights.length > 0 && (
+        <div>
+          <h3 className="font-display font-semibold text-foreground mb-3">What to focus on next</h3>
+          <div className="space-y-2">
+            {insights.map((insight: any) => (
+              <div key={insight.id} className="p-3 rounded-lg bg-secondary/50 border border-border">
+                <p className="text-xs font-medium text-foreground mb-1">{insight.title}</p>
+                <p className="text-[11px] text-muted-foreground">{insight.recommendation}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* CTAs */}
       <div className="flex flex-wrap gap-3">
         <button onClick={() => navigate('/training-hub')} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm">
           Run Another Drill
         </button>
+        <button onClick={() => navigate('/stats')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
+          View Stats
+        </button>
         <button onClick={() => navigate('/tools')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
           Training Tools
-        </button>
-        <button onClick={() => navigate('/performance')} className="px-4 py-2 rounded-lg bg-secondary border border-border text-foreground font-display font-semibold text-sm">
-          View Dashboard
         </button>
       </div>
     </div>
