@@ -46,9 +46,9 @@ export const UPGRADES: Upgrade[] = [
 ];
 
 export const DEFAULT_PLAYER: PlayerProfile = {
-  level: 5,
-  confidence: 42,
-  mastery: 35,
+  level: 1,
+  confidence: 0,
+  mastery: 0,
   completedScenarios: 0,
   badgesEarned: [],
   purchasedUpgrades: [],
