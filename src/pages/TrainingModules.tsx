@@ -31,12 +31,18 @@ export default function TrainingModules() {
   });
 
   const [filterGame, setFilterGame] = useState<string>('All');
+  const [filterTier, setFilterTier] = useState<string>('All');
   const [showCreate, setShowCreate] = useState(false);
   const [newModule, setNewModule] = useState({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
 
   const games = ['All', ...Array.from(new Set(modules.map(m => m.game)))];
+  const tiers = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
-  const filtered = filterGame === 'All' ? modules : modules.filter(m => m.game === filterGame);
+  const filtered = modules.filter(m => {
+    const matchGame = filterGame === 'All' || m.game === filterGame;
+    const matchTier = filterTier === 'All' || m.difficulty === filterTier;
+    return matchGame && matchTier;
+  });
 
   const handleCreate = () => {
     if (!newModule.name || !newModule.game || !newModule.description) return;
@@ -129,20 +135,39 @@ export default function TrainingModules() {
       )}
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-2">
-        {games.map(g => (
-          <button
-            key={g}
-            onClick={() => setFilterGame(g)}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
-              filterGame === g
-                ? 'bg-primary/10 text-primary border-primary/30'
-                : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
-            }`}
-          >
-            {g}
-          </button>
-        ))}
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap gap-2">
+          <span className="text-xs text-muted-foreground self-center mr-1">Game:</span>
+          {games.map(g => (
+            <button
+              key={g}
+              onClick={() => setFilterGame(g)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
+                filterGame === g
+                  ? 'bg-primary/10 text-primary border-primary/30'
+                  : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
+              }`}
+            >
+              {g}
+            </button>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <span className="text-xs text-muted-foreground self-center mr-1">Skill Tier:</span>
+          {tiers.map(t => (
+            <button
+              key={t}
+              onClick={() => setFilterTier(t)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all border ${
+                filterTier === t
+                  ? 'bg-primary/10 text-primary border-primary/30'
+                  : 'bg-secondary text-muted-foreground border-border hover:text-foreground'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Module Grid */}
