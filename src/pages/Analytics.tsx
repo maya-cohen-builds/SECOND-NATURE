@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/chart';
 import { AreaChart, Area, XAxis, YAxis } from 'recharts';
 import { ArrowRight } from 'lucide-react';
+import ShareToInstagram from '@/components/ShareToInstagram';
 
 type Timeframe = 'week' | 'month' | 'season';
 
@@ -200,14 +201,30 @@ export default function Analytics() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Coordination Dashboard</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">
-          What patterns are you building, and are they becoming automatic?
-        </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Confidence follows evidence. These metrics reflect reliability, not isolated highs.
-        </p>
+      <div className="flex items-start justify-between flex-wrap gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Coordination Dashboard</p>
+          <h1 className="font-display text-2xl font-bold text-foreground">
+            What patterns are you building, and are they becoming automatic?
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Confidence follows evidence. These metrics reflect reliability, not isolated highs.
+          </p>
+        </div>
+        <ShareToInstagram
+          storyData={{
+            username: 'Player',
+            game: 'Cross-Game',
+            headline: 'Drills Completed',
+            headlineValue: `${totalDrills}`,
+            metrics: [
+              { label: 'Confidence', value: `${profile.confidence}%` },
+              { label: 'Mastery', value: `${profile.mastery}%` },
+              { label: 'Streak', value: `${streak}d` },
+            ],
+            tier: currentTier.label,
+          }}
+        />
       </div>
 
       {/* A. Coordination System Health */}

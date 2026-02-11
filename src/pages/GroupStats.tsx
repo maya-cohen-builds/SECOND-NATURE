@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { UserPlus, Lock, Target, TrendingUp, Shield, Brain, Zap, BarChart3, Activity, Crosshair, Users } from 'lucide-react';
+import ShareToInstagram from '@/components/ShareToInstagram';
 
 interface SquadMember {
   name: string;
@@ -133,10 +134,26 @@ export default function GroupStats() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Coordination</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">Execution Alignment</h1>
-        <p className="text-sm text-muted-foreground mt-1">Squad-level coordination patterns, consistency, and execution spread.</p>
+      <div className="flex items-start justify-between flex-wrap gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Coordination</p>
+          <h1 className="font-display text-2xl font-bold text-foreground">Execution Alignment</h1>
+          <p className="text-sm text-muted-foreground mt-1">Squad-level coordination patterns, consistency, and execution spread.</p>
+        </div>
+        <ShareToInstagram
+          storyData={{
+            username: 'Squad',
+            game: 'Cross-Game',
+            headline: 'Squad Coordination Score',
+            headlineValue: `${Math.round((avgConfidence + avgMastery + avgConsistency) / 3)}%`,
+            metrics: [
+              { label: 'Members', value: `${squad.length}` },
+              { label: 'Confidence', value: `${avgConfidence}%` },
+              { label: 'Consistency', value: `${avgConsistency}%` },
+            ],
+            tier: currentLevel >= 4 ? 'Competitive Ready' : currentLevel >= 3 ? 'Diagnostics Active' : currentLevel >= 2 ? 'Trends Active' : 'Building Baseline',
+          }}
+        />
       </div>
 
       {/* Intelligence Level Progression */}
