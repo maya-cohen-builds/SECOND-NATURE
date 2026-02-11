@@ -31,9 +31,16 @@ interface MascotChatbotProps {
 
 export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(() => {
+    try { return localStorage.getItem('mascotCollapsed') === 'true'; } catch { return false; }
+  });
   const [messages, setMessages] = useState<{ role: 'bot' | 'user'; text: string }[]>([]);
   const [input, setInput] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try { localStorage.setItem('mascotCollapsed', String(isCollapsed)); } catch {}
+  }, [isCollapsed]);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
@@ -59,44 +66,61 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
 
   return (
     <>
-      {/* Floating Mascot Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-[100] group"
-        aria-label="Open training assistant"
-      >
-        <div className="relative">
-          {/* Glow ring */}
-          <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
-          {/* Mascot image */}
-          <div
-            className="relative w-20 h-20 rounded-full border-2 border-accent/60 overflow-hidden bg-card shadow-lg transition-transform duration-300 group-hover:scale-110"
-            style={{
-              animation: 'mascotFloat 3s ease-in-out infinite',
-            }}
+      {/* Collapsed: orange dot only */}
+      {isCollapsed ? (
+        <button
+          onClick={() => setIsCollapsed(false)}
+          className="fixed bottom-6 right-6 z-[100] w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-150"
+          style={{ backgroundColor: '#F26A21' }}
+          aria-label="Expand coach"
+        />
+      ) : (
+        /* Floating Mascot Button */
+        <div className="fixed bottom-6 right-6 z-[100] group">
+          {/* Collapse control */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setIsOpen(false); setIsCollapsed(true); }}
+            className="absolute -top-1 -left-1 z-10 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground text-[10px] leading-none cursor-pointer transition-colors"
+            aria-label="Collapse coach"
           >
-            <img
-              src={mascotImage}
-              alt="Training assistant mascot"
-              className="w-full h-full object-cover object-top scale-125"
-            />
-          </div>
-          {/* Brand badge */}
-          {brandLabel && (
-            <span
-              className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
-              style={{
-                backgroundColor: brandColor || 'hsl(var(--accent))',
-                color: 'hsl(var(--accent-foreground))',
-              }}
-            >
-              {brandLabel}
-            </span>
-          )}
-          {/* Status dot */}
-          <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-card" style={{ backgroundColor: '#F26A21' }} />
+            ×
+          </button>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Open training assistant"
+          >
+            <div className="relative">
+              {/* Glow ring */}
+              <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-125 animate-pulse" />
+              {/* Mascot image */}
+              <div
+                className="relative w-20 h-20 rounded-full border-2 border-accent/60 overflow-hidden bg-card shadow-lg transition-transform duration-300 group-hover:scale-110"
+                style={{ animation: 'mascotFloat 3s ease-in-out infinite' }}
+              >
+                <img
+                  src={mascotImage}
+                  alt="Training assistant mascot"
+                  className="w-full h-full object-cover object-top scale-125"
+                />
+              </div>
+              {/* Brand badge */}
+              {brandLabel && (
+                <span
+                  className="absolute -top-1 -right-1 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wide"
+                  style={{
+                    backgroundColor: brandColor || 'hsl(var(--accent))',
+                    color: 'hsl(var(--accent-foreground))',
+                  }}
+                >
+                  {brandLabel}
+                </span>
+              )}
+              {/* Status dot */}
+              <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-card" style={{ backgroundColor: '#F26A21' }} />
+            </div>
+          </button>
         </div>
-      </button>
+      )}
 
       {/* Chat Panel */}
       {isOpen && (
