@@ -79,7 +79,7 @@ export default function Run() {
           ))}
         </div>
         {squadSize < scenario.recommendedSquadSize && (
-          <p className="text-xs text-accent mt-2">⚠ Below recommended squad size — increased difficulty</p>
+          <p className="text-xs text-accent mt-2">Below recommended squad size. Increased difficulty.</p>
         )}
       </div>
 
@@ -114,7 +114,7 @@ export default function Run() {
             <span className="animate-spin">◎</span> Running Drill...
           </span>
         ) : (
-          '▶ Execute Drill'
+          'Execute Drill'
         )}
       </button>
     </div>

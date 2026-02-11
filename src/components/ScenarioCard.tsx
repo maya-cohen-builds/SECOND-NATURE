@@ -57,7 +57,7 @@ export function CategoryCard({ category, icon, count, selected, onClick }: {
           : "bg-gradient-card border-border hover:border-primary/20"
       )}
     >
-      <div className="text-2xl mb-2">{icon}</div>
+      <div className="text-sm font-display font-bold text-primary mb-2">[{icon}]</div>
       <h3 className="font-display font-semibold text-foreground">{category}</h3>
       <p className="text-xs text-muted-foreground mt-1">{count} scenarios</p>
     </button>

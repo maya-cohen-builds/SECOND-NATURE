@@ -72,7 +72,7 @@ export default function TrainingHub() {
       {selectedCategory && (
         <div>
           <h2 className="font-display text-lg font-semibold text-foreground mb-3">
-            {CATEGORY_ICONS[selectedCategory]} {CATEGORY_LABELS[selectedCategory]} Drills
+            {CATEGORY_LABELS[selectedCategory]} Drills
           </h2>
           <div className="grid md:grid-cols-3 gap-3">
             {filteredScenarios.map(s => (
@@ -100,7 +100,7 @@ export default function TrainingHub() {
             onClick={handleProceed}
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
           >
-            Configure & Run →
+            Configure and Run
           </button>
         </div>
       )}

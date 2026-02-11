@@ -64,8 +64,8 @@ export const CATEGORY_LABELS: Record<ScenarioCategory, string> = {
 };
 
 export const CATEGORY_ICONS: Record<ScenarioCategory, string> = {
-  'base-defense': '🛡️',
-  'coordinated-attack': '⚔️',
-  'vehicle-mastery': '🚀',
-  'role-based': '🎯',
+  'base-defense': 'BD',
+  'coordinated-attack': 'CA',
+  'vehicle-mastery': 'VM',
+  'role-based': 'RB',
 };

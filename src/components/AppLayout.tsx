@@ -4,13 +4,16 @@ import { useDemo } from '@/contexts/DemoContext';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
-  { path: '/overview', label: 'Overview', icon: '◈' },
-  { path: '/training-hub', label: 'Training Hub', icon: '◉' },
-  { path: '/run', label: 'Run Drill', icon: '▶' },
-  { path: '/results', label: 'Results', icon: '★' },
-  { path: '/tools', label: 'Training Tools', icon: '◆' },
-  { path: '/insights', label: 'Performance Lab', icon: '⬡' },
-  { path: '/performance', label: 'Dashboard', icon: '▥' },
+  { path: '/overview', label: 'Overview', icon: '/' },
+  { path: '/training-hub', label: 'Training Hub', icon: '/' },
+  { path: '/modules', label: 'Modules', icon: '/' },
+  { path: '/run', label: 'Run Drill', icon: '/' },
+  { path: '/results', label: 'Results', icon: '/' },
+  { path: '/group-stats', label: 'Group Stats', icon: '/' },
+  { path: '/tools', label: 'Training Tools', icon: '/' },
+  { path: '/insights', label: 'Performance Lab', icon: '/' },
+  { path: '/performance', label: 'Dashboard', icon: '/' },
+  { path: '/pricing', label: 'Pricing', icon: '/' },
 ];
 
 export default function AppLayout({ children }: { children: ReactNode }) {
@@ -35,7 +38,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               onClick={() => setShowSettings(!showSettings)}
               className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
             >
-              ⚙ Settings
+              Settings
             </button>
             <button
               onClick={resetDemo}
@@ -71,7 +74,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                     : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
                 )}
               >
-                <span className="text-xs opacity-70">{item.icon}</span>
                 {item.label}
               </NavLink>
             ))}

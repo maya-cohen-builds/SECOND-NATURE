@@ -7,7 +7,7 @@ export const SCENARIOS: Scenario[] = [
   { id: 'bd-3', category: 'base-defense', name: 'Siege Endurance', description: 'Survive a prolonged siege with limited resources and rotating attackers.', briefing: 'Your outpost is surrounded. Supply lines are cut. You must hold with current resources for 6 cycles. Manage ammunition, rotate defensive positions, and exploit attacker patterns to survive.', complexity: 4, recommendedSquadSize: 5, tags: ['endurance', 'resource-discipline', 'adaptation'] },
   // Coordinated Attack
   { id: 'ca-1', category: 'coordinated-attack', name: 'Pincer Strike', description: 'Execute a synchronized two-pronged assault on a fortified position.', briefing: 'Target is a hardened command post with dual chokepoints. Split your squad into Alpha and Bravo teams. Alpha draws fire from the east approach while Bravo flanks through the canyon. Synchronize the final push.', complexity: 3, recommendedSquadSize: 4, tags: ['flanking', 'synchronization', 'tactical'] },
-  { id: 'ca-2', category: 'coordinated-attack', name: 'Supply Line Disruption', description: 'Intercept and disable enemy resupply convoys across three checkpoints.', briefing: 'Enemy convoys resupply the frontline every 90 seconds. Your squad must disable three separate checkpoints simultaneously. Timing is everything—if one convoy gets through, the mission fails.', complexity: 3, recommendedSquadSize: 3, tags: ['timing', 'coordination', 'precision'] },
+  { id: 'ca-2', category: 'coordinated-attack', name: 'Supply Line Disruption', description: 'Intercept and disable enemy resupply convoys across three checkpoints.', briefing: 'Enemy convoys resupply the frontline every 90 seconds. Your squad must disable three separate checkpoints simultaneously. Timing is everything. If one convoy gets through, the mission fails.', complexity: 3, recommendedSquadSize: 3, tags: ['timing', 'coordination', 'precision'] },
   { id: 'ca-3', category: 'coordinated-attack', name: 'Command Node Takedown', description: 'Infiltrate and neutralize a heavily guarded strategic command node.', briefing: 'The enemy command node coordinates all regional operations. Your squad must breach outer defenses, disable comms arrays, and neutralize the node core. Each phase requires different squad configurations.', complexity: 5, recommendedSquadSize: 6, tags: ['multi-phase', 'role-switching', 'high-stakes'] },
   // Vehicle Mastery
   { id: 'vm-1', category: 'vehicle-mastery', name: 'Recon Sweep', description: 'Navigate light vehicles through hostile terrain to scout enemy positions.', briefing: 'Deploy scout vehicles to map enemy positions across a 4-sector grid. Avoid detection, mark targets, and extract before patrols return. Speed and precision are paramount.', complexity: 2, recommendedSquadSize: 2, tags: ['scouting', 'speed', 'stealth'] },
@@ -20,16 +20,16 @@ export const SCENARIOS: Scenario[] = [
 ];
 
 export const BADGES: Badge[] = [
-  { id: 'teamwork', name: 'Teamwork', icon: '🤝', description: 'Demonstrated effective squad coordination throughout the mission.' },
-  { id: 'timing', name: 'Perfect Timing', icon: '⏱️', description: 'Executed critical actions within optimal timing windows.' },
-  { id: 'defense-efficiency', name: 'Defense Efficiency', icon: '🛡️', description: 'Maintained defensive integrity with minimal resource expenditure.' },
-  { id: 'resource-discipline', name: 'Resource Discipline', icon: '📦', description: 'Managed limited resources without waste or shortfall.' },
-  { id: 'vehicle-proficiency', name: 'Vehicle Proficiency', icon: '🚀', description: 'Operated vehicles with skill and tactical awareness.' },
-  { id: 'role-clarity', name: 'Role Clarity', icon: '🎯', description: 'Performed assigned role with focus and effectiveness.' },
-  { id: 'coordination', name: 'Coordination', icon: '🔗', description: 'Maintained squad coherence under pressure.' },
-  { id: 'consistency', name: 'Consistency', icon: '📊', description: 'Delivered reliable performance across all mission phases.' },
-  { id: 'adaptation', name: 'Rapid Adaptation', icon: '⚡', description: 'Adjusted tactics quickly in response to changing conditions.' },
-  { id: 'precision', name: 'Precision Strike', icon: '💎', description: 'Achieved objectives with surgical accuracy.' },
+  { id: 'teamwork', name: 'Teamwork', icon: 'TW', description: 'Demonstrated effective squad coordination throughout the mission.' },
+  { id: 'timing', name: 'Perfect Timing', icon: 'PT', description: 'Executed critical actions within optimal timing windows.' },
+  { id: 'defense-efficiency', name: 'Defense Efficiency', icon: 'DE', description: 'Maintained defensive integrity with minimal resource expenditure.' },
+  { id: 'resource-discipline', name: 'Resource Discipline', icon: 'RD', description: 'Managed limited resources without waste or shortfall.' },
+  { id: 'vehicle-proficiency', name: 'Vehicle Proficiency', icon: 'VP', description: 'Operated vehicles with skill and tactical awareness.' },
+  { id: 'role-clarity', name: 'Role Clarity', icon: 'RC', description: 'Performed assigned role with focus and effectiveness.' },
+  { id: 'coordination', name: 'Coordination', icon: 'CO', description: 'Maintained squad coherence under pressure.' },
+  { id: 'consistency', name: 'Consistency', icon: 'CS', description: 'Delivered reliable performance across all mission phases.' },
+  { id: 'adaptation', name: 'Rapid Adaptation', icon: 'RA', description: 'Adjusted tactics quickly in response to changing conditions.' },
+  { id: 'precision', name: 'Precision Strike', icon: 'PS', description: 'Achieved objectives with surgical accuracy.' },
 ];
 
 export const UPGRADES: Upgrade[] = [

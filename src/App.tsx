@@ -12,6 +12,9 @@ import Results from "./pages/Results";
 import Shop from "./pages/Shop";
 import Experiments from "./pages/Experiments";
 import Analytics from "./pages/Analytics";
+import GroupStats from "./pages/GroupStats";
+import TrainingModules from "./pages/TrainingModules";
+import Pricing from "./pages/Pricing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +35,9 @@ const App = () => (
             <Route path="/tools" element={<AppLayout><Shop /></AppLayout>} />
             <Route path="/insights" element={<AppLayout><Experiments /></AppLayout>} />
             <Route path="/performance" element={<AppLayout><Analytics /></AppLayout>} />
+            <Route path="/group-stats" element={<AppLayout><GroupStats /></AppLayout>} />
+            <Route path="/modules" element={<AppLayout><TrainingModules /></AppLayout>} />
+            <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
