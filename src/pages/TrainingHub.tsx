@@ -8,7 +8,7 @@ import { trackEvent } from '@/lib/eventTracker';
 export default function TrainingHub() {
   const [selectedCategory, setSelectedCategory] = useState<ScenarioCategory | null>(null);
   const [selectedScenario, setSelectedScenario] = useState<string | null>(null);
-  const [playerLevel, setPlayerLevel] = useState(5);
+  const [playerLevel, setPlayerLevel] = useState<string>('intermediate');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,17 +35,17 @@ export default function TrainingHub() {
         </div>
         <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 border border-border">
           <span className="text-xs text-muted-foreground">Skill Tier:</span>
-          {[4, 5, 6].map(lvl => (
+          {(['beginner', 'intermediate', 'advanced'] as const).map(tier => (
             <button
-              key={lvl}
-              onClick={() => setPlayerLevel(lvl)}
-              className={`w-8 h-8 rounded-md text-sm font-display font-bold transition-all ${
-                playerLevel === lvl
+              key={tier}
+              onClick={() => setPlayerLevel(tier)}
+              className={`px-3 h-8 rounded-md text-xs font-display font-bold transition-all capitalize ${
+                playerLevel === tier
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted text-muted-foreground hover:text-foreground'
               }`}
             >
-              {lvl}
+              {tier}
             </button>
           ))}
         </div>
