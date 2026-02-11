@@ -7,7 +7,7 @@ const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
   { path: '/training-hub', label: 'Training Hub', icon: '/' },
   { path: '/modules', label: 'Modules', icon: '/' },
-  { path: '/run', label: 'Run Drill', icon: '/' },
+  { path: '/run', label: 'Drills', icon: '/' },
   { path: '/tools', label: 'Training Tools', icon: '/' },
   { path: '/performance-lab', label: 'Performance Lab', icon: '/' },
   { path: '/pricing', label: 'Pricing', icon: '/' },
