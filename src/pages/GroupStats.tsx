@@ -134,9 +134,9 @@ export default function GroupStats() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Intelligence</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">Group Stats</h1>
-        <p className="text-sm text-muted-foreground mt-1">Your squad profile evolves as you train together.</p>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Squad Coordination</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Execution Alignment</h1>
+        <p className="text-sm text-muted-foreground mt-1">Squad-level coordination patterns, consistency, and execution spread.</p>
       </div>
 
       {/* Intelligence Level Progression */}
@@ -244,12 +244,12 @@ export default function GroupStats() {
       {/* Coordination Score (Always Visible) */}
       <div className="p-5 rounded-lg bg-primary/5 border border-primary/20">
         <h3 className="font-display font-semibold text-foreground mb-2">
-          {isSolo ? 'Your Performance Score' : 'Squad Coordination Score'}
+          {isSolo ? 'Your Coordination Score' : 'Squad Coordination Score'}
         </h3>
         <p className="text-sm text-muted-foreground mb-3">
           {isSolo
-            ? 'Your coordination score will evolve as you add squad members and train together.'
-            : 'Based on combined training data across all members.'}
+            ? 'Coordination metrics evolve as you add squad members and reinforce patterns together.'
+            : 'Based on combined execution data across all members.'}
         </p>
         <div className="grid grid-cols-3 gap-4 text-center">
           <div>

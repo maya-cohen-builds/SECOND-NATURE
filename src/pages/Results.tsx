@@ -42,8 +42,8 @@ function LockedPreviewDashboard() {
       {/* Header */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold">Performance Dashboard</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">Results</h1>
-        <p className="text-sm text-muted-foreground mt-1">Your performance dashboard builds as you train.</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">Evidence Log</h1>
+        <p className="text-sm text-muted-foreground mt-1">Your execution evidence builds as you reinforce patterns.</p>
       </div>
 
       {/* Progress Meter */}
@@ -165,7 +165,7 @@ function LockedPreviewDashboard() {
           Run Your First Drill
           <ChevronRight className="h-4 w-4" />
         </Button>
-        <p className="text-xs text-muted-foreground mt-3">Your performance dashboard builds as you train.</p>
+        <p className="text-xs text-muted-foreground mt-3">Your execution evidence builds as you reinforce patterns.</p>
       </div>
     </div>
   );
@@ -199,8 +199,8 @@ export default function Results() {
 
   return (
     <div className="space-y-6 max-w-2xl">
-      <p className="text-xs uppercase tracking-widest text-primary font-semibold">Post-Drill Report</p>
-      <h1 className="font-display text-2xl font-bold text-foreground">Performance Summary</h1>
+      <p className="text-xs uppercase tracking-widest text-primary font-semibold">Evidence Event</p>
+      <h1 className="font-display text-2xl font-bold text-foreground">Execution Evidence</h1>
 
       {/* Rating */}
       <div className="p-6 rounded-lg bg-gradient-card border border-border text-center">
@@ -209,14 +209,14 @@ export default function Results() {
           <RatingBadge rating={result.rating} size="lg" />
         </div>
         <p className="font-display text-lg font-semibold text-foreground">
-          {result.rating === 'S' ? 'Outstanding Execution' : result.rating === 'A' ? 'Strong Performance' : result.rating === 'B' ? 'Solid Run' : 'Room to Improve'}
+          {result.rating === 'S' ? 'Execution Automatic' : result.rating === 'A' ? 'Pattern Stabilizing' : result.rating === 'B' ? 'Reinforcement Building' : 'Pattern Not Yet Reliable'}
         </p>
       </div>
 
       {/* Badges */}
       {result.badges.length > 0 && (
         <div className="p-5 rounded-lg bg-card border border-border">
-          <h3 className="font-display font-semibold text-foreground mb-3">Skill Badges Earned</h3>
+          <h3 className="font-display font-semibold text-foreground mb-3">Execution Badges</h3>
           <div className="flex flex-wrap gap-2">
             {result.badges.map(b => (
               <BadgePill key={b.id} badge={b} />
@@ -228,7 +228,7 @@ export default function Results() {
       {/* Progression */}
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 rounded-lg bg-card border border-border">
-          <p className="text-xs text-muted-foreground mb-1">Confidence</p>
+          <p className="text-xs text-muted-foreground mb-1">Predictability</p>
           <div className="flex items-end gap-2">
             <span className="font-display text-2xl font-bold text-foreground">{profile.confidence}%</span>
             <span className="text-xs text-success font-medium mb-1">+{result.confidenceGain}</span>
@@ -238,7 +238,7 @@ export default function Results() {
           </div>
         </div>
         <div className="p-4 rounded-lg bg-card border border-border">
-          <p className="text-xs text-muted-foreground mb-1">Mastery</p>
+          <p className="text-xs text-muted-foreground mb-1">Execution Quality</p>
           <div className="flex items-end gap-2">
             <span className="font-display text-2xl font-bold text-foreground">{profile.mastery}%</span>
             <span className="text-xs text-success font-medium mb-1">+{result.masteryGain}</span>
@@ -251,14 +251,14 @@ export default function Results() {
 
       {/* Takeaway */}
       <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
-        <h3 className="font-display font-semibold text-primary mb-2">Key Takeaway</h3>
-        <p className="text-sm text-foreground">{result.liveGameImpact}</p>
+        <h3 className="font-display font-semibold text-primary mb-2">Execution Transfer</h3>
+        <p className="text-sm text-foreground">Did this rep increase execution predictability? {result.liveGameImpact}</p>
       </div>
 
       {/* CTAs */}
       <div className="flex flex-wrap gap-3">
         <Button onClick={() => navigate('/training-hub')} className="font-display font-semibold">
-          Run Another Drill
+          Reinforce Another Pattern
         </Button>
         <Button variant="secondary" onClick={() => navigate('/tools')} className="font-display font-semibold">
           Training Tools

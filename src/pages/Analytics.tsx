@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getEvents, getEventCounts } from '@/lib/eventTracker';
 import { getPlayerProfile } from '@/data/gameData';
 import { SCENARIOS } from '@/data/gameData';
@@ -10,7 +11,8 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from '@/components/ui/chart';
-import { AreaChart, Area, XAxis, YAxis, BarChart, Bar, Cell } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis } from 'recharts';
+import { ArrowRight } from 'lucide-react';
 
 type Timeframe = 'week' | 'month' | 'season';
 
@@ -24,7 +26,7 @@ const TIER_THRESHOLDS = [
 
 function getTier(totalDrills: number) {
   let current = TIER_THRESHOLDS[0];
-  let next = TIER_THRESHOLDS[1];
+  let next: (typeof TIER_THRESHOLDS)[number] | null = TIER_THRESHOLDS[1];
   for (let i = TIER_THRESHOLDS.length - 1; i >= 0; i--) {
     if (totalDrills >= TIER_THRESHOLDS[i].min) {
       current = TIER_THRESHOLDS[i];
@@ -33,35 +35,6 @@ function getTier(totalDrills: number) {
     }
   }
   return { current, next };
-}
-
-function computeCommitmentScore(events: { type: string; timestamp: number }[]): number {
-  const drillEvents = events.filter(e => e.type === 'complete_scenario');
-  if (drillEvents.length === 0) return 0;
-
-  // Frequency: drills per week over last 30 days
-  const now = Date.now();
-  const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
-  const recentDrills = drillEvents.filter(e => e.timestamp > thirtyDaysAgo);
-  const frequencyScore = Math.min(recentDrills.length / 12, 1); // 12 drills/month = max
-
-  // Regularity: how many of the last 4 weeks had at least 1 drill
-  const weeksActive = new Set<number>();
-  recentDrills.forEach(e => {
-    const weekNum = Math.floor((now - e.timestamp) / (7 * 24 * 60 * 60 * 1000));
-    weeksActive.add(weekNum);
-  });
-  const regularityScore = Math.min(weeksActive.size / 4, 1);
-
-  // Variety: categories practiced
-  const categories = new Set<string>();
-  drillEvents.forEach(e => {
-    const data = (e as any).data;
-    if (data?.category) categories.add(data.category as string);
-  });
-  const varietyScore = Math.min(categories.size / 4, 1);
-
-  return Math.round((frequencyScore * 0.4 + regularityScore * 0.35 + varietyScore * 0.25) * 100);
 }
 
 function generateTrendData(events: { type: string; timestamp: number }[], timeframe: Timeframe) {
@@ -117,36 +90,44 @@ function generateTrendData(events: { type: string; timestamp: number }[], timefr
   });
 }
 
-function computeCategoryDistribution(events: { type: string; data?: Record<string, unknown>; timestamp: number }[]) {
-  const completions = events.filter(e => e.type === 'complete_scenario');
-  const counts: Record<string, number> = {};
-  const allCategories = Object.keys(CATEGORY_LABELS) as ScenarioCategory[];
-
-  allCategories.forEach(c => (counts[c] = 0));
-  completions.forEach(e => {
-    const cat = e.data?.category as string;
-    if (cat && cat in counts) counts[cat]++;
-  });
-
-  return allCategories.map(c => ({
-    category: c,
-    label: CATEGORY_LABELS[c],
-    count: counts[c],
-  }));
-}
-
 const trendChartConfig: ChartConfig = {
-  confidence: { label: 'Confidence', color: 'hsl(185 72% 48%)' },
-  mastery: { label: 'Mastery', color: 'hsl(160 70% 42%)' },
+  confidence: { label: 'Predictability', color: 'hsl(185 72% 48%)' },
+  mastery: { label: 'Execution Quality', color: 'hsl(160 70% 42%)' },
 };
 
-const categoryChartConfig: ChartConfig = {
-  count: { label: 'Drills', color: 'hsl(185 72% 48%)' },
-};
+// Cross-game pattern transfer mapping
+const PATTERN_TRANSFERS = [
+  { pattern: 'Lane Control', moba: 'Lane pressure', shooter: 'Site executes', rts: 'Map zone control' },
+  { pattern: 'Phase Transitions', moba: 'Objective timing', shooter: 'Round economy', rts: 'Tech transitions' },
+  { pattern: 'Resource Discipline', moba: 'Cooldown management', shooter: 'Utility usage', rts: 'Late-game stability' },
+  { pattern: 'Role Adherence', moba: 'Position discipline', shooter: 'Entry/support roles', rts: 'Unit specialization' },
+];
+
+// System-driven recommendations based on profile state
+function getRecommendation(confidence: number, mastery: number, completedScenarios: number): {
+  label: string;
+  category: ScenarioCategory | null;
+  tier: string;
+} {
+  if (completedScenarios < 2) {
+    return { label: 'Establish your coordination baseline', category: 'base-defense', tier: 'beginner' };
+  }
+  if (mastery < 30) {
+    return { label: 'Reinforce timing under pressure', category: 'base-defense', tier: 'intermediate' };
+  }
+  if (confidence < mastery - 15) {
+    return { label: 'Stabilize role execution in chaotic phases', category: 'role-based', tier: 'intermediate' };
+  }
+  if (mastery > 50 && confidence > 50) {
+    return { label: 'Reduce late-phase decision latency', category: 'coordinated-attack', tier: 'advanced' };
+  }
+  return { label: 'Reinforce coordination patterns across categories', category: 'coordinated-attack', tier: 'intermediate' };
+}
 
 export default function Analytics() {
   const [events, setEvents] = useState<{ type: string; data?: Record<string, unknown>; timestamp: number }[]>([]);
   const [timeframe, setTimeframe] = useState<Timeframe>('month');
+  const navigate = useNavigate();
 
   useEffect(() => {
     setEvents(getEvents());
@@ -157,23 +138,41 @@ export default function Analytics() {
 
   const totalDrills = eventCounts['complete_scenario'] || 0;
   const totalStarted = eventCounts['start_scenario'] || 0;
-  const totalSessions = eventCounts['enter_training_hub'] || 0;
-  const skippedSessions = Math.max(0, totalSessions - totalStarted);
-  const avgDrillsPerSession = totalSessions > 0 ? (totalDrills / totalSessions).toFixed(1) : '0';
 
   const { current: currentTier, next: nextTier } = getTier(totalDrills);
   const tierProgress = nextTier
     ? Math.round(((totalDrills - currentTier.min) / (nextTier.min - currentTier.min)) * 100)
     : 100;
 
-  const commitmentScore = useMemo(() => computeCommitmentScore(events), [events]);
   const trendData = useMemo(() => generateTrendData(events, timeframe), [events, timeframe]);
-  const categoryDistribution = useMemo(() => computeCategoryDistribution(events), [events]);
 
-  const maxCat = categoryDistribution.reduce((a, b) => (b.count > a.count ? b : a), categoryDistribution[0]);
-  const underTrained = categoryDistribution.filter(c => c.count === 0 || (maxCat.count > 0 && c.count < maxCat.count * 0.3));
+  // Variance reduction calculation (simplified: lower spread in recent data = better)
+  const recentTrend = trendData.slice(-4);
+  const confidenceValues = recentTrend.map(t => t.confidence);
+  const masteryValues = recentTrend.map(t => t.mastery);
+  const calcVariance = (vals: number[]) => {
+    if (vals.length < 2) return 0;
+    const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+    return Math.round(Math.sqrt(vals.reduce((a, v) => a + (v - mean) ** 2, 0) / vals.length));
+  };
+  const confidenceVariance = calcVariance(confidenceValues);
+  const masteryVariance = calcVariance(masteryValues);
 
-  // Streak: consecutive days with at least one drill (simplified)
+  // Direction indicators
+  const latestConfidence = trendData[trendData.length - 1]?.confidence || 0;
+  const prevConfidence = trendData[Math.max(0, trendData.length - 3)]?.confidence || 0;
+  const confidenceDirection = latestConfidence > prevConfidence ? 'stabilizing' : latestConfidence === prevConfidence ? 'stable' : 'variable';
+
+  const latestMastery = trendData[trendData.length - 1]?.mastery || 0;
+  const prevMastery = trendData[Math.max(0, trendData.length - 3)]?.mastery || 0;
+  const masteryDirection = latestMastery > prevMastery ? 'stabilizing' : latestMastery === prevMastery ? 'stable' : 'variable';
+
+  const directionIcon = (d: string) =>
+    d === 'stabilizing' ? '↑' : d === 'variable' ? '↓' : '→';
+  const directionColor = (d: string) =>
+    d === 'stabilizing' ? 'text-success' : d === 'variable' ? 'text-destructive' : 'text-muted-foreground';
+
+  // Streak
   const streak = useMemo(() => {
     const drillDays = new Set<string>();
     events
@@ -190,19 +189,7 @@ export default function Analytics() {
     return count;
   }, [events]);
 
-  // Direction indicator
-  const latestConfidence = trendData[trendData.length - 1]?.confidence || 0;
-  const prevConfidence = trendData[Math.max(0, trendData.length - 3)]?.confidence || 0;
-  const confidenceDirection = latestConfidence > prevConfidence ? 'improving' : latestConfidence === prevConfidence ? 'stable' : 'declining';
-
-  const latestMastery = trendData[trendData.length - 1]?.mastery || 0;
-  const prevMastery = trendData[Math.max(0, trendData.length - 3)]?.mastery || 0;
-  const masteryDirection = latestMastery > prevMastery ? 'improving' : latestMastery === prevMastery ? 'stable' : 'declining';
-
-  const directionIcon = (d: string) =>
-    d === 'improving' ? '↑' : d === 'declining' ? '↓' : '→';
-  const directionColor = (d: string) =>
-    d === 'improving' ? 'text-success' : d === 'declining' ? 'text-destructive' : 'text-muted-foreground';
+  const recommendation = getRecommendation(profile.confidence, profile.mastery, profile.completedScenarios);
 
   const timeframes: { key: Timeframe; label: string }[] = [
     { key: 'week', label: 'This Week' },
@@ -214,56 +201,68 @@ export default function Analytics() {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Dashboard</p>
-        <h1 className="font-display text-2xl font-bold text-foreground">Your Long-Term Training Progression</h1>
-        <p className="text-sm text-muted-foreground mt-1">Consistency, momentum, and growth over time.</p>
-      </div>
-
-      {/* Tier Progression */}
-      <div className="p-5 rounded-lg bg-gradient-card border border-border">
-        <div className="flex items-center justify-between mb-2">
-          <div>
-            <p className="text-xs uppercase tracking-wider text-muted-foreground">Training Tier</p>
-            <p className="font-display text-xl font-bold text-foreground">{currentTier.label}</p>
-          </div>
-          {nextTier && (
-            <div className="text-right">
-              <p className="text-xs text-muted-foreground">Next: {nextTier.label}</p>
-              <p className="text-xs text-muted-foreground">{nextTier.min - totalDrills} drills to go</p>
-            </div>
-          )}
-        </div>
-        <Progress value={tierProgress} className="h-2" />
-        <p className="text-xs text-muted-foreground mt-2">
-          Complete drills consistently to advance tiers. Tier reflects cumulative commitment, not performance.
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold">Coordination Dashboard</p>
+        <h1 className="font-display text-2xl font-bold text-foreground">
+          What patterns are you building, and are they becoming automatic?
+        </h1>
+        <p className="text-sm text-muted-foreground mt-1">
+          Confidence follows evidence. These metrics reflect reliability, not isolated highs.
         </p>
       </div>
 
-      {/* Consistency & Commitment */}
+      {/* A. Coordination System Health */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <div className="p-4 rounded-lg bg-gradient-card border border-border text-center">
-          <p className="text-xs text-muted-foreground">Consistency Streak</p>
-          <p className="font-display text-3xl font-bold text-primary mt-1">{streak}</p>
-          <p className="text-xs text-muted-foreground">{streak === 1 ? 'day' : 'days'} in a row</p>
+        <div className="p-5 rounded-lg bg-gradient-card border border-border">
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Coordination Pattern Strength</p>
+          <p className="font-display text-3xl font-bold text-primary">{profile.mastery}%</p>
+          <div className="flex items-center gap-1.5 mt-1">
+            <span className={`text-xs font-semibold ${directionColor(masteryDirection)}`}>
+              {directionIcon(masteryDirection)} {masteryDirection}
+            </span>
+            <span className="text-[10px] text-muted-foreground">variance {masteryVariance}pt</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-2">
+            Stability over time, not peak performance.
+          </p>
         </div>
-        <div className="p-4 rounded-lg bg-gradient-card border border-border text-center">
-          <p className="text-xs text-muted-foreground">Commitment Score</p>
-          <p className="font-display text-3xl font-bold text-primary mt-1">{commitmentScore}</p>
-          <p className="text-xs text-muted-foreground">Frequency, regularity, variety</p>
-        </div>
-        <div className="p-4 rounded-lg bg-gradient-card border border-border text-center">
-          <p className="text-xs text-muted-foreground">Weekly Completion</p>
-          <p className="font-display text-3xl font-bold text-primary mt-1">
+
+        <div className="p-5 rounded-lg bg-gradient-card border border-border">
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Execution Quality</p>
+          <p className="font-display text-3xl font-bold text-primary">
             {totalStarted > 0 ? Math.round((totalDrills / totalStarted) * 100) : 0}%
           </p>
-          <p className="text-xs text-muted-foreground">Drills finished vs started</p>
+          <p className="text-[10px] text-muted-foreground mt-1">
+            Completion rate across all initiated reps
+          </p>
+          <p className="text-[10px] text-muted-foreground mt-2">
+            Measures follow-through, not just volume.
+          </p>
+        </div>
+
+        <div className="p-5 rounded-lg bg-gradient-card border border-border">
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Consistency Under Pressure</p>
+          <p className="font-display text-3xl font-bold text-primary">{profile.confidence}%</p>
+          <div className="flex items-center gap-1.5 mt-1">
+            <span className={`text-xs font-semibold ${directionColor(confidenceDirection)}`}>
+              {directionIcon(confidenceDirection)} {confidenceDirection}
+            </span>
+            <span className="text-[10px] text-muted-foreground">variance {confidenceVariance}pt</span>
+          </div>
+          <p className="text-[10px] text-muted-foreground mt-2">
+            Predictability under pressure, not mindset.
+          </p>
         </div>
       </div>
 
-      {/* Trend Graphs */}
+      {/* B. Confidence as Evidence */}
       <div className="p-5 rounded-lg bg-gradient-card border border-border">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-display text-lg font-semibold text-foreground">Progression Trends</h2>
+          <div>
+            <h2 className="font-display text-lg font-semibold text-foreground">Execution Predictability Over Time</h2>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Shrinking variance means patterns are becoming automatic.
+            </p>
+          </div>
           <div className="flex gap-1">
             {timeframes.map(tf => (
               <button
@@ -283,13 +282,13 @@ export default function Analytics() {
 
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">Confidence</span>
+            <span className="text-xs text-muted-foreground">Predictability</span>
             <span className={`text-xs font-semibold ${directionColor(confidenceDirection)}`}>
               {directionIcon(confidenceDirection)} {confidenceDirection}
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">Mastery</span>
+            <span className="text-xs text-muted-foreground">Execution Quality</span>
             <span className={`text-xs font-semibold ${directionColor(masteryDirection)}`}>
               {directionIcon(masteryDirection)} {masteryDirection}
             </span>
@@ -319,47 +318,98 @@ export default function Analytics() {
         </ChartContainer>
       </div>
 
-      {/* Training Distribution */}
-      <div className="p-5 rounded-lg bg-gradient-card border border-border">
-        <h2 className="font-display text-lg font-semibold text-foreground mb-3">Training Distribution</h2>
-        <ChartContainer config={categoryChartConfig} className="h-[160px] w-full">
-          <BarChart data={categoryDistribution} margin={{ top: 4, right: 4, bottom: 0, left: 0 }}>
-            <XAxis dataKey="label" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
-            <YAxis tick={{ fontSize: 10 }} tickLine={false} axisLine={false} allowDecimals={false} />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Bar dataKey="count" radius={[4, 4, 0, 0]}>
-              {categoryDistribution.map((entry, i) => (
-                <Cell
-                  key={entry.category}
-                  fill={entry.count === 0 ? 'hsl(220 15% 20%)' : 'hsl(185 72% 48% / 0.6)'}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-        {underTrained.length > 0 && (
-          <p className="text-xs text-muted-foreground mt-3">
-            Under-trained: {underTrained.map(c => c.label).join(', ')}
+      {/* Tier + Streak */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="p-5 rounded-lg bg-gradient-card border border-border">
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">Training Tier</p>
+              <p className="font-display text-xl font-bold text-foreground">{currentTier.label}</p>
+            </div>
+            {nextTier && (
+              <div className="text-right">
+                <p className="text-xs text-muted-foreground">Next: {nextTier.label}</p>
+                <p className="text-xs text-muted-foreground">{nextTier.min - totalDrills} reps to go</p>
+              </div>
+            )}
+          </div>
+          <Progress value={tierProgress} className="h-2" />
+          <p className="text-xs text-muted-foreground mt-2">
+            Tier reflects cumulative reinforcement volume, not peak performance.
           </p>
-        )}
+        </div>
+
+        <div className="p-5 rounded-lg bg-gradient-card border border-border flex items-center justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Consistency Streak</p>
+            <p className="font-display text-3xl font-bold text-primary">{streak}</p>
+            <p className="text-xs text-muted-foreground">{streak === 1 ? 'day' : 'consecutive days'} of reinforcement</p>
+          </div>
+          <div className="text-right">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground">Total Reps</p>
+            <p className="font-display text-3xl font-bold text-primary">{totalDrills}</p>
+            <p className="text-xs text-muted-foreground">completed</p>
+          </div>
+        </div>
       </div>
 
-      {/* Session & Habit Summary */}
-      <div className="p-5 rounded-lg bg-secondary border border-border">
-        <h2 className="font-display text-lg font-semibold text-foreground mb-3">Session & Habit Summary</h2>
-        <div className="grid grid-cols-3 gap-4">
+      {/* C. Cross-Game Transfer */}
+      <div className="p-5 rounded-lg bg-secondary/30 border border-border">
+        <h2 className="font-display text-lg font-semibold text-foreground mb-1">Patterns Applied Across Games</h2>
+        <p className="text-xs text-muted-foreground mb-4">
+          One coordination system. Many games. The same execution principles transfer.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead>
+              <tr className="text-muted-foreground">
+                <th className="text-left py-2 pr-4 font-medium">Coordination Pattern</th>
+                <th className="text-left py-2 px-4 font-medium">MOBAs</th>
+                <th className="text-left py-2 px-4 font-medium">Shooters</th>
+                <th className="text-left py-2 px-4 font-medium">RTS</th>
+              </tr>
+            </thead>
+            <tbody>
+              {PATTERN_TRANSFERS.map(row => (
+                <tr key={row.pattern} className="border-t border-border">
+                  <td className="py-2.5 pr-4 font-display font-semibold text-foreground">{row.pattern}</td>
+                  <td className="py-2.5 px-4 text-muted-foreground">{row.moba}</td>
+                  <td className="py-2.5 px-4 text-muted-foreground">{row.shooter}</td>
+                  <td className="py-2.5 px-4 text-muted-foreground">{row.rts}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-[10px] text-muted-foreground mt-3">
+          Switching games no longer resets your learning curve.
+        </p>
+      </div>
+
+      {/* D. Primary Action: What to Reinforce Next */}
+      <div className="p-5 rounded-lg bg-primary/5 border border-primary/20">
+        <div className="flex items-center justify-between">
           <div>
-            <p className="font-display text-xl font-bold text-foreground">{totalSessions}</p>
-            <p className="text-xs text-muted-foreground">Sessions started</p>
+            <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Reinforce Next</p>
+            <p className="font-display text-lg font-semibold text-foreground">{recommendation.label}</p>
+            {recommendation.category && (
+              <p className="text-xs text-muted-foreground mt-1">
+                {CATEGORY_LABELS[recommendation.category]} drills at {recommendation.tier} tier
+              </p>
+            )}
           </div>
-          <div>
-            <p className="font-display text-xl font-bold text-foreground">{skippedSessions}</p>
-            <p className="text-xs text-muted-foreground">Sessions without drills</p>
-          </div>
-          <div>
-            <p className="font-display text-xl font-bold text-foreground">{avgDrillsPerSession}</p>
-            <p className="text-xs text-muted-foreground">Avg drills per session</p>
-          </div>
+          <button
+            onClick={() => {
+              const params = new URLSearchParams();
+              if (recommendation.category) params.set('category', recommendation.category);
+              if (recommendation.tier) params.set('level', recommendation.tier);
+              navigate(`/training-hub?${params.toString()}`);
+            }}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
+          >
+            Start Reinforcement
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </div>
