@@ -62,10 +62,10 @@ export default function Overview() {
               Turn coordination into second nature.
             </h1>
             <p className="text-muted-foreground text-base leading-relaxed mb-2 max-w-lg">
-              A system for training execution, timing, and decision-making that transfers across competitive games. Build squad-level consistency, not accidental wins.
+              Run coordinated scenarios where your squad reacts to shifting pressure, executes under time constraints, rotates through chaos, and adapts as conditions escalate. Every session changes. Every decision counts.
             </p>
-            <p className="text-xs text-muted-foreground mb-6 max-w-lg">
-              Designed around real competitive mechanics. Measured across reps. Reinforced until execution is automatic.
+            <p className="text-xs text-muted-foreground mb-6 max-w-lg font-medium">
+              Every rep feels different. Every rep sharpens execution.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
