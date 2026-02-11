@@ -60,7 +60,7 @@ export default function Pricing() {
       <div className="text-center">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Plans</p>
         <h1 className="font-display text-2xl font-bold text-foreground mb-2">Start Free. Level Up When Ready.</h1>
-        <p className="text-sm text-muted-foreground">No credit card required. Cancel anytime.</p>
+        <p className="text-sm text-muted-foreground">No credit card required. Cancel anytime. You pay for insight, convenience, and coordination, not competitive advantage.</p>
       </div>
 
       {/* Billing Toggle */}

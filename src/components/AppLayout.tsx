@@ -27,13 +27,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <div className="max-w-[1400px] mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-md bg-primary/20 border border-primary/30 flex items-center justify-center">
-              <span className="text-primary font-display font-bold text-sm">STG</span>
+              <span className="text-primary font-display font-bold text-sm">SN</span>
             </div>
             <div>
               <h1 className="font-display text-base font-bold tracking-wider text-foreground leading-tight">
-                Squad Training Grounds
+                Second Nature
               </h1>
-              <p className="text-[10px] text-muted-foreground tracking-wide">Cross-Game Training Companion</p>
+              <p className="text-[10px] text-muted-foreground tracking-wide">Cross-Game Coordination System</p>
             </div>
           </div>
           <div className="flex items-center gap-3">

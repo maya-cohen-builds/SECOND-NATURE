@@ -48,12 +48,15 @@ export default function Overview() {
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
         <div className="absolute inset-0 flex items-center px-8 md:px-12">
           <div className="max-w-2xl">
-            <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Squad Coordination Training</p>
+            <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">
-              Stop learning coordination through losses.
+              Stop hoping coordination clicks in ranked.
             </h1>
-            <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-lg">
-              Practice rotations, executes, and callouts with your squad in structured drills. No ranked points on the line. No teammates flaming. Just reps.
+            <p className="text-muted-foreground text-base leading-relaxed mb-4 max-w-lg">
+              Structured reps make executes, rotations, and callouts predictable. Practice until coordination is automatic, not accidental.
+            </p>
+            <p className="text-xs text-muted-foreground mb-6 max-w-lg">
+              A cross-game coordination system built around real competitive mechanics.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -76,12 +79,12 @@ export default function Overview() {
       {/* How It Works */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">How It Works</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">Pick your game. Run drills. Get better.</h2>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">Reps build patterns. Patterns build confidence.</h2>
         <div className="grid md:grid-cols-3 gap-4">
           {[
-            { step: '01', title: 'Track Group Stats', desc: 'See coordination scores, role consistency, and improvement trends for your entire squad. Every drill feeds into your group profile.' },
-            { step: '02', title: 'Run Custom Modules', desc: 'Build and share training modules tailored to your game. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your drills, your rules.' },
-            { step: '03', title: 'Close the Gap', desc: 'Designed for beginners and mid-level players who want to compete but need structured practice. No gatekeeping. No ranked penalties.' },
+            { step: '01', title: 'Run Structured Reps', desc: 'Drills built around real coordination patterns. Lane control for LoL. Site executes for Valorant. Raid phases for WoW. Your reps, your system.' },
+            { step: '02', title: 'Track Signals', desc: 'Coordination scores, role consistency, and improvement trends for your entire squad. Every rep feeds into your group profile.' },
+            { step: '03', title: 'Make It Automatic', desc: 'Confidence follows consistency. Consistency comes from structured reps. No gatekeeping. No ranked penalties. Just evidence of improvement.' },
           ].map(s => (
             <div key={s.step} className="p-5 rounded-lg bg-gradient-card border border-border">
               <p className="font-display font-bold text-2xl mb-1 text-primary">{s.step}</p>
@@ -96,8 +99,8 @@ export default function Overview() {
       <div className="relative -mx-2 md:-mx-6">
         <div className="px-2 md:px-6">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Supported Games</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-1">Training modules for the games you play</h2>
-        <p className="text-xs text-muted-foreground mb-8">Drills are built around observable mechanics and team workflows. No client mods, no invasive integrations.</p>
+        <h2 className="font-display text-xl font-bold text-foreground mb-1">Training systems mapped to how competitive games actually work</h2>
+        <p className="text-xs text-muted-foreground mb-8">Systems are abstracted from observable mechanics and team workflows. No client mods, no invasive integrations.</p>
         </div>
 
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-12 px-2 md:px-6">
@@ -132,8 +135,8 @@ export default function Overview() {
 
       {/* By the Numbers */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">By the Numbers</p>
-        <h2 className="font-display text-xl font-bold text-foreground mb-4">What consistent training changes</h2>
+        <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Observable Outcomes</p>
+        <h2 className="font-display text-xl font-bold text-foreground mb-4">What structured reps change</h2>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
             { label: 'Fewer Missed Calls', desc: 'Squads that drill regularly make fewer late-game communication errors and react faster to shifting objectives' },
@@ -150,8 +153,8 @@ export default function Overview() {
 
       {/* CTA */}
       <div className="p-8 rounded-xl bg-primary/5 border border-primary/20 text-center">
-        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Run drills. Review results. Close the gap.</h2>
-        <p className="text-sm text-muted-foreground mb-5">No credit card. No ranked risk. Just reps.</p>
+        <h2 className="font-display text-2xl font-bold text-foreground mb-2">Run reps. Review signals. Make execution automatic.</h2>
+        <p className="text-sm text-muted-foreground mb-5">No credit card. No ranked risk. Confidence comes from evidence.</p>
         <div className="flex justify-center gap-3">
           <button
             onClick={() => navigate('/training-hub')}
@@ -169,7 +172,7 @@ export default function Overview() {
       </div>
 
       {/* Builder trust anchor */}
-      <p className="text-xs text-muted-foreground text-center pb-2">Built by competitive players who got tired of learning coordination in ranked.</p>
+      <p className="text-xs text-muted-foreground text-center pb-2">Built by competitive players who wanted improvement to become automatic.</p>
     </div>
   );
 }
