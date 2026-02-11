@@ -91,7 +91,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
             </span>
           )}
           {/* Status dot */}
-          <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-success border-2 border-card" />
+          <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-card" style={{ backgroundColor: '#F26A21' }} />
         </div>
       </button>
 
