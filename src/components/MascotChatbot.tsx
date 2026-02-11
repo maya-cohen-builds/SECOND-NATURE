@@ -86,11 +86,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
           >
             {/* Ambient glow behind the 3D node */}
             <div className="absolute inset-0 rounded-full bg-primary/15 blur-xl scale-150 animate-pulse pointer-events-none" />
-            <Suspense fallback={
-              <div className="w-20 h-20 rounded-full bg-card/50 border border-primary/20 flex items-center justify-center">
-                <span className="font-display font-bold text-xs text-primary">SG</span>
-              </div>
-            }>
+            <Suspense fallback={<div className="w-20 h-20" />}>
               <SignalNode3D size={80} />
             </Suspense>
             {/* Brand badge */}
@@ -117,7 +113,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
           {/* Header */}
           <div className="px-4 py-3 border-b border-border bg-secondary/50 flex items-center gap-3">
             <div className="w-8 h-8 flex items-center justify-center">
-              <Suspense fallback={<span className="text-primary font-display font-bold text-xs">SG</span>}>
+              <Suspense fallback={<div className="w-8 h-8" />}>
                 <SignalNode3D size={32} />
               </Suspense>
             </div>
