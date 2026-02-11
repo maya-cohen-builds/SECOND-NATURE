@@ -77,10 +77,10 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
       ) : (
         /* Floating Mascot Button */
         <div className="fixed bottom-6 right-6 z-[100] group">
-          {/* Collapse control */}
+          {/* Collapse control - visible on hover */}
           <button
             onClick={(e) => { e.stopPropagation(); setIsOpen(false); setIsCollapsed(true); }}
-            className="absolute -bottom-1 -left-1 z-10 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground text-[10px] leading-none cursor-pointer transition-colors"
+            className="absolute -bottom-1 -left-1 z-10 w-5 h-5 rounded-full bg-card border border-border flex items-center justify-center text-muted-foreground hover:text-foreground text-[10px] leading-none cursor-pointer transition-all opacity-0 group-hover:opacity-100"
             aria-label="Collapse coach"
           >
             ×
