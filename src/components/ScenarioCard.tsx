@@ -20,11 +20,11 @@ export function ScenarioCard({ scenario, selected, onClick }: ScenarioCardProps)
     >
       {/* Drill image */}
       {scenario.image && (
-        <div className="w-full h-32 overflow-hidden">
+        <div className="w-full aspect-[16/9] overflow-hidden">
           <img
             src={scenario.image}
             alt={scenario.name}
-            className="w-full h-full object-cover opacity-70"
+            className="w-full h-full object-cover object-center opacity-70"
           />
         </div>
       )}
