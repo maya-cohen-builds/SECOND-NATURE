@@ -1,3 +1,15 @@
+import posMetronome from '@/assets/pos-metronome.png';
+import posLattice from '@/assets/pos-lattice.png';
+import posPrism from '@/assets/pos-prism.png';
+import posLoop from '@/assets/pos-loop.png';
+
+const sections = [
+  { asset: posMetronome, title: 'Coordination is a trainable skill', body: 'Most squads improve by playing more. Second Nature improves squads by structuring what they already do. Execution patterns, timing, role adherence, and decision-making under pressure are isolated into repeatable reps that compound over time.' },
+  { asset: posLattice, title: 'Cross-game, not game-specific', body: 'The same coordination principles apply across MOBAs, tactical shooters, MMO raids, and RTS. Lane control maps to site executes. Phase transitions map to objective timing. Switching games no longer resets your learning curve.' },
+  { asset: posPrism, title: 'Evidence over intuition', body: 'Every rep produces measurable signal. Execution consistency, decision timing, coordination reliability, and patterns under pressure are tracked across sessions. Confidence follows evidence, not hope.' },
+  { asset: posLoop, title: 'Reps, not content', body: 'Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.' },
+];
+
 export default function Positioning() {
   return (
     <div className="space-y-10 max-w-2xl">
@@ -7,33 +19,20 @@ export default function Positioning() {
       </div>
 
       <div className="space-y-6">
-        <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h2 className="font-display text-lg font-semibold text-foreground mb-2">Coordination is a trainable skill</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Most squads improve by playing more. Second Nature improves squads by structuring what they already do. Execution patterns, timing, role adherence, and decision-making under pressure are isolated into repeatable reps that compound over time.
-          </p>
-        </div>
-
-        <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h2 className="font-display text-lg font-semibold text-foreground mb-2">Cross-game, not game-specific</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            The same coordination principles apply across MOBAs, tactical shooters, MMO raids, and RTS. Lane control maps to site executes. Phase transitions map to objective timing. Switching games no longer resets your learning curve.
-          </p>
-        </div>
-
-        <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h2 className="font-display text-lg font-semibold text-foreground mb-2">Evidence over intuition</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Every rep produces measurable signal. Execution consistency, decision timing, coordination reliability, and patterns under pressure are tracked across sessions. Confidence follows evidence, not hope.
-          </p>
-        </div>
-
-        <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <h2 className="font-display text-lg font-semibold text-foreground mb-2">Reps, not content</h2>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.
-          </p>
-        </div>
+        {sections.map((s) => (
+          <div key={s.title} className="p-5 rounded-lg bg-gradient-card border border-border flex gap-6 items-start">
+            <img
+              src={s.asset}
+              alt=""
+              className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none opacity-70"
+              style={{ mixBlendMode: 'lighten', filter: 'saturate(1.2) contrast(1.4) brightness(1.05)' }}
+            />
+            <div>
+              <h2 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h2>
+              <p className="text-sm text-muted-foreground leading-relaxed">{s.body}</p>
+            </div>
+          </div>
+        ))}
 
         <div className="p-5 rounded-lg bg-secondary border border-border">
           <p className="text-sm text-muted-foreground italic text-center">
