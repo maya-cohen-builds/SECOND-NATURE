@@ -171,7 +171,7 @@ No mods. No invasive integrations. Run drills that feel like the game.
                     className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
                     style={{
                       animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
-                      filter: 'saturate(1.2)',
+                      filter: 'saturate(1.2) contrast(1.4) brightness(1.05)',
                       mixBlendMode: 'lighten'
                     }} />);
 
