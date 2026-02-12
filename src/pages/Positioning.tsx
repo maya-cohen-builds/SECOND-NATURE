@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useCallback } from 'react';
 import posMetronome from '@/assets/pos-metronome.png';
 import posLattice from '@/assets/pos-lattice.png';
 import posPrism from '@/assets/pos-prism.png';
@@ -12,14 +12,14 @@ const sections = [
   { asset: posLoop, title: 'Reps, not content', body: 'Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.' },
 ];
 
-const motionStyles: React.CSSProperties[] = [
-  { animation: 'posMetronome 8s linear infinite' },
-  { animation: 'posLattice 11s linear infinite' },
-  { animation: 'posPrism 10s linear infinite' },
-  { animation: 'posLoop 16s linear infinite' },
-];
+const animationNames = ['posMetronome 8s linear infinite', 'posLattice 11s linear infinite', 'posPrism 10s linear infinite', 'posLoop 16s linear infinite'];
 
 export default function Positioning() {
+  const [active, setActive] = useState<number | null>(null);
+
+  const engage = useCallback((i: number) => setActive(i), []);
+  const disengage = useCallback(() => setActive(null), []);
+
   return (
     <div className="space-y-10 max-w-2xl">
       <style>{`
@@ -29,10 +29,6 @@ export default function Positioning() {
           50%  { transform: rotate(0deg) scale(1); }
           75%  { transform: rotate(-8deg) scale(0.97); }
           100% { transform: rotate(0deg) scale(1); }
-        }
-        @keyframes posLattice {
-          0%   { transform: rotateY(0deg); }
-          100% { transform: rotateY(360deg); }
         }
         @keyframes posPrism {
           0%   { transform: translateY(0px) rotateY(0deg); }
@@ -53,26 +49,40 @@ export default function Positioning() {
       </div>
 
       <div className="space-y-6">
-        {sections.map((s, i) => (
-          <div key={s.title} className="p-5 rounded-lg bg-gradient-card border border-border flex gap-6 items-start">
-            {i === 1 ? (
-              <Suspense fallback={<div className="w-24 h-24 shrink-0" />}>
-                <LatticeSpinner />
-              </Suspense>
-            ) : (
-              <img
-                src={s.asset}
-                alt=""
-                className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none opacity-70"
-                style={{ mixBlendMode: 'lighten', filter: 'saturate(1.2) contrast(1.4) brightness(1.05)', ...motionStyles[i] }}
-              />
-            )}
-            <div>
-              <h2 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h2>
-              <p className="text-sm text-muted-foreground leading-relaxed">{s.body}</p>
+        {sections.map((s, i) => {
+          const isActive = active === i;
+          return (
+            <div
+              key={s.title}
+              className="p-5 rounded-lg bg-gradient-card border border-border flex gap-6 items-start cursor-default select-none"
+              onMouseEnter={() => engage(i)}
+              onMouseLeave={disengage}
+              onClick={() => setActive(prev => prev === i ? null : i)}
+            >
+              {i === 1 ? (
+                <Suspense fallback={<div className="w-24 h-24 shrink-0" />}>
+                  <LatticeSpinner active={isActive} />
+                </Suspense>
+              ) : (
+                <img
+                  src={s.asset}
+                  alt=""
+                  className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none transition-opacity duration-700"
+                  style={{
+                    mixBlendMode: 'lighten',
+                    filter: 'saturate(1.2) contrast(1.4) brightness(1.05)',
+                    opacity: isActive ? 0.7 : 0.45,
+                    animation: isActive ? animationNames[i] : 'none',
+                  }}
+                />
+              )}
+              <div>
+                <h2 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h2>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.body}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         <div className="p-5 rounded-lg bg-secondary border border-border">
           <p className="text-sm text-muted-foreground italic text-center">
