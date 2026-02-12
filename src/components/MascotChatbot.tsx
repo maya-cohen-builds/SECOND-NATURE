@@ -71,7 +71,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
         <button
           onClick={() => setIsCollapsed(false)}
           className="fixed bottom-6 right-6 z-[100] w-5 h-5 rounded-full cursor-pointer transition-transform hover:scale-150"
-          style={{ backgroundColor: '#F26A21' }}
+          style={{ backgroundColor: '#F39A2E' }}
           aria-label="Expand coach"
         />
       ) : (
@@ -116,7 +116,7 @@ export default function MascotChatbot({ brandLabel, brandColor }: MascotChatbotP
                 </span>
               )}
               {/* Status dot */}
-              <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-card" style={{ backgroundColor: '#F26A21' }} />
+              <span className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-card" style={{ backgroundColor: '#F39A2E' }} />
             </div>
           </button>
         </div>
