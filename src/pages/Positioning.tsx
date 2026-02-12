@@ -64,13 +64,13 @@ export default function Positioning() {
                   <LatticeSpinner active={isActive} />
                 </Suspense>
               ) : (
-                <img
+              <img
                   src={s.asset}
                   alt=""
                   className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none transition-opacity duration-700"
                   style={{
                     mixBlendMode: 'lighten',
-                    filter: 'saturate(1.2) contrast(1.4) brightness(1.05)',
+                    filter: `saturate(1.2) contrast(1.4) brightness(1.05)${i === 0 ? ' hue-rotate(0deg)' : i === 2 ? ' hue-rotate(25deg)' : ' hue-rotate(-15deg)'}`,
                     opacity: isActive ? 0.7 : 0.45,
                     animation: isActive ? animationNames[i] : 'none',
                   }}
