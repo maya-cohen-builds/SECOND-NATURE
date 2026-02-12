@@ -81,7 +81,7 @@ export default function Overview() {
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Turn coordination into second nature.</h1>
-            <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-lg">Train execution patterns that hold up under pressure.</p>
+            <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-lg">Train execution patterns that hold up under pressure for your whole squad.</p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/training-hub')}
@@ -150,26 +150,26 @@ No mods. No invasive integrations. Run drills that feel like the game.
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-8 gap-y-14 px-2 md:px-6">
           {gameWorlds.map((g, i) => <div key={g.type} className="relative">
           {(() => {const resolvedSrc = terrainAssets[g.assetKey];
-                if (!resolvedSrc) {
-                  return (
-                    <div className="w-[90%] mx-auto -mt-4 mb-[-1rem] h-32 flex items-center justify-center rounded bg-destructive/10 border border-destructive/30 text-destructive text-xs font-mono">
+              if (!resolvedSrc) {
+                return (
+                  <div className="w-[90%] mx-auto -mt-4 mb-[-1rem] h-32 flex items-center justify-center rounded bg-destructive/10 border border-destructive/30 text-destructive text-xs font-mono">
                       Missing asset: {g.assetKey}
                     </div>);
 
-                }
-                return (
-                  <img
-                    src={resolvedSrc}
-                    alt={`${g.type} terrain`}
-                    className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
-                    style={{
-                      animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
-                      filter: 'saturate(1.2) contrast(1.4) brightness(1.05)',
-                      mixBlendMode: 'lighten'
-                    }} />);
+              }
+              return (
+                <img
+                  src={resolvedSrc}
+                  alt={`${g.type} terrain`}
+                  className="w-[90%] mx-auto -mt-4 mb-[-1rem] pointer-events-none select-none opacity-60 drop-shadow-[0_8px_40px_hsl(var(--primary)/0.25)]"
+                  style={{
+                    animation: `terrainFloat ${3 + i * 0.5}s ease-in-out infinite`,
+                    filter: 'saturate(1.2) contrast(1.4) brightness(1.05)',
+                    mixBlendMode: 'lighten'
+                  }} />);
 
 
-              })()}
+            })()}
 
               <div className="relative z-10">
                 <span className="px-2 py-0.5 rounded text-[10px] font-display font-bold uppercase tracking-wider text-primary bg-primary/10">
@@ -178,8 +178,8 @@ No mods. No invasive integrations. Run drills that feel like the game.
                 <h3 className="font-display font-bold text-foreground text-sm mt-2">{g.type}</h3>
                 <div className="space-y-0.5 mt-1">
                   {g.games.map((name) =>
-                  <p key={name} className="text-xs text-primary">{name}</p>
-                  )}
+                <p key={name} className="text-xs text-primary">{name}</p>
+                )}
                 </div>
                 <p className="text-[11px] text-muted-foreground leading-relaxed mt-2">{g.drills}</p>
               </div>
