@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import posMetronome from '@/assets/pos-metronome.png';
 import posLattice from '@/assets/pos-lattice.png';
 import posPrism from '@/assets/pos-prism.png';
 import posLoop from '@/assets/pos-loop.png';
+import LatticeSpinner from '@/components/LatticeSpinner';
 
 const sections = [
   { asset: posMetronome, title: 'Coordination is a trainable skill', body: 'Most squads improve by playing more. Second Nature improves squads by structuring what they already do. Execution patterns, timing, role adherence, and decision-making under pressure are isolated into repeatable reps that compound over time.' },
@@ -53,12 +55,18 @@ export default function Positioning() {
       <div className="space-y-6">
         {sections.map((s, i) => (
           <div key={s.title} className="p-5 rounded-lg bg-gradient-card border border-border flex gap-6 items-start">
-            <img
-              src={s.asset}
-              alt=""
-              className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none opacity-70"
-              style={{ mixBlendMode: 'lighten', filter: 'saturate(1.2) contrast(1.4) brightness(1.05)', ...motionStyles[i] }}
-            />
+            {i === 1 ? (
+              <Suspense fallback={<div className="w-24 h-24 shrink-0" />}>
+                <LatticeSpinner />
+              </Suspense>
+            ) : (
+              <img
+                src={s.asset}
+                alt=""
+                className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none opacity-70"
+                style={{ mixBlendMode: 'lighten', filter: 'saturate(1.2) contrast(1.4) brightness(1.05)', ...motionStyles[i] }}
+              />
+            )}
             <div>
               <h2 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h2>
               <p className="text-sm text-muted-foreground leading-relaxed">{s.body}</p>
