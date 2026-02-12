@@ -94,7 +94,7 @@ export default function Positioning() {
           );
         })}
 
-        <p className="font-display text-lg font-semibold text-muted-foreground italic text-center pt-4">
+        <p className="font-display text-lg font-semibold text-muted-foreground italic text-center py-2">
           Execution is trained, not discovered.
         </p>
       </div>
