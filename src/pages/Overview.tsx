@@ -81,7 +81,7 @@ export default function Overview() {
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
             <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Turn coordination into second nature.</h1>
-            <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-2xl">Train execution patterns that hold up under pressure for your whole squad.</p>
+            <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-2xl">Train execution patterns your squad can rely on under pressure.</p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/training-hub')}
