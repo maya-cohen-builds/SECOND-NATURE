@@ -23,9 +23,9 @@ export default function Positioning() {
       <style>{`
         @keyframes posMetronome {
           0%   { transform: rotate(0deg) scale(1); }
-          25%  { transform: rotate(3deg) scale(1.01); }
+          25%  { transform: rotate(8deg) scale(1.03); }
           50%  { transform: rotate(0deg) scale(1); }
-          75%  { transform: rotate(-3deg) scale(0.99); }
+          75%  { transform: rotate(-8deg) scale(0.97); }
           100% { transform: rotate(0deg) scale(1); }
         }
         @keyframes posLattice {
@@ -33,9 +33,11 @@ export default function Positioning() {
           100% { transform: rotateY(360deg); }
         }
         @keyframes posPrism {
-          0%   { transform: translateY(0px) scaleY(1); }
-          50%  { transform: translateY(-3px) scaleY(1.02); }
-          100% { transform: translateY(0px) scaleY(1); }
+          0%   { transform: translateY(0px) rotateY(0deg); }
+          25%  { transform: translateY(-6px) rotateY(3deg); }
+          50%  { transform: translateY(0px) rotateY(0deg); }
+          75%  { transform: translateY(4px) rotateY(-3deg); }
+          100% { transform: translateY(0px) rotateY(0deg); }
         }
         @keyframes posLoop {
           0%   { transform: rotate(0deg); }
