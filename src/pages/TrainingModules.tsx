@@ -100,7 +100,7 @@ export default function TrainingModules() {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-primary font-semibold">Module Library</p>
-          <h1 className="font-display text-2xl font-bold text-foreground">Training Modules</h1>
+          <h1 className="font-display text-2xl font-bold text-foreground">Coordination Modules</h1>
           <p className="text-sm text-muted-foreground mt-1">Game-specific drills built by the community. Or build your own.</p>
         </div>
         <button
@@ -114,7 +114,7 @@ export default function TrainingModules() {
       {/* Create Form */}
       {showCreate && (
         <div className="p-5 rounded-lg bg-card border border-border space-y-3">
-          <h3 className="font-display font-semibold text-foreground">New Training Module</h3>
+          <h3 className="font-display font-semibold text-foreground">New Coordination Module</h3>
           <div className="grid sm:grid-cols-2 gap-3">
             <input
               placeholder="Module name"
@@ -265,7 +265,8 @@ export default function TrainingModules() {
 
       {filtered.length === 0 && (
         <div className="text-center py-12 text-muted-foreground text-sm">
-          No modules found for this filter.
+          <p>No modules found for this filter.</p>
+          <p className="text-xs mt-2">Patterns beat moments.</p>
         </div>
       )}
     </div>

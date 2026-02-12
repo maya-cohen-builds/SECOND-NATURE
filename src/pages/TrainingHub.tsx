@@ -32,6 +32,7 @@ export default function TrainingHub() {
         <div>
           <p className="text-xs uppercase tracking-widest text-primary font-semibold">Pattern Reinforcement</p>
           <h1 className="font-display text-2xl font-bold text-foreground">Select Coordination Pattern</h1>
+          <p className="text-sm text-muted-foreground mt-1">Reps reinforce execution. Consistency builds confidence.</p>
         </div>
         <div className="flex items-center gap-2 bg-secondary rounded-lg px-3 py-2 border border-border">
           <span className="text-xs text-muted-foreground">Skill Tier:</span>
@@ -100,7 +101,7 @@ export default function TrainingHub() {
             onClick={handleProceed}
             className="px-5 py-2 rounded-lg bg-primary text-primary-foreground font-display font-semibold text-sm hover:opacity-90 transition-all"
           >
-            Begin Reinforcement
+            Run Execution Rep
           </button>
         </div>
       )}

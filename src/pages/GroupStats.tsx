@@ -279,7 +279,7 @@ export default function GroupStats() {
           </div>
           <div>
             <p className="font-display text-xl font-bold text-primary">{avgConsistency}%</p>
-            <p className="text-xs text-muted-foreground">Execution Consistency</p>
+            <p className="text-xs text-muted-foreground">Coordination Reliability</p>
           </div>
           <div>
             <p className="font-display text-xl font-bold text-primary">{Math.round((avgConfidence + avgMastery + avgConsistency) / 3)}%</p>

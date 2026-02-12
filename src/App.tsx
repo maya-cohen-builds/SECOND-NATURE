@@ -7,6 +7,7 @@ import { DemoProvider } from "@/contexts/DemoContext";
 import { QAProvider } from "@/contexts/QAContext";
 import AppLayout from "@/components/AppLayout";
 import Overview from "./pages/Overview";
+import Positioning from "./pages/Positioning";
 import TrainingHub from "./pages/TrainingHub";
 import Run from "./pages/Run";
 import Shop from "./pages/Shop";
@@ -30,6 +31,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Navigate to="/overview" replace />} />
               <Route path="/overview" element={<AppLayout><Overview /></AppLayout>} />
+              <Route path="/positioning" element={<AppLayout><Positioning /></AppLayout>} />
               <Route path="/training-hub" element={<AppLayout><TrainingHub /></AppLayout>} />
               <Route path="/run" element={<AppLayout><Run /></AppLayout>} />
               <Route path="/tools" element={<AppLayout><Shop /></AppLayout>} />

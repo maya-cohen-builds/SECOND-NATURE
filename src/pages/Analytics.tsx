@@ -235,7 +235,7 @@ export default function Analytics() {
       {/* A. Coordination System Health */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Coordination Pattern Strength</p>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Execution Consistency</p>
           <p className="font-display text-3xl font-bold text-primary">{profile.mastery}%</p>
           <div className="flex items-center gap-1.5 mt-1">
             <span className={`text-xs font-semibold ${directionColor(masteryDirection)}`}>
@@ -249,7 +249,7 @@ export default function Analytics() {
         </div>
 
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Execution Quality</p>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Decision Timing</p>
           <p className="font-display text-3xl font-bold text-primary">
             {totalStarted > 0 ? Math.round((totalDrills / totalStarted) * 100) : 0}%
           </p>
@@ -262,7 +262,7 @@ export default function Analytics() {
         </div>
 
         <div className="p-5 rounded-lg bg-gradient-card border border-border">
-          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Consistency Under Pressure</p>
+          <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1">Patterns Under Pressure</p>
           <p className="font-display text-3xl font-bold text-primary">{profile.confidence}%</p>
           <div className="flex items-center gap-1.5 mt-1">
             <span className={`text-xs font-semibold ${directionColor(confidenceDirection)}`}>

@@ -80,15 +80,8 @@ export default function Overview() {
         <div className="absolute inset-0 flex items-center px-8 md:px-12">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
-            <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Turn coordination into second nature. Play until it's automatic.
-
-            </h1>
-            <p className="text-muted-foreground text-base leading-relaxed mb-2 max-w-lg">Run coordinated scenarios where your squad reacts to shifting pressure, battles time constraints, rotates through chaos, and adapts as conditions escalate. Every session changes. Every decision counts.
-
-            </p>
-            <p className="text-xs text-muted-foreground mb-6 max-w-lg font-medium">
-              Every rep feels different. Every rep sharpens execution.
-            </p>
+            <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Turn coordination into second nature.</h1>
+            <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-lg">Train execution patterns that hold up under pressure.</p>
             <div className="flex flex-wrap gap-3">
               <button
                 onClick={() => navigate('/training-hub')}
@@ -243,7 +236,7 @@ No mods. No invasive integrations. Run drills that feel like the game.
       </div>
 
       {/* Builder trust anchor */}
-      <p className="text-xs text-muted-foreground text-center pb-2">Built by competitive players who wanted execution to become automatic.</p>
+      <p className="text-xs text-muted-foreground text-center pb-2">Confidence is evidence.</p>
     </div>);
 
 }
