@@ -9,7 +9,7 @@ const sections = [
   { asset: posMetronome, title: 'Coordination is trained', body: 'Most squads improve by playing more. Second Nature improves squads by structuring what they already do. Execution patterns, timing, role adherence, and decision-making under pressure are isolated into repeatable reps that compound over time.' },
   { asset: posLattice, title: 'Cross-game, not game-specific', body: 'The same coordination principles apply across MOBAs, tactical shooters, MMO raids, and RTS. Lane control maps to site executes. Phase transitions map to objective timing. Switching games no longer resets your learning curve.' },
   { asset: posPrism, title: 'Evidence over instinct', body: 'Every rep produces measurable signal. Execution consistency, decision timing, coordination reliability, and patterns under pressure are tracked across sessions. Confidence follows evidence, not hope.' },
-  { asset: posLoop, title: 'Reps, not content', body: 'Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.' },
+  { asset: posLoop, title: 'Run reps, not content', body: 'Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.' },
 ];
 
 // CSS filter chains calibrated from cyan source to target hex:
