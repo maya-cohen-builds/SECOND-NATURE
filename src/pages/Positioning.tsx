@@ -94,11 +94,9 @@ export default function Positioning() {
           );
         })}
 
-        <div className="p-5 rounded-lg bg-secondary border border-border">
-          <p className="text-sm text-muted-foreground italic text-center">
-            Execution is trained, not discovered.
-          </p>
-        </div>
+        <p className="font-display text-lg font-semibold text-muted-foreground italic text-center pt-4">
+          Execution is trained, not discovered.
+        </p>
       </div>
     </div>
   );
