@@ -50,8 +50,8 @@ function LatticeGeometry() {
 
   useFrame((_, delta) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.5;
-      groupRef.current.rotation.x += delta * 0.07;
+      groupRef.current.rotation.y += delta * 0.18;
+      groupRef.current.rotation.x += delta * 0.025;
     }
   });
 

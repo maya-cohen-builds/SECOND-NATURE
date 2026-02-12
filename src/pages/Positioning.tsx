@@ -16,7 +16,7 @@ const motionStyles: React.CSSProperties[] = [
   { animation: 'posMetronome 8s linear infinite' },
   { animation: 'posLattice 11s linear infinite' },
   { animation: 'posPrism 10s linear infinite' },
-  { animation: 'posLoop 6s linear infinite' },
+  { animation: 'posLoop 16s linear infinite' },
 ];
 
 export default function Positioning() {
