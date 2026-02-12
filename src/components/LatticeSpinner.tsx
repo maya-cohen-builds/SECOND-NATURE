@@ -2,8 +2,8 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
 
-const NODE_COLOR = new THREE.Color('hsl(35, 92%, 55%)');
-const EDGE_COLOR = new THREE.Color('hsl(35, 60%, 35%)');
+const NODE_COLOR = new THREE.Color('#c4952a');
+const EDGE_COLOR = new THREE.Color('#7a5c1a');
 
 const nodes: [number, number, number][] = [
   [0, 0, 0.45], [0.5, 0.35, 0.4], [-0.5, 0.3, 0.42], [0.3, -0.4, 0.38], [-0.4, -0.35, 0.4],
