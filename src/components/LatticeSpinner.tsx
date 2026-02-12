@@ -1,24 +1,105 @@
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import * as THREE from 'three';
-import posLattice from '@/assets/pos-lattice.png';
 
-function RotatingBox() {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const texture = useLoader(THREE.TextureLoader, posLattice);
+/**
+ * Modular Execution Lattice — true 3D with Z-separated node clusters.
+ * Nodes at different depths connected by edges, rotating as a group.
+ */
+
+const NODE_COLOR = new THREE.Color('hsl(180, 70%, 55%)');
+const EDGE_COLOR = new THREE.Color('hsl(180, 40%, 35%)');
+
+// Node positions with real Z-depth separation
+const nodes: [number, number, number][] = [
+  // Front layer (z ~ +0.4)
+  [0, 0, 0.45],
+  [0.5, 0.35, 0.4],
+  [-0.5, 0.3, 0.42],
+  [0.3, -0.4, 0.38],
+  [-0.4, -0.35, 0.4],
+  // Mid layer (z ~ 0)
+  [0.55, 0, 0],
+  [-0.55, 0, 0.05],
+  [0, 0.55, -0.05],
+  [0, -0.55, 0.05],
+  [0.35, 0.35, 0],
+  [-0.35, -0.35, 0],
+  // Rear layer (z ~ -0.4)
+  [0, 0, -0.45],
+  [0.45, 0.3, -0.4],
+  [-0.45, 0.25, -0.42],
+  [0.3, -0.35, -0.38],
+  [-0.35, -0.4, -0.4],
+];
+
+// Edges connecting nodes across layers for structural feel
+const edges: [number, number][] = [
+  [0, 5], [0, 6], [0, 11],
+  [1, 5], [1, 9], [1, 12],
+  [2, 6], [2, 7], [2, 13],
+  [3, 8], [3, 5], [3, 14],
+  [4, 6], [4, 10], [4, 15],
+  [5, 12], [6, 13], [7, 13],
+  [8, 14], [9, 12], [10, 15],
+  [11, 12], [11, 13], [11, 14], [11, 15],
+];
+
+function LatticeGeometry() {
+  const groupRef = useRef<THREE.Group>(null);
 
   useFrame((_, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y += delta * 0.57;
-      meshRef.current.rotation.x += delta * 0.08;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.5;
+      groupRef.current.rotation.x += delta * 0.07;
     }
   });
 
+  const edgeGeometries = useMemo(() => {
+    return edges.map(([a, b]) => {
+      const start = new THREE.Vector3(...nodes[a]);
+      const end = new THREE.Vector3(...nodes[b]);
+      const mid = new THREE.Vector3().addVectors(start, end).multiplyScalar(0.5);
+      const dir = new THREE.Vector3().subVectors(end, start);
+      const len = dir.length();
+      const geo = new THREE.CylinderGeometry(0.012, 0.012, len, 4);
+      const quat = new THREE.Quaternion();
+      quat.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+      return { position: mid, quaternion: quat, length: len, geo };
+    });
+  }, []);
+
   return (
-    <mesh ref={meshRef}>
-      <boxGeometry args={[1.6, 1.6, 0.35]} />
-      <meshStandardMaterial map={texture} transparent opacity={0.7} side={THREE.DoubleSide} />
-    </mesh>
+    <group ref={groupRef}>
+      {/* Nodes */}
+      {nodes.map((pos, i) => {
+        const isCenterFront = i === 0;
+        const isCenterRear = i === 11;
+        const radius = isCenterFront || isCenterRear ? 0.07 : 0.045;
+        return (
+          <mesh key={`n${i}`} position={pos}>
+            <sphereGeometry args={[radius, 12, 12]} />
+            <meshStandardMaterial
+              color={NODE_COLOR}
+              emissive={NODE_COLOR}
+              emissiveIntensity={isCenterFront || isCenterRear ? 0.4 : 0.15}
+              transparent
+              opacity={0.85}
+            />
+          </mesh>
+        );
+      })}
+      {/* Edges */}
+      {edgeGeometries.map((e, i) => (
+        <mesh key={`e${i}`} position={e.position} quaternion={e.quaternion} geometry={e.geo}>
+          <meshStandardMaterial
+            color={EDGE_COLOR}
+            transparent
+            opacity={0.4}
+          />
+        </mesh>
+      ))}
+    </group>
   );
 }
 
@@ -26,13 +107,13 @@ export default function LatticeSpinner() {
   return (
     <div className="w-24 h-24 shrink-0" style={{ mixBlendMode: 'lighten' }}>
       <Canvas
-        camera={{ position: [0, 0, 2.8], fov: 30 }}
+        camera={{ position: [0, 0, 2.6], fov: 32 }}
         gl={{ alpha: true, antialias: true }}
         style={{ background: 'transparent' }}
       >
-        <ambientLight intensity={1.2} />
-        <directionalLight position={[2, 2, 3]} intensity={0.6} />
-        <RotatingBox />
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[3, 2, 4]} intensity={0.7} />
+        <LatticeGeometry />
       </Canvas>
     </div>
   );
