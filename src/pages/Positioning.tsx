@@ -6,11 +6,21 @@ import posLoop from '@/assets/pos-loop.png';
 import LatticeSpinner from '@/components/LatticeSpinner';
 
 const sections = [
-  { asset: posMetronome, color: '#1FAE6A', title: 'Coordination is a trainable skill', body: 'Most squads improve by playing more. Second Nature improves squads by structuring what they already do. Execution patterns, timing, role adherence, and decision-making under pressure are isolated into repeatable reps that compound over time.' },
-  { asset: posLattice, color: '#F39A2E', title: 'Cross-game, not game-specific', body: 'The same coordination principles apply across MOBAs, tactical shooters, MMO raids, and RTS. Lane control maps to site executes. Phase transitions map to objective timing. Switching games no longer resets your learning curve.' },
-  { asset: posPrism, color: '#6B4EFF', title: 'Evidence over intuition', body: 'Every rep produces measurable signal. Execution consistency, decision timing, coordination reliability, and patterns under pressure are tracked across sessions. Confidence follows evidence, not hope.' },
-  { asset: posLoop, color: '#C63B3B', title: 'Reps, not content', body: 'Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.' },
+  { asset: posMetronome, title: 'Coordination is a trainable skill', body: 'Most squads improve by playing more. Second Nature improves squads by structuring what they already do. Execution patterns, timing, role adherence, and decision-making under pressure are isolated into repeatable reps that compound over time.' },
+  { asset: posLattice, title: 'Cross-game, not game-specific', body: 'The same coordination principles apply across MOBAs, tactical shooters, MMO raids, and RTS. Lane control maps to site executes. Phase transitions map to objective timing. Switching games no longer resets your learning curve.' },
+  { asset: posPrism, title: 'Evidence over intuition', body: 'Every rep produces measurable signal. Execution consistency, decision timing, coordination reliability, and patterns under pressure are tracked across sessions. Confidence follows evidence, not hope.' },
+  { asset: posLoop, title: 'Reps, not content', body: 'Second Nature is not a guide library, a coaching marketplace, or a VOD review tool. It is a coordination system. You run structured reps. You measure execution quality. You make coordination automatic.' },
 ];
+
+// CSS filter chains calibrated from cyan source to target hex:
+// Metronome → Green #1FAE6A: shift cyan -40° toward green, boost sat
+// Prism → Purple #6B4EFF: shift cyan +100° toward violet, high sat
+// Loop → Red #C63B3B: shift cyan +175° toward red
+const filterByIndex: Record<number, string> = {
+  0: 'saturate(1.8) contrast(1.3) brightness(1.15) hue-rotate(-40deg)',
+  2: 'saturate(2.2) contrast(1.3) brightness(1.15) hue-rotate(100deg)',
+  3: 'saturate(1.6) contrast(1.3) brightness(1.15) hue-rotate(175deg)',
+};
 
 const animationNames = ['posMetronome 8s linear infinite', '', 'posPrism 10s linear infinite', 'posLoop 16s linear infinite'];
 
@@ -64,51 +74,17 @@ export default function Positioning() {
                   <LatticeSpinner active={isActive} />
                 </Suspense>
               ) : (
-                <div
-                  className="w-24 h-24 shrink-0 relative pointer-events-none select-none transition-opacity duration-700"
+                <img
+                  src={s.asset}
+                  alt=""
+                  className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none transition-opacity duration-700"
                   style={{
-                    opacity: isActive ? 0.7 : 0.45,
+                    mixBlendMode: 'lighten',
+                    filter: filterByIndex[i],
+                    opacity: isActive ? 0.75 : 0.55,
                     animation: isActive ? animationNames[i] : 'none',
                   }}
-                >
-                  {/* Grayscale base image */}
-                  <img
-                    src={s.asset}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-contain"
-                    style={{
-                      filter: 'grayscale(1) contrast(1.4) brightness(1.1)',
-                      mixBlendMode: 'luminosity',
-                    }}
-                  />
-                  {/* Color overlay using the exact hex — screen blend picks up luminance from the image */}
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      backgroundColor: s.color,
-                      mixBlendMode: 'multiply',
-                      maskImage: `url(${s.asset})`,
-                      WebkitMaskImage: `url(${s.asset})`,
-                      maskSize: 'contain',
-                      WebkitMaskSize: 'contain',
-                      maskRepeat: 'no-repeat',
-                      WebkitMaskRepeat: 'no-repeat',
-                      maskPosition: 'center',
-                      WebkitMaskPosition: 'center',
-                    }}
-                  />
-                  {/* Lighten pass to remove black bg */}
-                  <img
-                    src={s.asset}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-contain"
-                    style={{
-                      filter: 'grayscale(1) contrast(1.4) brightness(1.1)',
-                      mixBlendMode: 'lighten',
-                      opacity: 0,
-                    }}
-                  />
-                </div>
+                />
               )}
               <div>
                 <h2 className="font-display text-lg font-semibold text-foreground mb-2">{s.title}</h2>
