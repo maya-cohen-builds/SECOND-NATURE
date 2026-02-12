@@ -9,6 +9,7 @@ import { Bug } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
+  { path: '/positioning', label: 'How We\'re Different', icon: '/' },
   { path: '/training-hub', label: 'Training Hub', icon: '/' },
   { path: '/modules', label: 'Modules', icon: '/' },
   { path: '/run', label: 'Drills', icon: '/' },

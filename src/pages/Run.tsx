@@ -114,7 +114,7 @@ export default function Run() {
             <span className="animate-spin">◎</span> Running Drill...
           </span>
         ) : (
-          'Execute Drill'
+          'Run Execution Rep'
         )}
       </button>
     </div>
