@@ -70,7 +70,7 @@ export default function Positioning() {
                   className="w-24 h-24 shrink-0 object-contain pointer-events-none select-none transition-opacity duration-700"
                   style={{
                     mixBlendMode: 'lighten',
-                    filter: `saturate(1.2) contrast(1.4) brightness(1.05) hue-rotate(${i === 0 ? '0deg' : i === 2 ? '25deg' : '-25deg'})`,
+                    filter: `saturate(1.4) contrast(1.4) brightness(1.05) hue-rotate(${i === 0 ? '25deg' : i === 2 ? '95deg' : '175deg'})`,
                     opacity: isActive ? 0.7 : 0.45,
                     animation: isActive ? animationNames[i] : 'none',
                   }}
