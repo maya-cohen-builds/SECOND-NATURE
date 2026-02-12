@@ -18,7 +18,7 @@ const sections = [
 // Loop → Red #C63B3B: shift cyan +175° toward red
 const filterByIndex: Record<number, string> = {
   0: 'saturate(1.8) contrast(1.3) brightness(1.15) hue-rotate(-40deg)',
-  2: 'saturate(2.2) contrast(1.3) brightness(1.15) hue-rotate(100deg)',
+  2: 'saturate(1.8) contrast(1.3) brightness(1.1) hue-rotate(65deg)',
   3: 'saturate(1.6) contrast(1.3) brightness(1.15) hue-rotate(175deg)',
 };
 
