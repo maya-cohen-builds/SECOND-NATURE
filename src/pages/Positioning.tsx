@@ -94,9 +94,10 @@ export default function Positioning() {
 
         })}
 
-        <p className="font-display text-lg font-semibold text-muted-foreground italic text-center py-2">Turn execution into second nature.
+      </div>
 
-        </p>
+      <div className="flex items-center justify-center py-20">
+        <p className="font-display text-lg font-semibold text-muted-foreground italic text-center">Turn execution into second nature.</p>
       </div>
     </div>);
 
