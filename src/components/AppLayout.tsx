@@ -13,6 +13,7 @@ import TwitchConnectModal from '@/components/TwitchConnectModal';
 
 const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
+  { path: '/squad', label: 'Squad', icon: '/' },
   { path: '/positioning', label: 'How We\'re Different', icon: '/' },
   { path: '/training-hub', label: 'Training Hub', icon: '/' },
   { path: '/modules', label: 'Modules', icon: '/' },
