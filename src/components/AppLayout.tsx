@@ -3,11 +3,13 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useDemo } from '@/contexts/DemoContext';
 import { useQA } from '@/contexts/QAContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTwitch } from '@/contexts/TwitchContext';
 import { cn } from '@/lib/utils';
 import QAPanel from '@/components/QAPanel';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Bug, LogOut, User, Sun, Moon } from 'lucide-react';
 import { useDisplayName } from '@/hooks/useDisplayName';
+import TwitchConnectModal from '@/components/TwitchConnectModal';
 
 const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
@@ -34,6 +36,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     return 'dark';
   });
   const { displayName, avatarUrl } = useDisplayName();
+  const { twitchConnected, twitchUsername, disconnect: disconnectTwitch } = useTwitch();
+  const [twitchModalOpen, setTwitchModalOpen] = useState(false);
 
   const toggleTheme = () => {
     const next = theme === 'dark' ? 'light' : 'dark';
@@ -143,6 +147,38 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                 </button>
                 <span className="text-[10px] text-muted-foreground">Switch between dark and light themes</span>
               </div>
+
+              {/* Twitch Integration */}
+              <div className="pt-3 border-t border-border space-y-2">
+                <div className="flex items-center gap-2">
+                  <svg className="h-3.5 w-3.5 text-[#9146FF]" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z" />
+                  </svg>
+                  <span className="text-xs font-medium text-foreground">Twitch</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-accent/20 text-accent font-semibold">Beta</span>
+                </div>
+                {twitchConnected ? (
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground">Connected as <span className="text-foreground font-medium">{twitchUsername}</span></span>
+                    <button
+                      onClick={disconnectTwitch}
+                      className="text-xs text-destructive hover:underline font-medium"
+                    >
+                      Disconnect
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => setTwitchModalOpen(true)}
+                      className="px-3 py-1.5 rounded-md text-xs font-medium bg-[#9146FF]/10 border border-[#9146FF]/30 text-[#9146FF] hover:bg-[#9146FF]/20 transition-all"
+                    >
+                      Connect Twitch
+                    </button>
+                    <span className="text-[10px] text-muted-foreground">Stream sessions for performance review</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -202,6 +238,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
       {/* QA Panel Drawer */}
       {qaMode && <QAPanel open={qaPanelOpen} onClose={() => setQaPanelOpen(false)} />}
+      <TwitchConnectModal open={twitchModalOpen} onClose={() => setTwitchModalOpen(false)} />
     </div>
   );
 }
