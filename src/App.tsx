@@ -17,6 +17,7 @@ import PerformanceLab from "./pages/PerformanceLab";
 import QAChecklist from "./pages/QAChecklist";
 import NotFound from "./pages/NotFound";
 import SupabaseDebug from "./pages/SupabaseDebug";
+import VerificationPanel from "./pages/VerificationPanel";
 import MascotChatbot from "./components/MascotChatbot";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
               <Route path="/pricing" element={<AppLayout><Pricing /></AppLayout>} />
               <Route path="/qa-checklist" element={<AppLayout><QAChecklist /></AppLayout>} />
               <Route path="/supabase-debug" element={<AppLayout><SupabaseDebug /></AppLayout>} />
+              <Route path="/verify" element={<AppLayout><VerificationPanel /></AppLayout>} />
               {/* Redirects for old routes */}
               <Route path="/results" element={<Navigate to="/performance-lab" replace />} />
               <Route path="/group-stats" element={<Navigate to="/performance-lab" replace />} />
