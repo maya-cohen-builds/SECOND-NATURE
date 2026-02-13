@@ -19,6 +19,7 @@ import Pricing from "./pages/Pricing";
 import PerformanceLab from "./pages/PerformanceLab";
 import QAChecklist from "./pages/QAChecklist";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 import MascotChatbot from "./components/MascotChatbot";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
                 <Route path="/modules" element={<Protected><TrainingModules /></Protected>} />
                 <Route path="/performance-lab" element={<Protected><PerformanceLab /></Protected>} />
                 <Route path="/pricing" element={<Protected><Pricing /></Protected>} />
+                <Route path="/profile" element={<Protected><Profile /></Protected>} />
                 <Route path="/qa-checklist" element={<Protected><QAChecklist /></Protected>} />
                 {/* Redirects for old routes */}
                 <Route path="/results" element={<Navigate to="/performance-lab" replace />} />
