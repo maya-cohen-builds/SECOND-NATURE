@@ -16,6 +16,10 @@ import TrainingHub from "./pages/TrainingHub";
 import Run from "./pages/Run";
 import Shop from "./pages/Shop";
 import TrainingModules from "./pages/TrainingModules";
+import ModuleDetail from "./pages/ModuleDetail";
+import ScenarioBuilder from "./pages/ScenarioBuilder";
+import ScenarioRunner from "./pages/ScenarioRunner";
+import ScenarioResults from "./pages/ScenarioResults";
 import Pricing from "./pages/Pricing";
 import PerformanceLab from "./pages/PerformanceLab";
 import QAChecklist from "./pages/QAChecklist";
@@ -52,6 +56,10 @@ const App = () => (
                 <Route path="/run" element={<Protected><Run /></Protected>} />
                 <Route path="/tools" element={<Protected><Shop /></Protected>} />
                 <Route path="/modules" element={<Protected><TrainingModules /></Protected>} />
+                <Route path="/module/:moduleId" element={<Protected><ModuleDetail /></Protected>} />
+                <Route path="/scenario-builder/:moduleId" element={<Protected><ScenarioBuilder /></Protected>} />
+                <Route path="/scenario-run/:scenarioId" element={<Protected><ScenarioRunner /></Protected>} />
+                <Route path="/scenario-results/:sessionId" element={<Protected><ScenarioResults /></Protected>} />
                 <Route path="/performance-lab" element={<Protected><PerformanceLab /></Protected>} />
                 <Route path="/pricing" element={<Protected><Pricing /></Protected>} />
                 <Route path="/profile" element={<Protected><Profile /></Protected>} />
