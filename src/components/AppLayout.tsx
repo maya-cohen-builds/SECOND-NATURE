@@ -1,12 +1,12 @@
 import { ReactNode, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useDemo } from '@/contexts/DemoContext';
 import { useQA } from '@/contexts/QAContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import QAPanel from '@/components/QAPanel';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { Bug, LogOut } from 'lucide-react';
+import { Bug, LogOut, User } from 'lucide-react';
 
 const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
@@ -23,6 +23,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const { resetDemo } = useDemo();
   const { qaMode, toggleQAMode, addQAError } = useQA();
   const { signOut, user } = useAuth();
+  const navigate = useNavigate();
   const [showSettings, setShowSettings] = useState(false);
   const [qaPanelOpen, setQaPanelOpen] = useState(false);
 
@@ -56,6 +57,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                 QA Panel
               </button>
             )}
+            <button
+              onClick={() => navigate('/profile')}
+              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
+            >
+              <User className="h-3 w-3" />
+              Profile
+            </button>
             <button
               onClick={() => setShowSettings(!showSettings)}
               className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
