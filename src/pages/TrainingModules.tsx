@@ -1,6 +1,10 @@
 import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
 import { ChevronDown } from 'lucide-react';
-
+import { toast } from 'sonner';
 interface TrainingModule {
   id: string;
   name: string;
@@ -28,11 +32,34 @@ const PRESET_MODULES: TrainingModule[] = [
 ];
 
 export default function TrainingModules() {
-  const [modules, setModules] = useState<TrainingModule[]>(() => {
-    const stored = localStorage.getItem('stg-custom-modules');
-    const custom: TrainingModule[] = stored ? JSON.parse(stored) : [];
-    return [...PRESET_MODULES, ...custom];
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  // Fetch DB modules
+  const { data: dbModules } = useQuery({
+    queryKey: ['db-modules'],
+    queryFn: async () => {
+      const { data, error } = await (supabase.from('modules') as any).select('*').order('created_at', { ascending: false });
+      if (error) throw error;
+      return (data || []) as Array<{ id: string; name: string; description: string; game: string; difficulty: string; tags: string[]; created_by: string | null }>;
+    },
   });
+
+  const allModules: TrainingModule[] = [
+    ...PRESET_MODULES,
+    ...(dbModules || []).map(m => ({
+      id: m.id,
+      name: m.name,
+      game: m.game || '',
+      category: 'Custom',
+      description: m.description,
+      drillCount: 0,
+      difficulty: m.difficulty,
+      createdBy: m.created_by === user?.id ? 'You' : 'Team',
+      isCustom: true,
+    })),
+  ];
 
   const [filterGame, setFilterGame] = useState<string>('All');
   const [filterTier, setFilterTier] = useState<string>('All');
@@ -61,36 +88,34 @@ export default function TrainingModules() {
     });
   }, []);
 
-  const games = ['All', ...Array.from(new Set(modules.map(m => m.game)))];
+  const games = ['All', ...Array.from(new Set(allModules.map(m => m.game)))];
   const tiers = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
-  const filtered = modules.filter(m => {
+  const filtered = allModules.filter(m => {
     const matchGame = filterGame === 'All' || m.game === filterGame;
     const matchTier = filterTier === 'All' || m.difficulty === filterTier;
     return matchGame && matchTier;
   });
 
-  const handleCreate = () => {
-    if (!newModule.name || !newModule.game || !newModule.description) return;
+  const handleCreate = async () => {
+    if (!newModule.name || !newModule.game || !newModule.description || !user) return;
 
-    const custom: TrainingModule = {
-      id: `custom-${Date.now()}`,
+    const { error } = await (supabase.from('modules') as any).insert({
       name: newModule.name,
       game: newModule.game,
-      category: newModule.category || 'Custom',
       description: newModule.description,
-      drillCount: 0,
       difficulty: newModule.difficulty,
-      createdBy: 'You',
-      isCustom: true,
-    };
+      tags: newModule.category ? [newModule.category] : [],
+      created_by: user.id,
+    });
 
-    const updated = [...modules, custom];
-    setModules(updated);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
 
-    const customOnly = updated.filter(m => m.isCustom);
-    localStorage.setItem('stg-custom-modules', JSON.stringify(customOnly));
-
+    toast.success('Module created');
+    queryClient.invalidateQueries({ queryKey: ['db-modules'] });
     setNewModule({ name: '', game: '', category: '', description: '', difficulty: 'Beginner' });
     setShowCreate(false);
   };
@@ -239,28 +264,45 @@ export default function TrainingModules() {
 
       {/* Module Grid */}
       <div className="grid md:grid-cols-2 gap-3">
-        {filtered.map(mod => (
-          <div key={mod.id} className="p-4 rounded-lg bg-gradient-card border border-border">
-            <div className="flex items-start justify-between mb-2">
-              <div>
-                <h4 className="font-display font-semibold text-foreground text-sm">{mod.name}</h4>
-                <p className="text-xs text-primary">{mod.game}</p>
+        {filtered.map(mod => {
+          const isDbModule = mod.isCustom;
+          return (
+            <button
+              key={mod.id}
+              onClick={() => isDbModule ? navigate(`/module/${mod.id}`) : undefined}
+              disabled={!isDbModule}
+              className={`p-4 rounded-lg bg-gradient-card border border-border text-left transition-all ${
+                isDbModule ? 'hover:border-primary/30 cursor-pointer' : 'opacity-70 cursor-default'
+              }`}
+            >
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <h4 className="font-display font-semibold text-foreground text-sm">{mod.name}</h4>
+                  <p className="text-xs text-primary">{mod.game}</p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  {!isDbModule && (
+                    <span className="px-1.5 py-0.5 rounded text-[9px] bg-muted text-muted-foreground border border-border">
+                      Coming soon
+                    </span>
+                  )}
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
+                    mod.difficulty === 'Beginner' ? 'bg-success/10 text-success border-success/20' :
+                    mod.difficulty === 'Intermediate' ? 'bg-accent/10 text-accent border-accent/20' :
+                    'bg-destructive/10 text-destructive border-destructive/20'
+                  }`}>
+                    {mod.difficulty}
+                  </span>
+                </div>
               </div>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium border ${
-                mod.difficulty === 'Beginner' ? 'bg-success/10 text-success border-success/20' :
-                mod.difficulty === 'Intermediate' ? 'bg-accent/10 text-accent border-accent/20' :
-                'bg-destructive/10 text-destructive border-destructive/20'
-              }`}>
-                {mod.difficulty}
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground mb-3">{mod.description}</p>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>{mod.drillCount > 0 ? `${mod.drillCount} drills` : 'No drills yet'}</span>
-              <span>by {mod.createdBy}</span>
-            </div>
-          </div>
-        ))}
+              <p className="text-xs text-muted-foreground mb-3">{mod.description}</p>
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>{mod.drillCount > 0 ? `${mod.drillCount} drills` : 'No drills yet'}</span>
+                <span>by {mod.createdBy}</span>
+              </div>
+            </button>
+          );
+        })}
       </div>
 
       {filtered.length === 0 && (

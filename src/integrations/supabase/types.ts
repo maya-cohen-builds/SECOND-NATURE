@@ -125,6 +125,42 @@ export type Database = {
         }
         Relationships: []
       }
+      modules: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string
+          difficulty: string
+          game: string
+          id: string
+          name: string
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          difficulty?: string
+          game?: string
+          id?: string
+          name: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          difficulty?: string
+          game?: string
+          id?: string
+          name?: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -148,6 +184,214 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      scenarios: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          estimated_minutes: number
+          game_tag: string
+          id: string
+          module_id: string
+          name: string
+          pattern_tags: string[]
+          roles_required: Json
+          scenario_script_json: Json
+          squad_size: number
+          tier: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          estimated_minutes?: number
+          game_tag?: string
+          id?: string
+          module_id: string
+          name: string
+          pattern_tags?: string[]
+          roles_required?: Json
+          scenario_script_json?: Json
+          squad_size?: number
+          tier?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          estimated_minutes?: number
+          game_tag?: string
+          id?: string
+          module_id?: string
+          name?: string
+          pattern_tags?: string[]
+          roles_required?: Json
+          scenario_script_json?: Json
+          squad_size?: number
+          tier?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scenarios_module_id_fkey"
+            columns: ["module_id"]
+            isOneToOne: false
+            referencedRelation: "modules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      scores: {
+        Row: {
+          breakdown_json: Json
+          created_at: string
+          failure_point_json: Json | null
+          id: string
+          pass_fail: boolean
+          session_id: string
+          total_score: number
+          user_id: string
+        }
+        Insert: {
+          breakdown_json?: Json
+          created_at?: string
+          failure_point_json?: Json | null
+          id?: string
+          pass_fail?: boolean
+          session_id: string
+          total_score?: number
+          user_id: string
+        }
+        Update: {
+          breakdown_json?: Json
+          created_at?: string
+          failure_point_json?: Json | null
+          id?: string
+          pass_fail?: boolean
+          session_id?: string
+          total_score?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "scores_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: true
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_events: {
+        Row: {
+          event_type: string
+          id: string
+          payload_json: Json
+          role: string | null
+          session_id: string
+          timestamp: string
+        }
+        Insert: {
+          event_type: string
+          id?: string
+          payload_json?: Json
+          role?: string | null
+          session_id: string
+          timestamp?: string
+        }
+        Update: {
+          event_type?: string
+          id?: string
+          payload_json?: Json
+          role?: string | null
+          session_id?: string
+          timestamp?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_events_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      session_participants: {
+        Row: {
+          created_at: string
+          id: string
+          role: string
+          session_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: string
+          session_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string
+          session_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "session_participants_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          host_user_id: string | null
+          id: string
+          mode: string
+          scenario_id: string
+          squad_id: string | null
+          started_at: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          host_user_id?: string | null
+          id?: string
+          mode?: string
+          scenario_id: string
+          squad_id?: string | null
+          started_at?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          host_user_id?: string | null
+          id?: string
+          mode?: string
+          scenario_id?: string
+          squad_id?: string | null
+          started_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_scenario_id_fkey"
+            columns: ["scenario_id"]
+            isOneToOne: false
+            referencedRelation: "scenarios"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       tokens_ledger: {
         Row: {
