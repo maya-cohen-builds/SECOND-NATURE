@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { dispatchProfileUpdate } from "@/hooks/useDisplayName";
 import { Camera } from "lucide-react";
 
 export default function Profile() {
@@ -67,6 +68,7 @@ export default function Profile() {
     } else {
       setAvatarUrl(publicUrl);
       toast({ title: "Avatar updated" });
+      dispatchProfileUpdate();
     }
     setUploading(false);
   };
@@ -85,6 +87,7 @@ export default function Profile() {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
       toast({ title: "Saved", description: "Display name updated." });
+      dispatchProfileUpdate();
     }
     setSaving(false);
   };
