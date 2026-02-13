@@ -14,6 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
+      drill_runs: {
+        Row: {
+          badges_earned: number
+          category: string
+          created_at: string
+          difficulty: string
+          drill_id: string
+          drill_name: string
+          id: string
+          metrics_json: Json | null
+          notes: string | null
+          rating: string
+          skill_tier_label: string
+          source: string | null
+          squad_size: number
+          user_id: string
+        }
+        Insert: {
+          badges_earned?: number
+          category: string
+          created_at?: string
+          difficulty: string
+          drill_id: string
+          drill_name: string
+          id?: string
+          metrics_json?: Json | null
+          notes?: string | null
+          rating: string
+          skill_tier_label?: string
+          source?: string | null
+          squad_size?: number
+          user_id: string
+        }
+        Update: {
+          badges_earned?: number
+          category?: string
+          created_at?: string
+          difficulty?: string
+          drill_id?: string
+          drill_name?: string
+          id?: string
+          metrics_json?: Json | null
+          notes?: string | null
+          rating?: string
+          skill_tier_label?: string
+          source?: string | null
+          squad_size?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      entitlements: {
+        Row: {
+          active: boolean
+          entitlement_key: string
+          expires_at: string | null
+          granted_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          entitlement_key: string
+          expires_at?: string | null
+          granted_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          entitlement_key?: string
+          expires_at?: string | null
+          granted_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       insights: {
         Row: {
           created_at: string
@@ -65,6 +143,33 @@ export type Database = {
           display_name?: string | null
           id?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      tokens_ledger: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          reason: string
+          reference_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          reason: string
+          reference_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          reason?: string
+          reference_id?: string | null
+          user_id?: string
         }
         Relationships: []
       }
