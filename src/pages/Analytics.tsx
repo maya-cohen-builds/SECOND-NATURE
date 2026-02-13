@@ -130,7 +130,7 @@ function getRecommendation(confidence: number, mastery: number, completedScenari
 export default function Analytics() {
   const [events, setEvents] = useState<{ type: string; data?: Record<string, unknown>; timestamp: number }[]>([]);
   const [timeframe, setTimeframe] = useState<Timeframe>('month');
-  const displayName = useDisplayName();
+  const { displayName } = useDisplayName();
   const navigate = useNavigate();
 
   useEffect(() => {

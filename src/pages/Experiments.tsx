@@ -163,7 +163,7 @@ function getResolvedFactors(
 }
 
 export default function Experiments() {
-  const displayName = useDisplayName();
+  const { displayName } = useDisplayName();
   useEffect(() => {
     trackEvent('view_metrics_page');
   }, []);

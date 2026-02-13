@@ -79,7 +79,7 @@ function LockedSection({ title, unlockText, icon: Icon }: { title: string; unloc
 export default function GroupStats() {
   const profile = getPlayerProfile();
   const counts = getEventCounts();
-  const displayName = useDisplayName('Squad');
+  const { displayName } = useDisplayName('Squad');
   const [addedMembers, setAddedMembers] = useState<SquadMember[]>(loadSquadMembers);
   const [modalOpen, setModalOpen] = useState(false);
   const [newName, setNewName] = useState('');
