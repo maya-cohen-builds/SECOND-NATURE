@@ -6,7 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { cn } from '@/lib/utils';
 import QAPanel from '@/components/QAPanel';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { Bug, LogOut, User } from 'lucide-react';
+import { Bug, LogOut, User, Sun, Moon } from 'lucide-react';
 import { useDisplayName } from '@/hooks/useDisplayName';
 
 const NAV_ITEMS = [
@@ -27,7 +27,25 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const [showSettings, setShowSettings] = useState(false);
   const [qaPanelOpen, setQaPanelOpen] = useState(false);
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
+    }
+    return 'dark';
+  });
   const { displayName, avatarUrl } = useDisplayName();
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    localStorage.setItem('theme', next);
+    document.documentElement.classList.toggle('light', next === 'light');
+  };
+
+  // Apply theme on mount
+  useState(() => {
+    document.documentElement.classList.toggle('light', theme === 'light');
+  });
 
   const allNavItems = qaMode
     ? [...NAV_ITEMS, { path: '/qa-checklist', label: 'QA Checklist', icon: '/' }]
@@ -111,6 +129,19 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   QA Mode: {qaMode ? 'ON' : 'OFF'}
                 </button>
                 <span className="text-[10px] text-muted-foreground">Toggle QA panel, plan simulator, and checklist</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleTheme}
+                  className={cn(
+                    "px-3 py-1.5 rounded-md text-xs font-medium border transition-all flex items-center gap-1.5",
+                    "bg-secondary border-border text-muted-foreground hover:text-foreground"
+                  )}
+                >
+                  {theme === 'dark' ? <Sun className="h-3 w-3" /> : <Moon className="h-3 w-3" />}
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </button>
+                <span className="text-[10px] text-muted-foreground">Switch between dark and light themes</span>
               </div>
             </div>
           </div>
