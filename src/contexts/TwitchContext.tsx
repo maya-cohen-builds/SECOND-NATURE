@@ -17,8 +17,8 @@ interface TwitchState {
 const TwitchContext = createContext<TwitchState | undefined>(undefined);
 
 export function TwitchProvider({ children }: { children: ReactNode }) {
-  const [twitchConnected, setTwitchConnected] = useState(false);
-  const [twitchUsername, setTwitchUsername] = useState("");
+  const [twitchConnected, setTwitchConnected] = useState(() => localStorage.getItem('sn-twitch-connected') === 'true');
+  const [twitchUsername, setTwitchUsername] = useState(() => localStorage.getItem('sn-twitch-username') || '');
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamTitle, setStreamTitle] = useState("");
   const [sessionStreamed, setSessionStreamed] = useState(false);
@@ -26,6 +26,8 @@ export function TwitchProvider({ children }: { children: ReactNode }) {
   const connect = (username: string) => {
     setTwitchConnected(true);
     setTwitchUsername(username);
+    localStorage.setItem('sn-twitch-connected', 'true');
+    localStorage.setItem('sn-twitch-username', username);
   };
 
   const disconnect = () => {
@@ -33,6 +35,8 @@ export function TwitchProvider({ children }: { children: ReactNode }) {
     setTwitchUsername("");
     setIsStreaming(false);
     setStreamTitle("");
+    localStorage.removeItem('sn-twitch-connected');
+    localStorage.removeItem('sn-twitch-username');
   };
 
   const markSessionStreamed = () => setSessionStreamed(true);
