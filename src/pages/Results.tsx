@@ -179,7 +179,7 @@ function LockedPreviewDashboard() {
 export default function Results() {
   const navigate = useNavigate();
   const [result, setResult] = useState<SimulationResult | null>(null);
-  const displayName = useDisplayName();
+  const { displayName } = useDisplayName();
 
   useEffect(() => {
     const stored = localStorage.getItem('stg-last-result');

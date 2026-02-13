@@ -27,7 +27,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const [showSettings, setShowSettings] = useState(false);
   const [qaPanelOpen, setQaPanelOpen] = useState(false);
-  const displayName = useDisplayName();
+  const { displayName, avatarUrl } = useDisplayName();
 
   const allNavItems = qaMode
     ? [...NAV_ITEMS, { path: '/qa-checklist', label: 'QA Checklist', icon: '/' }]
@@ -63,7 +63,11 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               onClick={() => navigate('/profile')}
               className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
             >
-              <User className="h-3 w-3" />
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover" />
+              ) : (
+                <User className="h-3 w-3" />
+              )}
               {displayName}
             </button>
             <button
