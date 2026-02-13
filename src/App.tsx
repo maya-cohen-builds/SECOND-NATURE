@@ -21,6 +21,7 @@ import PerformanceLab from "./pages/PerformanceLab";
 import QAChecklist from "./pages/QAChecklist";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
+import Squad from "./pages/Squad";
 import MascotChatbot from "./components/MascotChatbot";
 
 const queryClient = new QueryClient();
@@ -45,6 +46,7 @@ const App = () => (
                 <Route path="/" element={<Navigate to="/overview" replace />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/overview" element={<Protected><Overview /></Protected>} />
+                <Route path="/squad" element={<Protected><Squad /></Protected>} />
                 <Route path="/positioning" element={<Protected><Positioning /></Protected>} />
                 <Route path="/training-hub" element={<Protected><TrainingHub /></Protected>} />
                 <Route path="/run" element={<Protected><Run /></Protected>} />
