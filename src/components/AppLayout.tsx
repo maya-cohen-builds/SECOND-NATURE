@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import QAPanel from '@/components/QAPanel';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Bug, LogOut, User } from 'lucide-react';
+import { useDisplayName } from '@/hooks/useDisplayName';
 
 const NAV_ITEMS = [
   { path: '/overview', label: 'Home', icon: '/' },
@@ -26,6 +27,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const [showSettings, setShowSettings] = useState(false);
   const [qaPanelOpen, setQaPanelOpen] = useState(false);
+  const displayName = useDisplayName();
 
   const allNavItems = qaMode
     ? [...NAV_ITEMS, { path: '/qa-checklist', label: 'QA Checklist', icon: '/' }]
@@ -62,7 +64,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
             >
               <User className="h-3 w-3" />
-              Profile
+              {displayName}
             </button>
             <button
               onClick={() => setShowSettings(!showSettings)}
