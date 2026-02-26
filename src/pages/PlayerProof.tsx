@@ -54,11 +54,10 @@ export default function PlayerProof() {
       {/* Header */}
       <div>
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">TESTIMONIALS</p>
-        <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2">Why players love Second Nature.
-
+        <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2">Players are getting in sync.
         </h1>
         <p className="text-muted-foreground text-base max-w-xl">
-          Built to feel like playing. Proven to improve execution across games.
+          Built to feel like playing. Designed to help your squad click faster.
         </p>
       </div>
 
@@ -96,17 +95,17 @@ export default function PlayerProof() {
       <div className="p-6 rounded-xl bg-secondary border border-border">
         <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-1">Skills That Carry Over</p>
         <h2 className="font-display text-xl font-bold text-foreground mb-3">
-          Coordination patterns repeat across genres
+          Coordination patterns travel between games
         </h2>
         <div className="space-y-3 max-w-2xl">
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Timing, role adherence, and decision flow are not game-specific skills. They are coordination patterns that surface in every competitive format — from MOBA lane rotations to tactical site executes to raid phase transitions.
+            Timing, callouts, and teamwork aren't game-specific. They show up everywhere — from MOBA rotations to tactical site takes to raid phase transitions.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Players who run reps in one genre consistently report faster recognition when switching to another. The patterns are already familiar. The execution transfers.
+            Players who rep in one genre consistently notice faster recognition when they switch to another. The patterns are already familiar. The coordination just clicks.
           </p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Second Nature accelerates this recognition through play — not study — so the crossover happens naturally, not as a separate learning curve.
+            Second Nature helps this happen through play — not study — so the crossover feels natural, not like extra homework.
           </p>
         </div>
       </div>
