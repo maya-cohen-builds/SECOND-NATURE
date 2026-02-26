@@ -82,36 +82,47 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                 QA Panel
               </button>
             )}
-            <button
-              onClick={() => navigate('/profile')}
-              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
-            >
-              {avatarUrl ? (
-                <img src={avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover" />
-              ) : (
-                <User className="h-3 w-3" />
-              )}
-              {displayName}
-            </button>
-            <button
-              onClick={() => setShowSettings(!showSettings)}
-              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
-            >
-              Settings
-            </button>
-            <button
-              onClick={resetDemo}
-              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-all"
-            >
-              Reset Data
-            </button>
-            <button
-              onClick={signOut}
-              className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
-            >
-              <LogOut className="h-3 w-3" />
-              Sign Out
-            </button>
+            {user ? (
+              <>
+                <button
+                  onClick={() => navigate('/profile')}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
+                >
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="" className="h-5 w-5 rounded-full object-cover" />
+                  ) : (
+                    <User className="h-3 w-3" />
+                  )}
+                  {displayName}
+                </button>
+                <button
+                  onClick={() => setShowSettings(!showSettings)}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all"
+                >
+                  Settings
+                </button>
+                <button
+                  onClick={resetDemo}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-destructive hover:border-destructive/40 transition-all"
+                >
+                  Reset Data
+                </button>
+                <button
+                  onClick={signOut}
+                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary border border-border text-muted-foreground hover:text-foreground transition-all flex items-center gap-1.5"
+                >
+                  <LogOut className="h-3 w-3" />
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => navigate('/auth')}
+                className="px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-primary-foreground hover:brightness-110 transition-all flex items-center gap-1.5"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
         {showSettings && (
