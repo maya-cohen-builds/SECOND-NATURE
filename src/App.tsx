@@ -30,7 +30,11 @@ import MascotChatbot from "./components/MascotChatbot";
 
 const queryClient = new QueryClient();
 
-const Protected = ({ children }: { children: React.ReactNode }) => (
+const Page = ({ children }: { children: React.ReactNode }) => (
+  <AppLayout>{children}</AppLayout>
+);
+
+const AuthGated = ({ children }: { children: React.ReactNode }) => (
   <ProtectedRoute>
     <AppLayout>{children}</AppLayout>
   </ProtectedRoute>
@@ -49,21 +53,23 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Navigate to="/overview" replace />} />
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/overview" element={<Protected><Overview /></Protected>} />
-                <Route path="/squad" element={<Protected><Squad /></Protected>} />
-                <Route path="/positioning" element={<Protected><Positioning /></Protected>} />
-                <Route path="/training-hub" element={<Protected><TrainingHub /></Protected>} />
-                <Route path="/run" element={<Protected><Run /></Protected>} />
-                <Route path="/tools" element={<Protected><Shop /></Protected>} />
-                <Route path="/modules" element={<Protected><TrainingModules /></Protected>} />
-                <Route path="/module/:moduleId" element={<Protected><ModuleDetail /></Protected>} />
-                <Route path="/scenario-builder/:moduleId" element={<Protected><ScenarioBuilder /></Protected>} />
-                <Route path="/scenario-run/:scenarioId" element={<Protected><ScenarioRunner /></Protected>} />
-                <Route path="/scenario-results/:sessionId" element={<Protected><ScenarioResults /></Protected>} />
-                <Route path="/performance-lab" element={<Protected><PerformanceLab /></Protected>} />
-                <Route path="/pricing" element={<Protected><Pricing /></Protected>} />
-                <Route path="/profile" element={<Protected><Profile /></Protected>} />
-                <Route path="/qa-checklist" element={<Protected><QAChecklist /></Protected>} />
+                {/* Public pages — no auth required */}
+                <Route path="/overview" element={<Page><Overview /></Page>} />
+                <Route path="/positioning" element={<Page><Positioning /></Page>} />
+                <Route path="/training-hub" element={<Page><TrainingHub /></Page>} />
+                <Route path="/run" element={<Page><Run /></Page>} />
+                <Route path="/tools" element={<Page><Shop /></Page>} />
+                <Route path="/modules" element={<Page><TrainingModules /></Page>} />
+                <Route path="/module/:moduleId" element={<Page><ModuleDetail /></Page>} />
+                <Route path="/pricing" element={<Page><Pricing /></Page>} />
+                {/* Auth-gated pages */}
+                <Route path="/squad" element={<AuthGated><Squad /></AuthGated>} />
+                <Route path="/scenario-builder/:moduleId" element={<AuthGated><ScenarioBuilder /></AuthGated>} />
+                <Route path="/scenario-run/:scenarioId" element={<AuthGated><ScenarioRunner /></AuthGated>} />
+                <Route path="/scenario-results/:sessionId" element={<AuthGated><ScenarioResults /></AuthGated>} />
+                <Route path="/performance-lab" element={<AuthGated><PerformanceLab /></AuthGated>} />
+                <Route path="/profile" element={<AuthGated><Profile /></AuthGated>} />
+                <Route path="/qa-checklist" element={<AuthGated><QAChecklist /></AuthGated>} />
                 {/* Redirects for old routes */}
                 <Route path="/results" element={<Navigate to="/performance-lab" replace />} />
                 <Route path="/group-stats" element={<Navigate to="/performance-lab" replace />} />
