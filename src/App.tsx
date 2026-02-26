@@ -63,11 +63,11 @@ const App = () => (
                 <Route path="/module/:moduleId" element={<Page><ModuleDetail /></Page>} />
                 <Route path="/pricing" element={<Page><Pricing /></Page>} />
                 {/* Auth-gated pages */}
-                <Route path="/squad" element={<AuthGated><Squad /></AuthGated>} />
+                <Route path="/squad" element={<Page><Squad /></Page>} />
                 <Route path="/scenario-builder/:moduleId" element={<AuthGated><ScenarioBuilder /></AuthGated>} />
                 <Route path="/scenario-run/:scenarioId" element={<AuthGated><ScenarioRunner /></AuthGated>} />
                 <Route path="/scenario-results/:sessionId" element={<AuthGated><ScenarioResults /></AuthGated>} />
-                <Route path="/performance-lab" element={<AuthGated><PerformanceLab /></AuthGated>} />
+                <Route path="/performance-lab" element={<Page><PerformanceLab /></Page>} />
                 <Route path="/profile" element={<AuthGated><Profile /></AuthGated>} />
                 <Route path="/qa-checklist" element={<AuthGated><QAChecklist /></AuthGated>} />
                 {/* Redirects for old routes */}
