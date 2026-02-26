@@ -80,7 +80,7 @@ export default function Overview() {
         <div className="absolute inset-0 flex items-center px-8 md:px-12">
           <div className="max-w-2xl">
             <p className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">Cross-Game Coordination System</p>
-            <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Get your squad in sync across any game.</h1>
+            <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 tracking-tight">Get your squad in sync on any game.</h1>
             <p className="text-muted-foreground text-base leading-relaxed mb-6 max-w-2xl">Run quick reps together, build team chemistry, and watch your coordination click — no matter what you play.</p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -207,8 +207,8 @@ export default function Overview() {
           {[
           { label: 'New to Competitive', desc: 'Just starting to play with a squad? Reps help you learn how teams move together — no prior experience needed.' },
           { label: 'Coming Back to the Game', desc: 'Returning after a break? Get back in sync with your squad faster than grinding ranked and hoping for the best.' },
-          { label: 'Squads Leveling Up', desc: 'Already coordinated but want to be sharper? Stack reps on the moments that matter most in your game.' }
-          ].map((m) =>
+          { label: 'Squads Leveling Up', desc: 'Already coordinated but want to be sharper? Stack reps on the moments that matter most in your game.' }].
+          map((m) =>
           <div key={m.label} className="p-5 rounded-lg bg-gradient-card border border-border">
               <p className="font-display font-semibold text-foreground text-sm">{m.label}</p>
               <p className="text-xs text-muted-foreground mt-2">{m.desc}</p>
